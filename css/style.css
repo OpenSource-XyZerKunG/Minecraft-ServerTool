@@ -6,3 +6,21 @@ html {
 .webundrag {
     -webkit-app-region: no-drag;
 }
+
+.top {
+    margin-top: 2rem;
+}
+
+.margin-left {
+    margin-left: 5px;
+}
+
+footer {
+    text-align: center;
+    background: #333;
+    color: grey;
+}
+
+.footer-color {
+    background-color: #3498db;
+}
