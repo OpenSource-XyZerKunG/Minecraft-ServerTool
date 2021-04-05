@@ -5,7 +5,6 @@ const path = require('path')
 const url = require('url')
 
 let ui
-let type = "unknown"
 
 function createwindows() {
     ui = new BrowserWindow({
@@ -43,23 +42,6 @@ function createwindows() {
                 break
             case "X=E[8}N&L;j6nN}9":
                 index.close()
-                break
-            case "snapshot":
-                type = 'snapshot'
-                break
-            case "bukkit":
-                type = 'bukkit'
-                break
-            case "paper":
-                type = 'paper'
-                break
-            case "origin":
-                type = 'origin'
-                break
-            case "Ready! ? setup":
-                ipc.sendSync("async-message", "id0:" + type)
-                break
-            case "index":
                 break
             default:
                 console.log("Unknown Message: " + arg)

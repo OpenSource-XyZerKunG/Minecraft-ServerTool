@@ -17,9 +17,9 @@
       </a>
   
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="index.html" class="nav-link px-2 link-dark webundrag">Home</a></li>
-        <li><a href="" class="nav-link px-2 link-secondary webundrag">Setup</a></li>
-        <li><a href="" class="nav-link px-2 link-secondary webundrag">Status</a></li>
+        <li><a href="#main" class="nav-link px-2 link-dark webundrag">Home</a></li>
+        <li><a href="#main" class="nav-link px-2 link-secondary webundrag" id="setup">Setup</a></li>
+        <li><a href="#main" class="nav-link px-2 link-secondary webundrag" id="status">Status</a></li>
       </ul>
 
       <div class="col-md-3 text-end webundrag">
@@ -30,51 +30,54 @@
     </nav>
   </div>
 
-  <div class="container-fluid padding">
-    <div class="row padding text-center justify-content-center">
-      <div class="col-md-3">
+  <section id="main">
+    <div class="container-fluid padding">
+      <div class="row padding text-center justify-content-center">
+        <div class="col-md-3">
+            <div class="card">
+                <img class="card-img-top" src="img/mojang.png">
+                <div class="card-body">
+                    <h4>Origin</h4>
+                </div>
+                <button class="btn btn-outline-secondary webundrag" id="origin">Select</button>
+            </div>
+        </div>
+  
+        <div class="col-md-3">
           <div class="card">
               <img class="card-img-top" src="img/mojang.png">
               <div class="card-body">
-                  <h4>Origin</h4>
+                  <h4>Snapshot</h4>
               </div>
-              <button class="btn btn-outline-secondary webundrag" id="origin">Select</button>
+              <button class="btn btn-outline-secondary webundrag" id="snapshot">Select</button>
           </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="card">
-            <img class="card-img-top" src="img/mojang.png">
-            <div class="card-body">
-                <h4>Snapshot</h4>
-            </div>
-            <button class="btn btn-outline-secondary webundrag" id="snapshot">Select</button>
         </div>
       </div>
-    </div>
-    <div class="top"></div>
-    <div class="row padding text-center justify-content-center">
-      <div class="col-md-3">
+      <div class="top"></div>
+      <div class="row padding text-center justify-content-center">
+        <div class="col-md-3">
+            <div class="card">
+                <img class="card-img-top" src="img/bukkit.png">
+                <div class="card-body">
+                    <h4>Spigot</h4>
+                </div>
+                <button class="btn btn-outline-secondary webundrag" id="bukkit">Select</button>
+            </div>
+        </div>
+  
+        <div class="col-md-3">
           <div class="card">
-              <img class="card-img-top" src="img/bukkit.png">
+              <img class="card-img-top" src="img/paper.png">
               <div class="card-body">
-                  <h4>Spigot</h4>
+                  <h4>Paper</h4>
               </div>
-              <button class="btn btn-outline-secondary webundrag" id="bukkit">Select</button>
+              <button class="btn btn-outline-secondary webundrag" id="paper">Select</button>
           </div>
       </div>
+      </div>
+    </div>
+  </section>
 
-      <div class="col-md-3">
-        <div class="card">
-            <img class="card-img-top" src="img/paper.png">
-            <div class="card-body">
-                <h4>Paper</h4>
-            </div>
-            <button class="btn btn-outline-secondary webundrag" id="paper">Select</button>
-        </div>
-    </div>
-    </div>
-  </div>
   <div class="top"></div>
   <div class="footer-color mt-auto py-3">
     <div class="col-md-12 text-center"></div>
@@ -86,6 +89,5 @@
     </div>
   </footer>
   <script src="js/handler.js"></script>
-  <script src="js/index.js"></script>
 </body>
 </html>

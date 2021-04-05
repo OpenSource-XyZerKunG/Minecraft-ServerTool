@@ -1,8 +1,13 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer, ipcMain } = require('electron')
 const ipc = ipcRenderer
 const min = document.getElementById('min')
 const full = document.getElementById('full')
 const close = document.getElementById('close')
+const origin = document.getElementById("origin")
+const snapshot = document.getElementById("snapshot")
+const bukkit = document.getElementById("bukkit")
+const paper = document.getElementById("paper")
+let type = ""
 
 min.addEventListener('mouseenter', () => {
     min.src = "img/svg/dash-square-fill.svg"
@@ -38,4 +43,20 @@ full.addEventListener('click', () => {
 
 close.addEventListener('click', () => {
     ipc.sendSync("async-message", "X=E[8}N&L;j6nN}9")
+})
+
+origin.addEventListener('click', () => {
+    type = "origin"
+})
+
+snapshot.addEventListener('click', () => {
+    type = "snapshot"
+})
+
+bukkit.addEventListener('click', () => {
+    type = "bukkit"
+})
+
+paper.addEventListener('click', () => {
+    type = "paper"
 })
