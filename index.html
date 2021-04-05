@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ServerTools</title>
+    <title>ServerTool</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="api/css/bootstrap.min.css">
     <script src="api/js/bootstrap.bundle.js"></script>
@@ -17,9 +17,9 @@
       </a>
   
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-dark webundrag">Home</a></li>
-        <li><a href="#" class="nav-link px-2 link-secondary webundrag">Features</a></li>
-        <li><a href="#" class="nav-link px-2 link-secondary webundrag">Pricing</a></li>
+        <li><a href="index.html" class="nav-link px-2 link-dark webundrag">Home</a></li>
+        <li><a href="" class="nav-link px-2 link-secondary webundrag">Setup</a></li>
+        <li><a href="" class="nav-link px-2 link-secondary webundrag">Status</a></li>
       </ul>
 
       <div class="col-md-3 text-end webundrag">
@@ -29,6 +29,63 @@
       </div>
     </nav>
   </div>
+
+  <div class="container-fluid padding">
+    <div class="row padding text-center justify-content-center">
+      <div class="col-md-3">
+          <div class="card">
+              <img class="card-img-top" src="img/mojang.png">
+              <div class="card-body">
+                  <h4>Origin</h4>
+              </div>
+              <button class="btn btn-outline-secondary webundrag" id="origin">Select</button>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+            <img class="card-img-top" src="img/mojang.png">
+            <div class="card-body">
+                <h4>Snapshot</h4>
+            </div>
+            <button class="btn btn-outline-secondary webundrag" id="snapshot">Select</button>
+        </div>
+      </div>
+    </div>
+    <div class="top"></div>
+    <div class="row padding text-center justify-content-center">
+      <div class="col-md-3">
+          <div class="card">
+              <img class="card-img-top" src="img/bukkit.png">
+              <div class="card-body">
+                  <h4>Spigot</h4>
+              </div>
+              <button class="btn btn-outline-secondary webundrag" id="bukkit">Select</button>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+            <img class="card-img-top" src="img/paper.png">
+            <div class="card-body">
+                <h4>Paper</h4>
+            </div>
+            <button class="btn btn-outline-secondary webundrag" id="paper">Select</button>
+        </div>
+    </div>
+    </div>
+  </div>
+  <div class="top"></div>
+  <div class="footer-color mt-auto py-3">
+    <div class="col-md-12 text-center"></div>
+  </div>
+  <footer class="footer mt-auto py-3">
+    <div class="center">
+      <p>Open Source</p>
+      Designed by XyZerKunG
+    </div>
+  </footer>
   <script src="js/handler.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>
