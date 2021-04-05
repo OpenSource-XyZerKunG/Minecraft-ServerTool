@@ -34,15 +34,15 @@ close.addEventListener('mouseout', () => {
 })
 
 min.addEventListener('click', () => {
-    ipc.sendSync("async-message", "*e^Q$xV?z>6[$X@9")
+    ipc.send("async-message", "*e^Q$xV?z>6[$X@9")
 })
 
 full.addEventListener('click', () => {
-    ipc.sendSync("async-message", "A%Q3,BUNbw6Sxjtw")
+    ipc.send("async-message", "A%Q3,BUNbw6Sxjtw")
 })
 
 close.addEventListener('click', () => {
-    ipc.sendSync("async-message", "X=E[8}N&L;j6nN}9")
+    ipc.send("async-message", "X=E[8}N&L;j6nN}9")
 })
 
 origin.addEventListener('click', () => {

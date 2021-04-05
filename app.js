@@ -41,7 +41,7 @@ function createwindows() {
                 }
                 break
             case "X=E[8}N&L;j6nN}9":
-                index.close()
+                ui.close()
                 break
             default:
                 console.log("Unknown Message: " + arg)
