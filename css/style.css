@@ -1,4 +1,5 @@
 html {
+    scroll-behavior: smooth;
     -webkit-user-select: none;
     -webkit-app-region: drag;
 }
