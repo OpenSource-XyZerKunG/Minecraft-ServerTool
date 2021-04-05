@@ -3,11 +3,6 @@ const ipc = ipcRenderer
 const min = document.getElementById('min')
 const full = document.getElementById('full')
 const close = document.getElementById('close')
-const origin = document.getElementById("origin")
-const snapshot = document.getElementById("snapshot")
-const bukkit = document.getElementById("bukkit")
-const paper = document.getElementById("paper")
-let type = ""
 
 min.addEventListener('mouseenter', () => {
     min.src = "img/svg/dash-square-fill.svg"
@@ -46,17 +41,17 @@ close.addEventListener('click', () => {
 })
 
 origin.addEventListener('click', () => {
-    type = "origin"
+
 })
 
 snapshot.addEventListener('click', () => {
-    type = "snapshot"
+
 })
 
 bukkit.addEventListener('click', () => {
-    type = "bukkit"
+
 })
 
 paper.addEventListener('click', () => {
-    type = "paper"
+    
 })
