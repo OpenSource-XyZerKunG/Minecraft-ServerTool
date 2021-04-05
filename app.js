@@ -4,13 +4,11 @@ const { link } = require('fs')
 const path = require('path')
 const url = require('url')
 
-// Windows
-let index
-
+let ui
 let type = "unknown"
 
 function createwindows() {
-    index = new BrowserWindow({
+    ui = new BrowserWindow({
         'title': "ServerTool",
         'icon': path.join(__dirname, "img/terminal.png"),
         'frame': false,
@@ -19,25 +17,28 @@ function createwindows() {
             'contextIsolation': false
         },
         'minWidth': 800,
-        'minHeight': 480
+        'minHeight': 480,
+        'show': false
     })
-    Menu.setApplicationMenu(new Menu())
-    index.loadURL(url.format({
+    ui.once('ready-to-show', () => {
+        ui.show()
+    })
+    ui.loadURL(url.format({
         pathname: path.join(__dirname, "index.html"),
         protocol: 'file:',
         slashes: true
     }))
+    Menu.setApplicationMenu(new Menu())
     ipcMain.on('async-message', (event, arg) => {
-        console.log(arg)
         switch (arg) {
             case "*e^Q$xV?z>6[$X@9":
-                index.minimize()
+                ui.minimize()
                 break
             case "A%Q3,BUNbw6Sxjtw":
-                if (!index.isMaximized()) {
-                    index.maximize()
+                if (!ui.isMaximized()) {
+                    ui.maximize()
                 }else {
-                    index.unmaximize()
+                    ui.unmaximize()
                 }
                 break
             case "X=E[8}N&L;j6nN}9":
@@ -45,39 +46,26 @@ function createwindows() {
                 break
             case "snapshot":
                 type = 'snapshot'
-                pageSetup()
                 break
             case "bukkit":
                 type = 'bukkit'
-                pageSetup()
                 break
             case "paper":
                 type = 'paper'
-                pageSetup()
                 break
             case "origin":
                 type = 'origin'
-                pageSetup()
                 break
             case "Ready! ? setup":
                 ipc.sendSync("async-message", "id0:" + type)
                 break
             case "index":
-                pageSetup()
                 break
             default:
                 console.log("Unknown Message: " + arg)
                 break
         }
     })
-}
-
-function pageSetup() {
-    index.loadURL(url.format({
-        pathname: path.join(__dirname, "setup.html"),
-        protocol: 'file:',
-        slashes: true
-    }))
 }
 
 app.on('ready', createwindows)
