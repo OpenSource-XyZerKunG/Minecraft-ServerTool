@@ -1,10 +1,10 @@
 const {app, BrowserWindow, Menu, ipcMain, ipcRenderer} = require('electron')
 const ipc = ipcRenderer
-const { link } = require('fs')
 const path = require('path')
 const url = require('url')
 
 let ui
+let type
 
 function createwindows() {
     ui = new BrowserWindow({
@@ -44,7 +44,12 @@ function createwindows() {
                 ui.close()
                 break
             default:
-                console.log("Unknown Message: " + arg)
+                if (arg.startsWith("id:type:")) {
+                    type = arg.split(":")[2]
+                    console.log(type)
+                }else {
+                    console.log("Unknown Message: " + arg)
+                }
                 break
         }
     })
