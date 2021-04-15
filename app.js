@@ -28,7 +28,7 @@ function createwindows() {
         slashes: true
     }))
     Menu.setApplicationMenu(new Menu())
-    ipcMain.on('async-message', (event, arg) => {
+    ipcMain.on("async-message", (event, arg) => {
         switch (arg) {
             case "*e^Q$xV?z>6[$X@9":
                 ui.minimize()
@@ -42,6 +42,9 @@ function createwindows() {
                 break
             case "X=E[8}N&L;j6nN}9":
                 ui.close()
+                break
+            case "ready:setup":
+                
                 break
             default:
                 if (arg.startsWith("id:type:")) {
