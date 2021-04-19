@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+:root {
+  --xf-aqua: #1A73E8;
+  --xf-not-white-but-not-dark: #80868B;
+  --xf-border: #DADCE0;
+  --body-font: 'Roboto', sans-serif;
+  --xf-normal-size: 1rem;
+  --xf-small-size: .75rem;
+}
+  
+*,::before,::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--body-font);
+  font-size: var(--xf-normal-size);
+}
+
+.xf-box {
+  position: relative;
+  height: 48px;
+  margin-bottom: 1.5rem;
+}
+
+.xf-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: var(--xf-normal-size);
+  border: 1px solid var(--xf-border);
+  border-radius: .5rem;
+  outline: none;
+  padding: 1rem;
+  background: none;
+  z-index: 1;
+}
+
+.xf-label {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  padding: 0 .25rem;
+  background-color: #fff;
+  color: var(--xf-not-white-but-not-dark);
+  font-size: var(--xf-normal-size);
+  transition: .3s;
+}
+
+.xf-input:focus + .xf-label {
+  top: -.5rem;
+  left: .8rem;
+  color: var(--xf-aqua);
+  font-size: var(--xf-small-size);
+  font-weight: 500;
+  z-index: 10;
+}
+
+.xf-input:not(:placeholder-shown) .xf-input:not(:focus) + .xf-label {
+  top: -.5rem;
+  left: .8rem;
+  font-size: var(--xf-small-size);
+  font-weight: 500;
+  z-index: 10;
+}
+
+.xf-input:focus {
+  border: 1.5px solid var(--xf-aqua);
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  visibility: hidden;
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ .xf-check {
+  background: var(--xf-aqua);
+  box-shadow: 1px 2px 26px rgba(0, 0, 0, 0.3);
+}
+
+input[type="checkbox"]:checked ~ .xf-check:before {
+  transform: translateX(-50px);
+}
+
+input[type="checkbox"]:checked ~ .xf-check:after {
+  transform: translateX(0px);
+}
+
+.xf-check {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 20px;
+  background: gray;
+  cursor: pointer;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: ease-in .5s;
+}
+
+.xf-check:before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 30%;
+  transition: .5s;
+  transform: translateX(0px);
+}
+
+.xf-check:after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 30%;
+  transition: .5s;
+  transform: translateX(50px);
+}
+
+.xf-text {
+  position: relative;
+  top: .3rem;
+  padding-left: 20px;
+}

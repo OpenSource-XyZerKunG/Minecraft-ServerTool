@@ -1,0 +1,48 @@
+.terminal {
+    position: relative;
+    width: auto;
+    height: 256px;
+    background-color: black;
+    border-radius: 12px;
+    box-shadow: 1px 2px 26px rgba(0, 0, 0, 0.3);
+}
+
+.terminal .nav-terminal {
+    position: absolute;
+    height: 25px;
+    width: 100%;
+    background-color: whitesmoke;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.nav-terminal span {
+    position: absolute;
+    height: .8rem;
+    width: .8rem;
+    border-radius: 50%;
+    box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-terminal span:nth-child(1) {
+    background-color: red;
+    top: 5px;
+    left: 7px;
+}
+
+.nav-terminal span:nth-child(2) {
+    background-color: gold;
+    top: 5px;
+    left: 23px;
+}
+
+.nav-terminal span:nth-child(3) {
+    background-color: lime;
+    top: 5px;
+    left: 40px;
+}
+
+.terminal-center {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+}

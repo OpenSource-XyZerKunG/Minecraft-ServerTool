@@ -1,0 +1,50 @@
+.terminal {
+    position: relative;
+    width: auto;
+    height: 256px;
+    background-color: black;
+    opacity: 95%;
+    box-shadow: 1px 2px 26px rgba(0, 0, 0, 0.3);
+}
+
+.terminal .nav-terminal {
+    position: absolute;
+    height: 50px;
+    width: 100%;
+    background-color: white;
+}
+
+.nav-terminal span {
+    position: absolute;
+}
+
+.nav-terminal span img {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-terminal span:nth-child(1) {
+    top: 10px;
+    left: 90%;
+}
+
+.nav-terminal span:nth-child(2) {
+    top: 10px;
+    left: 93%;
+}
+
+.nav-terminal span:nth-child(3) {
+    top: 10px;
+    left: 96%;
+}
+
+.terminal-center {
+    position: absolute;
+    top: 8px;
+    left: 6px;
+    color:gray;
+}
+
+.terminal-center strong {
+    padding-left: 6px;
+}
