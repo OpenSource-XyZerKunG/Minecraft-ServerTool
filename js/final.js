@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         }
                         break
                     case "done_download":
-                        
+
                         break
                     case "done_createrun":
                         for (i = 0; i < 10; i++) {

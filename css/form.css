@@ -8,7 +8,7 @@
   --xf-normal-size: 1rem;
   --xf-small-size: .75rem;
 }
-  
+
 *,::before,::after {
   box-sizing: border-box;
 }
