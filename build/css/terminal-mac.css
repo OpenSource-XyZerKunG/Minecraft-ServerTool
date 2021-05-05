@@ -8,7 +8,6 @@
 }
 
 .nav-terminal {
-    position: absolute;
     height: 25px;
     width: 100%;
     background-color: whitesmoke;
@@ -16,6 +15,10 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+
+.win {
+    opacity: 0;
 }
 
 .nav-terminal span {
@@ -26,19 +29,19 @@
     box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.3);
 }
 
-.nav-terminal span:nth-child(1) {
+.nav-terminal .s0 {
     background-color: red;
     top: 5px;
     left: 7px;
 }
 
-.nav-terminal span:nth-child(2) {
+.nav-terminal .s1 {
     background-color: gold;
     top: 5px;
     left: 23px;
 }
 
-.nav-terminal span:nth-child(3) {
+.nav-terminal .s2 {
     background-color: lime;
     top: 5px;
     left: 40px;
@@ -49,6 +52,4 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 5px;
-    left: 50%;
 }
