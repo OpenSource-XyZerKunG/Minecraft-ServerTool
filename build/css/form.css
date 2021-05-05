@@ -8,3 +8,7 @@ input {
 input::placeholder {
   color: #5F6368;
 }
+
+.theborder {
+  border-radius: 5px;
+}
