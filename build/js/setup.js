@@ -1,5 +1,6 @@
 const path = require("path")
 const types = require("./var")
+const versionlist = document.getElementById("versionlist")
 
 document.getElementById("edit").addEventListener("click", () => {
     window.location.href = path.join(__dirname, "select.html")
@@ -17,7 +18,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     if (list.type == "release") {
                         const option = document.createElement("option")
                         option.innerText = list.id
-                        document.getElementById("versionlist").appendChild(option)
+                        versionlist.appendChild(option)
                     }
                 }
             })
@@ -29,7 +30,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     if (list.type != "release") {
                         const option = document.createElement("option")
                         option.innerText = list.id
-                        document.getElementById("versionlist").appendChild(option)
+                        versionlist.appendChild(option)
                     }
                 }
             })
@@ -39,7 +40,22 @@ window.addEventListener("DOMContentLoaded", () => {
                 for (value in versions) {
                     const option = document.createElement("option")
                     option.innerText = versions[value]
-                    document.getElementById("versionlist").appendChild(option)
+                    versionlist.appendChild(option)
+                }
+            })
+        }else if (message == types.SPIGOTMC) {
+            fetch("https://hub.spigotmc.org/nexus/service/local/repositories/snapshots/content/org/spigotmc/spigot-api/maven-metadata.xml").then((res) => {return res.text()}).then((data) => {
+                const xml = new DOMParser().parseFromString(data, "text/xml")
+                const list = xml.getElementsByTagName("metadata")[0].getElementsByTagName("versioning")[0].getElementsByTagName("versions")[0].getElementsByTagName("version")
+                let array = ""
+                for (value = list.length - 1; value > - 1; value--) {
+                    let vars = list[value].childNodes[0].nodeValue.split("-")[0]
+                    if (!array.includes(vars)) {
+                        array += vars
+                        const option = document.createElement("option")
+                        option.innerText = vars
+                        versionlist.appendChild(option)
+                    }
                 }
             })
         }
@@ -73,8 +89,8 @@ foldername.addEventListener("input", () => {
 })
 
 document.getElementById("done").addEventListener("click", () => {
-    if (String(consoletitle.value).replaceAll(" ", "") != "" && String(foldername.value).replaceAll(" ", "") != "") {
-        socket.emit("post:data", consoletitle.value + "," + foldername.value)
+    if (String(consoletitle.value).replaceAll(" ", "") != "" && String(foldername.value).replaceAll(" ", "") != "" && String(versionlist.value).replaceAll(" ", "") != "") {
+        socket.emit("post:data", consoletitle.value + "," + foldername.value + "," + versionlist.value)
         window.location.href = "final.html"
     }
 })
