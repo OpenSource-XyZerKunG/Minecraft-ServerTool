@@ -1,4 +1,5 @@
 const path = require("path")
+const types = require("./var")
 
 document.getElementById("edit").addEventListener("click", () => {
     window.location.href = path.join(__dirname, "select.html")
@@ -8,6 +9,40 @@ window.addEventListener("DOMContentLoaded", () => {
     socket.emit("post:app", "get:type")
     socket.on("post:type", (message) => {
         document.getElementById("type").innerText = "Type: " + String(message)
+        if (message == types.RELEASE) {
+            fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json").then((res) => {return res.json()}).then((data) => {
+                let versions = data.versions
+                for (value in versions) {
+                    let list = versions[value]
+                    if (list.type == "release") {
+                        const option = document.createElement("option")
+                        option.innerText = list.id
+                        document.getElementById("versionlist").appendChild(option)
+                    }
+                }
+            })
+        }else if (message == types.SNAPSHOT) {
+            fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json").then((res) => {return res.json()}).then((data) => {
+                let versions = data.versions
+                for (value in versions) {
+                    let list = versions[value]
+                    if (list.type != "release") {
+                        const option = document.createElement("option")
+                        option.innerText = list.id
+                        document.getElementById("versionlist").appendChild(option)
+                    }
+                }
+            })
+        }else if (message == types.PAPERMC) {
+            fetch("https://papermc.io/api/v1/paper").then((res) => {return res.json()}).then((data) => {
+                let versions = data.versions
+                for (value in versions) {
+                    const option = document.createElement("option")
+                    option.innerText = versions[value]
+                    document.getElementById("versionlist").appendChild(option)
+                }
+            })
+        }
     })
     if (process.platform == "win32") {
         const link = document.createElement("link")
