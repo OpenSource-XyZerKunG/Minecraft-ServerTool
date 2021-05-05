@@ -15,7 +15,7 @@ snapshot.addEventListener("click", () => {
 })
 
 bukkit.addEventListener("click", () => {
-    socket.emit("post:type", types.SNAPSHOT)
+    socket.emit("post:type", types.SPIGOTMC)
     setup()
 })
 
