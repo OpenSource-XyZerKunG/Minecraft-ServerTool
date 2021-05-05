@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServerTool</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/final.css">
+    <link rel="stylesheet" href="api/css/bootstrap.min.css">
+    <script src="api/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+  <div class="container">
+    <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between p-3 mb-3 border-bottom">
+      <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <img src="img/icon.png" width="48" height="48">
+      </div>
+  
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><label class="nav-link px-2 link-dark webundrag">Home</label></li>
+        <li><label class="nav-link px-2 link-dark webundrag">Setup</label></li>
+        <li><label class="nav-link px-2 link-dark webundrag">Status</label></li>
+      </ul>
+
+      <div class="col-md-3 text-end webundrag">
+        <img src="img/svg/bar-char.svg" id="connect">
+        <img src="img/svg/dash-square.svg" id="min">
+        <img src="img/svg/square.svg" id="full">
+        <img src="img/svg/x-circle.svg" id="close">
+      </div>
+    </nav>
+  </div>
+
+  <div class="webundrag">
+    <div class="container">
+      <div class="top"></div>
+      <center>
+        <label id="loop">
+        <div id="check-icon"></div>
+      </center>
+      <div class="top"></div>
+      <div class="border-bottom"></div>
+      <div class="top"></div>
+      <center>
+        <strong id="status-bar"></strong>
+      </center>
+      <div class="top"></div>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuemin="0" aria-valuemax="100" id="progressbar"></div>
+      </div>
+      <div class="top"></div>
+    </div>
+  </div>
+
+  <div class="top"></div>
+    <div class="footer-color mt-auto py-3">
+      <div class="col-md-12 text-center"></div>
+    </div>
+    <footer class="footer mt-auto py-3">
+      <div class="center">
+        <p>Open Source</p>
+        Designed by XyZerKunG
+      </div>
+    </footer>
+  </div>
+  <script src="js/handler.js"></script>
+  <script src="js/final.js"></script>
+</body>
+</html>

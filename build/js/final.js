@@ -1,12 +1,17 @@
 const Swal = require("sweetalert2")
 const loop = document.getElementById("loop").style
 const check_icon = document.getElementById("check-icon").style
+let type = ""
 let total = 0
 let file = 0
 let save = 0
 
 window.addEventListener('DOMContentLoaded', () => {
+    socket.emit("message", "get:type")
     socket.emit("message", "want:setup")
+    socket.on("type", (message) => {
+        type = String(message)
+    }
     socket.on("status", (message) => {
         let data = String(message)
         let array = data.split(":")
@@ -80,3 +85,28 @@ function done() {
     loop.borderColor = "#5cb85c"
     loop.transition = "border 0.5s ease-out"
 }
+
+let dotint = 0
+
+setInterval(() => {
+    if (file < 10) {
+        switch (dotint) {
+            case 0:
+                document.getElementById("status-bar").innerText = "Create Folder"
+                break;
+            case 1:
+                document.getElementById("status-bar").innerText = "Create Folder."
+                break
+            case 2:
+                document.getElementById("status-bar").innerText = "Create Folder.."
+                break
+            case 3:
+                document.getElementById("status-bar").innerText = "Create Folder..."
+                break
+            default:
+                dotint = 0
+                break;
+        }
+        dotint++
+    }
+}, 1000);

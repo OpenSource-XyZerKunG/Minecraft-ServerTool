@@ -1,23 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
 html, body {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
 }
 
 #loop {
-    position: relative;
-    height: 125px;
-    width: 125px;
-    display: inline-block;
-    border: 3px solid rgba(255,255,255,0.2);
-    border-radius: 50%;
-    border-left-color: lime;
-    animation: check-rotate 1s linear infinite;
+  position: relative;
+  height: 125px;
+  width: 125px;
+  display: inline-block;
+  border: 3px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  border-left-color: lime;
+  animation: check-rotate 1s linear infinite;
 }
 
 #loop #check-icon{
-    display: none;
+  display: none;
 }
 
 #loop #check-icon:after{
