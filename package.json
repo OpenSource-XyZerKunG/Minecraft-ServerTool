@@ -4,6 +4,7 @@
   "description": "Tools for Build Your Server",
   "main": "build/app.js",
   "scripts": {
+    "build": "tsc --build",
     "start": "electron ."
   },
   "repository": {
