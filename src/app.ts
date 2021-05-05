@@ -16,6 +16,9 @@ function createsocket() {
             console.log("UI Connect!")
             client.on("post:app", (message:any):any => {
                 switch (message) {
+                    case "get:osname":
+                        client.emit("post:osname", String(process.platform))
+                        break
                     case "get:type":
                         client.emit("post:type", String(vars.type))
                         break

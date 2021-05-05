@@ -10,3 +10,10 @@ window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("type").innerText = "Type: " + String(message)
     }) 
 })
+
+const consoletitle = document.getElementById("consoletitle")
+const terminallabel = document.getElementById("terminal-text")
+
+consoletitle.addEventListener("input", () => {
+    terminallabel.innerText = consoletitle.value
+})

@@ -7,6 +7,7 @@
     <title>ServerTool</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/terminal-mac.css">
     <link rel="stylesheet" href="api/css/bootstrap.min.css">
     <script src="api/js/bootstrap.bundle.js"></script>
 </head>
@@ -48,8 +49,23 @@
 
         <div class="top"></div>
 
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between p-3 mb-3 border">
-          
+        <input type="text" placeholder="Console Title" class="border" id="consoletitle">
+
+        <div class="top"></div>
+
+        <input type="text" placeholder="Folder Name" class="border">
+      </div>
+
+      <div class="top"></div>
+
+      <div class="container">
+        <div class="terminal">
+          <div class="nav-terminal">
+            <span></span>
+            <span></span>
+            <span></span>
+            <label class="terminal-text" id="terminal-text"></label>
+          </div>
         </div>
       </div>
   </div>
