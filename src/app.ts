@@ -42,8 +42,10 @@ function createsocket() {
                 let data = String(message).split(",")
                 vars.title = data[0]
                 vars.folder = data[1]
-                console.log("Console Title: " + data[0])
-                console.log("Folder Name: " + data[1])
+                vars.version = data[2]
+                console.log("Console Title: " + vars.title)
+                console.log("Folder Name: " + vars.folder)
+                console.log("Version: " + vars.version)
             })
         }
     })
