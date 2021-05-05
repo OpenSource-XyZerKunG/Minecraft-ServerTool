@@ -16,9 +16,6 @@ function createsocket() {
             console.log("UI Connect!")
             client.on("post:app", (message:any):any => {
                 switch (message) {
-                    case "get:osname":
-                        client.emit("post:osname", String(process.platform))
-                        break
                     case "get:type":
                         client.emit("post:type", String(vars.type))
                         break
@@ -40,6 +37,13 @@ function createsocket() {
             client.on("post:type", (message:any):any => {
                 vars.type = String(message)
                 console.log("TYPE: " + vars.type)
+            })
+            client.on("post:data", (message:any):any => {
+                let data = String(message).split(",")
+                vars.title = data[0]
+                vars.folder = data[1]
+                console.log("Console Title: " + data[0])
+                console.log("Folder Name: " + data[1])
             })
         }
     })

@@ -39,6 +39,13 @@ function createsocket() {
                 vars.type = String(message);
                 console.log("TYPE: " + vars.type);
             });
+            client.on("post:data", function (message) {
+                var data = String(message).split(",");
+                vars.title = data[0];
+                vars.folder = data[1];
+                console.log("Console Title: " + data[0]);
+                console.log("Folder Name: " + data[1]);
+            });
         }
     });
     http.listen(45785, function () {
