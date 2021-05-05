@@ -1,5 +1,5 @@
-let RELEASE:string = "Mojang"
-let SNAPSHOT:string = "Snapshot"
+let RELEASE:string = "Mojang Release"
+let SNAPSHOT:string = "Mojang Snapshot"
 let SPIGOTMC:string = "SpigotMC"
 let PAPERMC:string = "PaperMC"
 
