@@ -1,6 +1,6 @@
 "use strict";
-var RELEASE = "Mojang";
-var SNAPSHOT = "Snapshot";
+var RELEASE = "Mojang Release";
+var SNAPSHOT = "Mojang Snapshot";
 var SPIGOTMC = "SpigotMC";
 var PAPERMC = "PaperMC";
 var title = "";

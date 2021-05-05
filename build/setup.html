@@ -7,7 +7,6 @@
     <title>ServerTool</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/form.css">
-    <link rel="stylesheet" href="css/terminal-mac.css">
     <link rel="stylesheet" href="api/css/bootstrap.min.css">
     <script src="api/js/bootstrap.bundle.js"></script>
 </head>
@@ -35,7 +34,7 @@
 
   <div class="webundrag">
       <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between p-3 mb-3 border">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between p-3 mb-3 border theborder">
           <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
             <div class="container">
               <label id="type"></label>
@@ -53,21 +52,35 @@
 
         <div class="top"></div>
 
-        <input type="text" placeholder="Folder Name" class="border">
-      </div>
+        <input type="text" placeholder="Folder Name" class="border" id="foldername">
 
-      <div class="top"></div>
+        <div class="top"></div>
 
-      <div class="container">
+        <center>
+          <button class="btn btn-primary" id="done">Done</button>
+        </center>
+
+        <div class="top"></div>
+
         <div class="terminal">
           <div class="nav-terminal">
-            <span></span>
-            <span></span>
-            <span></span>
             <label class="terminal-text" id="terminal-text"></label>
+            <span class="s0"><img src="img/win32/min.png" class="win" width="20" height="20"></span>
+            <span class="s1"><img src="img/win32/square.png" class="win" width="20" height="20"></span>
+            <span class="s2"><img src="img/win32/close.png" class="win" width="20" height="20"></span>
           </div>
         </div>
+
+        <div class="top"></div>
       </div>
+
+      <center>
+        <img id="folderimage">
+      </center>
+
+      <center>
+        <label id="folderlabel"></label>
+      </center>
   </div>
 
   <div class="top"></div>
