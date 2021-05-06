@@ -1,3 +1,14 @@
+const { exec } = require("child_process")
+exec("java -version", (error) => {
+    if (error) {
+        sweet2.fire({
+            icon: "error",
+            title: "Something Wrong",
+            text: "You need to install java to build this!"
+        })
+    }
+})
+
 const {io} = require("socket.io-client")
 const socket = io("ws://localhost:45785", {
     "autoConnect": false
