@@ -1,4 +1,5 @@
 const path = require("path")
+const sweet2 = require("sweetalert2")
 const types = require("./var")
 const versionlist = document.getElementById("versionlist")
 
@@ -90,7 +91,13 @@ foldername.addEventListener("input", () => {
 
 document.getElementById("done").addEventListener("click", () => {
     if (String(consoletitle.value).replaceAll(" ", "") != "" && String(foldername.value).replaceAll(" ", "") != "" && String(versionlist.value).replaceAll(" ", "") != "") {
-        socket.emit("post:data", consoletitle.value + "," + foldername.value + "," + versionlist.value)
+        socket.emit("post:data", consoletitle.value + ":don'ttypethis:(:" + foldername.value + ":don'ttypethis:(:" + document.getElementById("envvar").value + ":don'ttypethis:(:" + versionlist.value + ":don'ttypethis:(:" + Boolean(document.getElementById("nogui").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("eula").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("autorun").checked))
         window.location.href = "final.html"
+    }else {
+        sweet2.fire({
+            icon: "error",
+            title: "Something Wrong",
+            text: "Make sure you have entered the information"
+        })
     }
 })

@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ServerTool</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/form.css">
-    <link rel="stylesheet" href="api/css/bootstrap.min.css">
-    <script src="api/js/bootstrap.bundle.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ServerTool</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="api/css/bootstrap.min.css">
+  <script src="api/js/bootstrap.bundle.js"></script>
 </head>
 <body>
   <div class="container">
@@ -58,6 +57,27 @@
 
         <div class="top"></div>
 
+        <input type="text" placeholder="Environment Variable like '-Xmx1024m'" class="border" id="envvar">
+
+        <div class="top"></div>
+
+        <div class="checkbox border theborder">
+          <div class="form-check form-switch form-check-inline">
+            <input class="form-check-input" type="checkbox" id="nogui">
+            <label class="form-check-label" for="nogui">NoGUI</label>
+          </div>
+          <div class="form-check form-switch form-check-inline">
+            <input class="form-check-input" type="checkbox" id="eula">
+            <label class="form-check-label" for="eula">Eula</label>
+          </div>
+          <div class="form-check form-switch form-check-inline">
+            <input class="form-check-input" type="checkbox" id="autorun">
+            <label class="form-check-label" for="autorun">Run when finish</label>
+          </div>
+        </div>
+
+        <div class="top"></div>
+
         <center>
           <button class="btn btn-primary" id="done">Done</button>
         </center>
@@ -75,15 +95,15 @@
 
         <div class="top"></div>
       </div>
-
-      <center>
-        <img id="folderimage">
-      </center>
-
-      <center>
-        <label id="folderlabel"></label>
-      </center>
   </div>
+
+  <center>
+    <img id="folderimage">
+  </center>
+
+  <center>
+    <label id="folderlabel"></label>
+  </center>
 
   <div class="top"></div>
   <div class="footer-color mt-auto py-3">
