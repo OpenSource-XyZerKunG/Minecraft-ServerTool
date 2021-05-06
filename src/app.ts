@@ -16,6 +16,9 @@ function createsocket() {
             console.log("UI Connect!")
             client.on("post:app", (message:any):any => {
                 switch (message) {
+                    case "get:all":
+                        client.emit("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:")
+                        break
                     case "get:type":
                         client.emit("post:type", String(vars.type))
                         break
@@ -39,13 +42,21 @@ function createsocket() {
                 console.log("TYPE: " + vars.type)
             })
             client.on("post:data", (message:any):any => {
-                let data = String(message).split(",")
+                let data = String(message).split(":don'ttypethis:(:")
                 vars.title = data[0]
                 vars.folder = data[1]
-                vars.version = data[2]
+                vars.envvar = data[2]
+                vars.version = data[3]
+                vars.nogui = data[4]
+                vars.eula = data[5]
+                vars.autorun = data[6]
                 console.log("Console Title: " + vars.title)
                 console.log("Folder Name: " + vars.folder)
+                console.log("Environment Variable: " + vars.envvar)
                 console.log("Version: " + vars.version)
+                console.log("NoGUI: " + vars.nogui)
+                console.log("Eula: " + vars.eula)
+                console.log("AutoRun: " + vars.autorun)
             })
         }
     })
