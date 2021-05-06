@@ -35,6 +35,29 @@ html {
     border-radius: 3px;
 }
 
+input {
+    width: 100%;
+    padding: 3px;
+    outline-color: #1A73E8;
+    border-radius: 5px;
+}
+  
+input::placeholder {
+color: #5F6368;
+}
+
+.checkbox {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.theborder {
+    border-radius: 5px;
+}
+
 .top {
     margin-top: 2rem;
 }
