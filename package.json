@@ -32,6 +32,7 @@
   "dependencies": {
     "@types/open": "^6.2.1",
     "@types/request": "^2.48.5",
+    "child_process": "^1.0.2",
     "node-fetch": "^2.6.1",
     "open": "^8.0.6",
     "request": "^2.88.2",
