@@ -1,7 +1,9 @@
 let RELEASE:string = "Mojang Release"
 let SNAPSHOT:string = "Mojang Snapshot"
-let SPIGOTMC:string = "SpigotMC"
-let PAPERMC:string = "PaperMC"
+let SPIGOTMC:string = "Spigot"
+let PAPERMC:string = "Paper"
+let PURPURMC:string = "Purpur"
+let YATOPIA:string = "Yatopia"
 
 let title:string = ""
 let folder:string = ""

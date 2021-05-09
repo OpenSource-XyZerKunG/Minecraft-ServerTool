@@ -1,8 +1,10 @@
 "use strict";
 var RELEASE = "Mojang Release";
 var SNAPSHOT = "Mojang Snapshot";
-var SPIGOTMC = "SpigotMC";
-var PAPERMC = "PaperMC";
+var SPIGOTMC = "Spigot";
+var PAPERMC = "Paper";
+var PURPURMC = "Purpur";
+var YATOPIA = "Yatopia";
 var title = "";
 var folder = "";
 var envvar = "";
