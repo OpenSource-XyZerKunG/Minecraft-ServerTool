@@ -1,10 +1,40 @@
+if (process.platform == "linux" || process.platform == "darwin") {
+    sweet2.fire({
+        icon: "info",
+        text: "Not fully support But you can do it",
+        showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+        }
+    })
+} else if (process.platform != "win32") {
+    sweet2.fire({
+        icon: "error",
+        text: "Unknown operating system, not sure you can?",
+        showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+        }
+    })
+}
+
 const { exec } = require("child_process")
 exec("java -version", (error) => {
     if (error) {
         sweet2.fire({
             icon: "error",
             title: "Something Wrong",
-            text: "You need to install java to build this!"
+            text: "You need to install java to build this!",
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
         })
     }
 })
