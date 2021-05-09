@@ -1,6 +1,8 @@
 import {app, BrowserWindow, Menu} from "electron"
-const path = require("path")
-const url = require("url")
+import Axios from "axios"
+import path from "path"
+import url from "url"
+import file from "fs"
 const vars = require("./var")
 let ui:any = null
 
@@ -16,6 +18,24 @@ function createsocket() {
             console.log("UI Connect!")
             client.on("post:app", (message:any):any => {
                 switch (message) {
+                    case "spigottool":
+                        const toolfile = file.createWriteStream(path.join(__dirname, vars.folder, "spigottool.jar")) 
+                        const functionaxios = async () => {
+                            const res = await Axios({
+                                url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
+                                method: 'GET',
+                                responseType: 'stream'
+                            })
+                            const totalBytes = res.headers["content-length"]
+                            let receivedBytes = 0
+                            res.data.on("data", (chunk:any):any => {
+                                receivedBytes += chunk.length
+                                client.emit("statustool", Math.floor((receivedBytes / totalBytes) * 100))
+                            })
+                            res.data.pipe(toolfile)
+                        }
+                        functionaxios()
+                        break
                     case "get:all":
                         client.emit("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:" + vars.type)
                         break
