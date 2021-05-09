@@ -80,6 +80,22 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (data[4] == "true") {
                     nogui = " nogui"
                 }
+                file.writeFile(path.join(___dirname, data[1], "start.xyzerscript"), "title," + data[0] + "\nexecute,java -jar \"" + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui + "\n//execute,watchdog", (err) => {
+                    if (err) {
+                        clearInterval(loop2)
+                        document.getElementById("label" + labelint).innerText = "Error to Create XyZerScript File"
+                        sweet2.fire({
+                            icon: "error",
+                            text: String(err),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
+                })
                 switch (process.platform) {
                     case "win32":
                         file.writeFile(path.join(___dirname, data[1], "start.bat"), "@echo off\nTitle " + data[0] + '\njava -jar "' + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui + "\npause", (err) => {
