@@ -48,6 +48,10 @@ var vars = require("./var");
 var ui = null;
 var http = require("http").createServer();
 var socket = require("socket.io")(http);
+var ___dirname = __dirname;
+if (__dirname.endsWith("\\resources\\app.asar\\build")) {
+    ___dirname = __dirname.replace("\\resources\\app.asar\\build", "");
+}
 function createsocket() {
     var _this = this;
     socket.on("connection", function (client) {
@@ -59,7 +63,7 @@ function createsocket() {
             client.on("post:app", function (message) {
                 switch (message) {
                     case "spigottool":
-                        var toolfile_1 = fs_1.default.createWriteStream(path_1.default.join(__dirname, vars.folder, "spigottool.jar"));
+                        var toolfile_1 = fs_1.default.createWriteStream(path_1.default.join(___dirname, vars.folder, "spigottool.jar"));
                         var functionaxios = function () { return __awaiter(_this, void 0, void 0, function () {
                             var res, totalBytes, receivedBytes;
                             return __generator(this, function (_a) {

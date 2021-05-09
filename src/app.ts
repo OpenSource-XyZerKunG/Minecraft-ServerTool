@@ -9,6 +9,13 @@ let ui:any = null
 const http = require("http").createServer()
 const socket = require("socket.io")(http)
 
+// For Build Function
+let ___dirname = __dirname
+
+if (__dirname.endsWith("\\resources\\app.asar\\build")) {
+    ___dirname = __dirname.replace("\\resources\\app.asar\\build", "")
+}
+
 // Create Socket
 function createsocket() {
     socket.on("connection", (client:any):any => {
@@ -19,7 +26,7 @@ function createsocket() {
             client.on("post:app", (message:any):any => {
                 switch (message) {
                     case "spigottool":
-                        const toolfile = file.createWriteStream(path.join(__dirname, vars.folder, "spigottool.jar")) 
+                        const toolfile = file.createWriteStream(path.join(___dirname, vars.folder, "spigottool.jar")) 
                         const functionaxios = async () => {
                             const res = await Axios({
                                 url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
