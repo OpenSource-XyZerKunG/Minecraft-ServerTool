@@ -1,6 +1,6 @@
 {
   "name": "servertool",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Tools for Build Your Server",
   "main": "build/app.js",
   "scripts": {
