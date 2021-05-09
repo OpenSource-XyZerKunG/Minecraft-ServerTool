@@ -420,6 +420,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     })
                 }else if (data[7] == types.PAPERMC) {
                     function_download("https://papermc.io/api/v1/paper/" + data[3] + "/latest/download")
+                }else if (data[7] == types.PURPURMC) {
+                    function_download("https://purpur.pl3x.net/api/v1/purpur/" + data[3] + "/latest/download")
+                }else if (data[7] == types.YATOPIA) {
+                    function_download("https://api.yatopiamc.org/v2/latestBuild/download?branch=ver/" + data[3])
                 }else {
                     sweet2.fire({
                         icon: "error",
