@@ -59,6 +59,21 @@ window.addEventListener("DOMContentLoaded", () => {
                     }
                 }
             })
+        }else if (message == types.PURPURMC) {
+            fetch("https://purpur.pl3x.net/api/v1/purpur").then((res) => {return res.json()}).then((data) => {
+                let versions = data.versions
+                for (value in versions) {
+                    const option = document.createElement("option")
+                    option.innerText = versions[value]
+                    versionlist.appendChild(option)
+                }
+            })
+        }else if (message == types.YATOPIA) {
+            fetch("https://api.yatopiamc.org/v2/latestBuild").then((res) => {return res.json()}).then((data) => {
+                const option = document.createElement("option")
+                option.innerText = String(data.branch.name).split("/")[1]
+                versionlist.appendChild(option)
+            })
         }
     })
     if (process.platform == "win32") {
