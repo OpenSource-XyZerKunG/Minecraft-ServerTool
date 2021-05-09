@@ -26,16 +26,6 @@ paper.addEventListener("click", () => {
     setup()
 })
 
-bukkit.addEventListener("click", () => {
-    socket.emit("post:type", types.SPIGOTMC)
-    setup()
-})
-
-paper.addEventListener("click", () => {
-    socket.emit("post:type", types.PAPERMC)
-    setup()
-})
-
 purpur.addEventListener("click", () => {
     socket.emit("post:type", types.PURPURMC)
     setup()
