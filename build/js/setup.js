@@ -97,7 +97,13 @@ document.getElementById("done").addEventListener("click", () => {
         sweet2.fire({
             icon: "error",
             title: "Something Wrong",
-            text: "Make sure you have entered the information"
+            text: "Make sure you have entered the information",
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
         })
     }
 })
