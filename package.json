@@ -1,23 +1,20 @@
 {
   "name": "servertool",
-  "version": "0.0.1",
+  "version": "1.0.5",
   "description": "Tools for Build Your Server",
   "main": "build/app.js",
   "scripts": {
+    "start": "electron .",
     "build": "tsc --build",
-    "start": "electron ."
+    "buildwin": "electron-packager . ServerTool --overwrite --asar=true --platform=win32 --arch=ia32 --icon=build/img/terminal.ico --prune=true --out=release-builds --version-string.CompanyName=XyZerKunG --version-string.FileDescription=XyZerKunG --version-string.ProductName=\"ServerTool\"",
+    "buildmac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=build/img/terminal.ico --prune=true --out=release-builds",
+    "buildlinux": "electron-packager . ServerTool --overwrite --asar=true --platform=linux --arch=x64 --icon=build/img/terminal-x1024.png --prune=true --out=release-builds"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/XyZerKunG/ServerTool.git"
   },
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
+  "keywords": ["Electron", "quick", "start", "tutorial", "demo"],
   "author": "XyZerKunG",
   "license": "CC0-1.0",
   "devDependencies": {
@@ -25,13 +22,13 @@
     "electron": "^12.0.4",
     "typescript": "^4.2.4"
   },
-  "bugs": {
-    "url": "https://github.com/XyZerKunG/ServerTool/issues"
-  },
+  "bugs": {"url": "https://github.com/XyZerKunG/ServerTool/issues"},
   "homepage": "https://github.com/XyZerKunG/ServerTool#readme",
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "@types/open": "^6.2.1",
     "@types/request": "^2.48.5",
+    "axios": "^0.21.1",
     "child_process": "^1.0.2",
     "node-fetch": "^2.6.1",
     "open": "^8.0.6",
