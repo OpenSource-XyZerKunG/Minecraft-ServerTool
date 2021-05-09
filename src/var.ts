@@ -15,5 +15,5 @@ let eula:boolean = false
 let autorun:boolean = false
 
 module.exports = {
-    RELEASE, SNAPSHOT, SPIGOTMC, PAPERMC, title, folder, version, type, nogui, eula
+    RELEASE, SNAPSHOT, SPIGOTMC, PAPERMC, PURPURMC, YATOPIA, title, folder, version, type, nogui, eula
 }
