@@ -1,5 +1,4 @@
 const path = require("path")
-const sweet2 = require("sweetalert2")
 const types = require("./var")
 const versionlist = document.getElementById("versionlist")
 
