@@ -46,95 +46,82 @@ var url_1 = __importDefault(require("url"));
 var fs_1 = __importDefault(require("fs"));
 var vars = require("./var");
 var ui = null;
-var http = require("http").createServer();
-var socket = require("socket.io")(http);
 var ___dirname = __dirname;
 if (__dirname.endsWith("\\resources\\app.asar\\build")) {
     ___dirname = __dirname.replace("\\resources\\app.asar\\build", "");
 }
 function createsocket() {
     var _this = this;
-    socket.on("connection", function (client) {
-        if (client.handshake.address != "::ffff:127.0.0.1") {
-            client.destroy;
-        }
-        else {
-            console.log("UI Connect!");
-            client.on("post:app", function (message) {
-                switch (message) {
-                    case "spigottool":
-                        var toolfile_1 = fs_1.default.createWriteStream(path_1.default.join(___dirname, vars.folder, "spigottool.jar"));
-                        var functionaxios = function () { return __awaiter(_this, void 0, void 0, function () {
-                            var res, totalBytes, receivedBytes;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4, axios_1.default({
-                                            url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
-                                            method: 'GET',
-                                            responseType: 'stream'
-                                        })];
-                                    case 1:
-                                        res = _a.sent();
-                                        totalBytes = res.headers["content-length"];
-                                        receivedBytes = 0;
-                                        res.data.on("data", function (chunk) {
-                                            receivedBytes += chunk.length;
-                                            client.emit("statustool", Math.floor((receivedBytes / totalBytes) * 100));
-                                        });
-                                        res.data.pipe(toolfile_1);
-                                        return [2];
-                                }
-                            });
-                        }); };
-                        functionaxios();
-                        break;
-                    case "get:all":
-                        client.emit("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:" + vars.type);
-                        break;
-                    case "get:type":
-                        client.emit("post:type", String(vars.type));
-                        break;
-                    case "*e^Q$xV?z>6[$X@9":
-                        ui.minimize();
-                        break;
-                    case "A%Q3,BUNbw6Sxjtw":
-                        if (!ui.isMaximized()) {
-                            ui.maximize();
+    electron_1.ipcMain.on("post:app", function (event, message) {
+        switch (message) {
+            case "spigottool":
+                var toolfile_1 = fs_1.default.createWriteStream(path_1.default.join(___dirname, vars.folder, "spigottool.jar"));
+                var functionaxios = function () { return __awaiter(_this, void 0, void 0, function () {
+                    var res, totalBytes, receivedBytes;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4, axios_1.default({
+                                    url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
+                                    method: 'GET',
+                                    responseType: 'stream'
+                                })];
+                            case 1:
+                                res = _a.sent();
+                                totalBytes = res.headers["content-length"];
+                                receivedBytes = 0;
+                                res.data.on("data", function (chunk) {
+                                    receivedBytes += chunk.length;
+                                    event.reply("statustool", Math.floor((receivedBytes / totalBytes) * 100));
+                                });
+                                res.data.pipe(toolfile_1);
+                                return [2];
                         }
-                        else {
-                            ui.unmaximize();
-                        }
-                        break;
-                    case "X=E[8}N&L;j6nN}9":
-                        ui.close();
-                        break;
+                    });
+                }); };
+                functionaxios();
+                break;
+            case "get:all":
+                event.reply("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:" + vars.type);
+                break;
+            case "get:type":
+                event.reply("post:type", String(vars.type));
+                break;
+            case "*e^Q$xV?z>6[$X@9":
+                ui.minimize();
+                break;
+            case "A%Q3,BUNbw6Sxjtw":
+                if (!ui.isMaximized()) {
+                    ui.maximize();
                 }
-            });
-            client.on("post:type", function (message) {
-                vars.type = String(message);
-                console.log("TYPE: " + vars.type);
-            });
-            client.on("post:data", function (message) {
-                var data = String(message).split(":don'ttypethis:(:");
-                vars.title = data[0];
-                vars.folder = data[1];
-                vars.envvar = data[2];
-                vars.version = data[3];
-                vars.nogui = data[4];
-                vars.eula = data[5];
-                vars.autorun = data[6];
-                console.log("Console Title: " + vars.title);
-                console.log("Folder Name: " + vars.folder);
-                console.log("Environment Variable: " + vars.envvar);
-                console.log("Version: " + vars.version);
-                console.log("NoGUI: " + vars.nogui);
-                console.log("Eula: " + vars.eula);
-                console.log("AutoRun: " + vars.autorun);
-            });
+                else {
+                    ui.unmaximize();
+                }
+                break;
+            case "X=E[8}N&L;j6nN}9":
+                ui.close();
+                break;
         }
     });
-    http.listen(45785, function () {
-        console.log("Wait for UI..");
+    electron_1.ipcMain.on("post:type", function (event, message) {
+        vars.type = String(message);
+        console.log("TYPE: " + vars.type);
+    });
+    electron_1.ipcMain.on("post:data", function (event, message) {
+        var data = String(message).split(":don'ttypethis:(:");
+        vars.title = data[0];
+        vars.folder = data[1];
+        vars.envvar = data[2];
+        vars.version = data[3];
+        vars.nogui = data[4];
+        vars.eula = data[5];
+        vars.autorun = data[6];
+        console.log("Console Title: " + vars.title);
+        console.log("Folder Name: " + vars.folder);
+        console.log("Environment Variable: " + vars.envvar);
+        console.log("Version: " + vars.version);
+        console.log("NoGUI: " + vars.nogui);
+        console.log("Eula: " + vars.eula);
+        console.log("AutoRun: " + vars.autorun);
     });
 }
 function createWindow() {
