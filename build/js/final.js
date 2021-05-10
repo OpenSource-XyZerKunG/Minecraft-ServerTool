@@ -1,16 +1,23 @@
 const open = require("open")
-const sweet2 = require("sweetalert2")
 const file = require("fs")
 const path = require("path")
 const types = require("./var")
 const request = require("request")
 const loop = document.getElementById("loop").style
 const check_icon = document.getElementById("check-icon").style
+const homepage = document.getElementById("homepage")
 let ___dirname = __dirname
+let isFinishSetup = false
 
 if (__dirname.endsWith("\\resources\\app.asar\\build")) {
     ___dirname = __dirname.replace("\\resources\\app.asar\\build", "")
 }
+
+homepage.addEventListener("click", () => {
+    if (isFinishSetup) {
+        window.location.href = "select.html"
+    }
+})
 
 window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send("post:app", "get:all")
@@ -175,6 +182,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("img" + labelint).src = "img/svg/check.svg"
                 document.getElementById("label" + labelint).innerText = "Create Basic File!"
                 done()
+                isFinishSetup = true
             }
             if (data[7] == types.SPIGOTMC) {
                 document.getElementById("specialbox").style.display = "inline-block"
@@ -226,7 +234,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             }
                             intvars0++
                         }, 1000)
-                        const filespigot = "spigot-" + data[3] + ".jar"
+                        const filespigot = data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + ".jar"
                         let build = exec("cd " + path.join(___dirname, data[1]) + " && java -jar spigottool.jar --rev " + data[3])
                         build.stderr.on("data", (data) => {
                             console.log(data.toString())
