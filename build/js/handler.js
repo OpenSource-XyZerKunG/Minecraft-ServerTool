@@ -1,3 +1,4 @@
+const sweet2 = require("sweetalert2")
 if (process.platform == "linux" || process.platform == "darwin") {
     sweet2.fire({
         icon: "info",
