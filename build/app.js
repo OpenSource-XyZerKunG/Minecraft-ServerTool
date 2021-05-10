@@ -46,16 +46,12 @@ var url_1 = __importDefault(require("url"));
 var fs_1 = __importDefault(require("fs"));
 var vars = require("./var");
 var ui = null;
-var ___dirname = __dirname;
-if (__dirname.endsWith("\\resources\\app.asar\\build")) {
-    ___dirname = __dirname.replace("\\resources\\app.asar\\build", "");
-}
 function createsocket() {
     var _this = this;
     electron_1.ipcMain.on("post:app", function (event, message) {
         switch (message) {
             case "spigottool":
-                var toolfile_1 = fs_1.default.createWriteStream(path_1.default.join(___dirname, vars.folder, "spigottool.jar"));
+                var toolfile_1 = fs_1.default.createWriteStream(path_1.default.join(vars.path, vars.folder, "spigottool.jar"));
                 var functionaxios = function () { return __awaiter(_this, void 0, void 0, function () {
                     var res, totalBytes, receivedBytes;
                     return __generator(this, function (_a) {
@@ -81,10 +77,21 @@ function createsocket() {
                 functionaxios();
                 break;
             case "get:all":
-                event.reply("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:" + vars.type);
+                event.reply("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:" + vars.type + ":don'ttypethis:(:" + vars.path);
                 break;
             case "get:type":
                 event.reply("post:type", String(vars.type));
+                break;
+            case "get:desktop":
+                event.reply("post:desktop", electron_1.app.getPath("desktop"));
+                break;
+            case "get:choosebox":
+                electron_1.dialog.showOpenDialog(ui, {
+                    "defaultPath": electron_1.app.getPath("desktop"),
+                    "properties": ["openDirectory", "createDirectory"]
+                }).then(function (data) {
+                    event.reply("post:choosebox", data.canceled + ":" + data.filePaths);
+                });
                 break;
             case "*e^Q$xV?z>6[$X@9":
                 ui.minimize();
@@ -115,6 +122,7 @@ function createsocket() {
         vars.nogui = data[4];
         vars.eula = data[5];
         vars.autorun = data[6];
+        vars.path = data[7];
         console.log("Console Title: " + vars.title);
         console.log("Folder Name: " + vars.folder);
         console.log("Environment Variable: " + vars.envvar);
@@ -122,6 +130,7 @@ function createsocket() {
         console.log("NoGUI: " + vars.nogui);
         console.log("Eula: " + vars.eula);
         console.log("AutoRun: " + vars.autorun);
+        console.log("Dir: " + vars.path);
     });
 }
 function createWindow() {

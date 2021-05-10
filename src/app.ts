@@ -1,4 +1,4 @@
-import {app, BrowserWindow, Menu, ipcMain} from "electron"
+import {app, BrowserWindow, Menu, ipcMain, dialog} from "electron"
 import Axios from "axios"
 import path from "path"
 import url from "url"
@@ -6,19 +6,12 @@ import file from "fs"
 const vars = require("./var")
 let ui:any = null
 
-// For Build Function
-let ___dirname = __dirname
-
-if (__dirname.endsWith("\\resources\\app.asar\\build")) {
-    ___dirname = __dirname.replace("\\resources\\app.asar\\build", "")
-}
-
 // Create Socket
 function createsocket() {
     ipcMain.on("post:app", (event:any, message:any):any => {
         switch (message) {
             case "spigottool":
-                const toolfile = file.createWriteStream(path.join(___dirname, vars.folder, "spigottool.jar")) 
+                const toolfile = file.createWriteStream(path.join(vars.path, vars.folder, "spigottool.jar")) 
                 const functionaxios = async () => {
                     const res = await Axios({
                         url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
@@ -36,10 +29,21 @@ function createsocket() {
                 functionaxios()
                 break
             case "get:all":
-                event.reply("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:" + vars.type)
+                event.reply("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:" + vars.type + ":don'ttypethis:(:" + vars.path)
                 break
             case "get:type":
                 event.reply("post:type", String(vars.type))
+                break
+            case "get:desktop":
+                event.reply("post:desktop", app.getPath("desktop"))
+                break
+            case "get:choosebox":
+                dialog.showOpenDialog(ui, {
+                    "defaultPath": app.getPath("desktop"),
+                    "properties": ["openDirectory", "createDirectory"]
+                }).then((data) => {
+                    event.reply("post:choosebox",  data.canceled + ":" + data.filePaths)
+                })
                 break
             case "*e^Q$xV?z>6[$X@9":
                 ui.minimize()
@@ -69,6 +73,7 @@ function createsocket() {
         vars.nogui = data[4]
         vars.eula = data[5]
         vars.autorun = data[6]
+        vars.path = data[7]
         console.log("Console Title: " + vars.title)
         console.log("Folder Name: " + vars.folder)
         console.log("Environment Variable: " + vars.envvar)
@@ -76,6 +81,7 @@ function createsocket() {
         console.log("NoGUI: " + vars.nogui)
         console.log("Eula: " + vars.eula)
         console.log("AutoRun: " + vars.autorun)
+        console.log("Dir: " + vars.path)
     })
 }
 

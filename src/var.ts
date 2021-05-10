@@ -10,10 +10,11 @@ let folder:string = ""
 let envvar:string = ""
 let version:string = ""
 let type:string = ""
+let path:string = ""
 let nogui:boolean = false
 let eula:boolean = false
 let autorun:boolean = false
 
 module.exports = {
-    RELEASE, SNAPSHOT, SPIGOTMC, PAPERMC, PURPURMC, YATOPIA, title, folder, version, type, nogui, eula
+    RELEASE, SNAPSHOT, SPIGOTMC, PAPERMC, PURPURMC, YATOPIA, title, folder, version, type, nogui, eula, path
 }

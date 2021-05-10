@@ -6,12 +6,7 @@ const request = require("request")
 const loop = document.getElementById("loop").style
 const check_icon = document.getElementById("check-icon").style
 const homepage = document.getElementById("homepage")
-let ___dirname = __dirname
 let isFinishSetup = false
-
-if (__dirname.endsWith("\\resources\\app.asar\\build")) {
-    ___dirname = __dirname.replace("\\resources\\app.asar\\build", "")
-}
 
 homepage.addEventListener("click", () => {
     if (isFinishSetup) {
@@ -43,7 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             intvars0++
         }, 1000)
-        file.mkdir(path.join(___dirname, data[1]), (err) => {
+        file.mkdir(path.join(data[8], data[1]), (err) => {
             if (err) {
                 sweet2.fire({
                     icon: "error",
@@ -87,7 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (data[4] == "true") {
                     nogui = " nogui"
                 }
-                file.writeFile(path.join(___dirname, data[1], "start.xyzerscript"), "title," + data[0] + "\nexecute,java -jar \"" + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui + "\n//execute,watchdog", (err) => {
+                file.writeFile(path.join(data[8], data[1], "start.xyzerscript"), "title," + data[0] + "\nexecute,java -jar \"" + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui + "\n//execute,watchdog", (err) => {
                     if (err) {
                         clearInterval(loop2)
                         document.getElementById("label" + labelint).innerText = "Error to Create XyZerScript File"
@@ -105,25 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 })
                 switch (process.platform) {
                     case "win32":
-                        file.writeFile(path.join(___dirname, data[1], "start.bat"), "@echo off\nTitle " + data[0] + '\njava -jar "' + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui + "\npause", (err) => {
-                            if (err) {
-                                clearInterval(loop2)
-                                document.getElementById("label" + labelint).innerText = "Error to Create Basic File"
-                                sweet2.fire({
-                                    icon: "error",
-                                    text: String(err),
-                                    showClass: {
-                                        popup: 'animate__animated animate__fadeInDown'
-                                    },
-                                    hideClass: {
-                                        popup: 'animate__animated animate__fadeOutUp'
-                                    }
-                                })
-                            }
-                        })
-                        break
-                    case "darwin":
-                        file.writeFile(path.join(___dirname, data[1], "start.sh"), '#!/bin/bash\nPROMPT_COMMAND="echo -ne "\\033]0;{titletext}\\007"\n'.replaceAll("{titletext}", data[0]) + 'java -jar "' + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui, (err) => {
+                        file.writeFile(path.join(data[8], data[1], "start.bat"), "@echo off\nTitle " + data[0] + '\njava -jar "' + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui + "\npause", (err) => {
                             if (err) {
                                 clearInterval(loop2)
                                 document.getElementById("label" + labelint).innerText = "Error to Create Basic File"
@@ -141,7 +118,8 @@ window.addEventListener('DOMContentLoaded', () => {
                         })
                         break
                     case "linux":
-                        file.writeFile(path.join(___dirname, data[1], "start.sh"), '#!/bin/bash\nPROMPT_COMMAND="echo -ne "\\033]0;{titletext}\\007"\n'.replaceAll("{titletext}", data[0]) + 'java -jar "' + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui, (err) => {
+                    case "darwin":
+                        file.writeFile(path.join(data[8], data[1], "start.sh"), '#!/bin/bash\nPROMPT_COMMAND=\'echo -ne "\\033]0;{titletext}\\007"\'\n'.replaceAll("{titletext}", data[0]) + 'java -jar "' + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui, (err) => {
                             if (err) {
                                 clearInterval(loop2)
                                 document.getElementById("label" + labelint).innerText = "Error to Create Basic File"
@@ -161,7 +139,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
                 if (data[5] == "true") {
                     open("https://account.mojang.com/documents/minecraft_eula")
-                    file.writeFile(path.join(___dirname, data[1], "eula.txt"), "# By changing settings to you, you agree with the Mojang Eula (https://account.mojang.com/documents/minecraft_eula).\n# This file was created by XyZerKunG ServerTool on " + new Date().toLocaleString() + "\neula=true", (err) => {
+                    file.writeFile(path.join(data[8], data[1], "eula.txt"), "# By changing settings to you, you agree with the Mojang Eula (https://account.mojang.com/documents/minecraft_eula).\n# This file was created by XyZerKunG ServerTool on " + new Date().toLocaleString() + "\neula=true", (err) => {
                         if (err) {
                             clearInterval(loop2)
                             document.getElementById("label" + labelint).innerText = "Error to Create Basic File"
@@ -207,7 +185,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     intvars0++
                 }, 1000)
                 ipcRenderer.send("post:app", "spigottool")
-                ipcRenderer.on("statustool", (status) => {
+                ipcRenderer.on("statustool", (event, status) => {
                     download = Number(status)
                     document.getElementById("label1").innerText = "Build Spigot "
                     if (download == 100) {
@@ -235,7 +213,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             intvars0++
                         }, 1000)
                         const filespigot = data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + ".jar"
-                        let build = exec("cd " + path.join(___dirname, data[1]) + " && java -jar spigottool.jar --rev " + data[3])
+                        let build = exec("cd " + path.join(data[8], data[1]) + " && java -jar spigottool.jar --rev " + data[3])
                         build.stderr.on("data", (data) => {
                             console.log(data.toString())
                         })
@@ -250,7 +228,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                 loopbuildtext = "Clean up in 10s"
                                 setTimeout(() => {
                                     loopbuildtext = "Clean up"
-                                    file.readdir(path.join(___dirname, data[1]), (err, files) => {
+                                    file.readdir(path.join(data[8], data[1]), (err, files) => {
                                         if (err) {
                                             sweet2.fire({
                                                 icon: "error",
@@ -268,8 +246,8 @@ window.addEventListener('DOMContentLoaded', () => {
                                         for (datafile = 0; datafile < files.length; datafile++) {
                                             const filename = files[datafile]
                                             if (filename != filespigot) {
-                                                if (file.lstatSync(path.join(___dirname, data[1], filename)).isDirectory()) {
-                                                    file.rmdir(path.join(___dirname, data[1], filename), {recursive: true}, (err) => {
+                                                if (file.lstatSync(path.join(data[8], data[1], filename)).isDirectory()) {
+                                                    file.rmdir(path.join(data[8], data[1], filename), {recursive: true}, (err) => {
                                                         if (err) {
                                                             sweet2.fire({
                                                                 icon: "error",
@@ -284,7 +262,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                                         }
                                                     })
                                                 }else {
-                                                    file.unlink(path.join(___dirname, data[1], filename), (err) => {
+                                                    file.unlink(path.join(data[8], data[1], filename), (err) => {
                                                         if (err) {
                                                             sweet2.fire({
                                                                 icon: "error",
@@ -348,7 +326,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }, 1000)
                 const function_download = (url) => {
                     // Download File
-                    let fileurl = path.join(___dirname, data[1], data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + ".jar")
+                    let fileurl = path.join(data[8], data[1], data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + ".jar")
                     const filestream = file.createWriteStream(fileurl)
                     let totalBytes = 0
                     let receivedBytes = 0

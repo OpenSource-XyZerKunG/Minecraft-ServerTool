@@ -1,12 +1,28 @@
 const path = require("path")
 const types = require("./var")
 const versionlist = document.getElementById("versionlist")
+const localpath = document.getElementById("localpath")
+const pathbutton = document.getElementById("pathbutton")
 
 document.getElementById("edit").addEventListener("click", () => {
     window.location.href = path.join(__dirname, "select.html")
 })
 
 window.addEventListener("DOMContentLoaded", () => {
+    ipcRenderer.send("post:app", "get:desktop")
+    ipcRenderer.on("post:desktop", (event, message) => {
+        localpath.value = message
+    })
+    ipcRenderer.on("post:choosebox", (event, message) => {
+        console.log(message)
+        let array = String(message).split(":")
+        if (array[0] == "false") {
+            localpath.value = array[1]
+        }
+    })
+    pathbutton.addEventListener("click", () => {
+        ipcRenderer.send("post:app", "get:choosebox")
+    })
     ipcRenderer.send("post:app", "get:type")
     ipcRenderer.on("post:type", (event, message) => {
         document.getElementById("type").innerText = "Type: " + String(message)
@@ -105,7 +121,7 @@ foldername.addEventListener("input", () => {
 
 document.getElementById("done").addEventListener("click", () => {
     if (String(consoletitle.value).replaceAll(" ", "") != "" && String(foldername.value).replaceAll(" ", "") != "" && String(versionlist.value).replaceAll(" ", "") != "") {
-        ipcRenderer.send("post:data", consoletitle.value + ":don'ttypethis:(:" + foldername.value + ":don'ttypethis:(:" + document.getElementById("envvar").value + ":don'ttypethis:(:" + versionlist.value + ":don'ttypethis:(:" + Boolean(document.getElementById("nogui").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("eula").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("autorun").checked))
+        ipcRenderer.send("post:data", consoletitle.value + ":don'ttypethis:(:" + foldername.value + ":don'ttypethis:(:" + document.getElementById("envvar").value + ":don'ttypethis:(:" + versionlist.value + ":don'ttypethis:(:" + Boolean(document.getElementById("nogui").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("eula").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("autorun").checked) + ":don'ttypethis:(:" + localpath.value)
         window.location.href = "final.html"
     }else {
         sweet2.fire({

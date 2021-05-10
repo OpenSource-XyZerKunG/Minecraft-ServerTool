@@ -1,16 +1,5 @@
 const sweet2 = require("sweetalert2")
-if (process.platform == "linux" || process.platform == "darwin") {
-    sweet2.fire({
-        icon: "info",
-        text: "Not fully support But you can do it",
-        showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-        }
-    })
-} else if (process.platform != "win32") {
+if (process.platform != "win32" && process.platform != "linux" && process.platform != "darwin") {
     sweet2.fire({
         icon: "error",
         text: "Unknown operating system, not sure you can?",

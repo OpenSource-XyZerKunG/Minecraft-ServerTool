@@ -54,6 +54,22 @@ color: #5F6368;
     justify-content: space-around;
 }
 
+.choosebox {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.inputchoose {
+    margin-right: 1rem;
+}
+
+.buttonchoose:hover {
+    background-color: rgb(202, 202, 202);
+}
+
 .theborder {
     border-radius: 5px;
 }
