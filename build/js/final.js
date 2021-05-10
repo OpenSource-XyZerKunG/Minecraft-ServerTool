@@ -13,8 +13,8 @@ if (__dirname.endsWith("\\resources\\app.asar\\build")) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    socket.emit("post:app", "get:all")
-    socket.on("post:all", (message) => {
+    ipcRenderer.send("post:app", "get:all")
+    ipcRenderer.on("post:all", (event, message) => {
         const data = String(message).split(":don'ttypethis:(:");
         let intvars0 = 0
         document.getElementById("label0").innerText = "Create Folder"
@@ -198,8 +198,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     }
                     intvars0++
                 }, 1000)
-                socket.emit("post:app", "spigottool")
-                socket.on("statustool", (status) => {
+                ipcRenderer.send("post:app", "spigottool")
+                ipcRenderer.on("statustool", (status) => {
                     download = Number(status)
                     document.getElementById("label1").innerText = "Build Spigot "
                     if (download == 100) {

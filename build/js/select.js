@@ -7,32 +7,32 @@ const yatopia = document.getElementById("yatopia")
 const types = require("./var")
 
 origin.addEventListener("click", () => {
-    socket.emit("post:type", types.RELEASE)
+    ipcRenderer.send("post:type", types.RELEASE)
     setup()
 })
 
 snapshot.addEventListener("click", () => {
-    socket.emit("post:type", types.SNAPSHOT)
+    ipcRenderer.send("post:type", types.SNAPSHOT)
     setup()
 })
 
 bukkit.addEventListener("click", () => {
-    socket.emit("post:type", types.SPIGOTMC)
+    ipcRenderer.send("post:type", types.SPIGOTMC)
     setup()
 })
 
 paper.addEventListener("click", () => {
-    socket.emit("post:type", types.PAPERMC)
+    ipcRenderer.send("post:type", types.PAPERMC)
     setup()
 })
 
 purpur.addEventListener("click", () => {
-    socket.emit("post:type", types.PURPURMC)
+    ipcRenderer.send("post:type", types.PURPURMC)
     setup()
 })
 
 yatopia.addEventListener("click", () => {
-    socket.emit("post:type", types.YATOPIA)
+    ipcRenderer.send("post:type", types.YATOPIA)
     setup()
 })
 

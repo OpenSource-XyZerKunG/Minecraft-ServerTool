@@ -8,8 +8,8 @@ document.getElementById("edit").addEventListener("click", () => {
 })
 
 window.addEventListener("DOMContentLoaded", () => {
-    socket.emit("post:app", "get:type")
-    socket.on("post:type", (message) => {
+    ipcRenderer.send("post:app", "get:type")
+    ipcRenderer.on("post:type", (event, message) => {
         document.getElementById("type").innerText = "Type: " + String(message)
         if (message == types.RELEASE) {
             fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json").then((res) => {return res.json()}).then((data) => {
@@ -106,7 +106,7 @@ foldername.addEventListener("input", () => {
 
 document.getElementById("done").addEventListener("click", () => {
     if (String(consoletitle.value).replaceAll(" ", "") != "" && String(foldername.value).replaceAll(" ", "") != "" && String(versionlist.value).replaceAll(" ", "") != "") {
-        socket.emit("post:data", consoletitle.value + ":don'ttypethis:(:" + foldername.value + ":don'ttypethis:(:" + document.getElementById("envvar").value + ":don'ttypethis:(:" + versionlist.value + ":don'ttypethis:(:" + Boolean(document.getElementById("nogui").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("eula").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("autorun").checked))
+        ipcRenderer.send("post:data", consoletitle.value + ":don'ttypethis:(:" + foldername.value + ":don'ttypethis:(:" + document.getElementById("envvar").value + ":don'ttypethis:(:" + versionlist.value + ":don'ttypethis:(:" + Boolean(document.getElementById("nogui").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("eula").checked) + ":don'ttypethis:(:" + Boolean(document.getElementById("autorun").checked))
         window.location.href = "final.html"
     }else {
         sweet2.fire({
