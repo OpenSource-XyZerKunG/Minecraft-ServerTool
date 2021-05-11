@@ -8,7 +8,26 @@
     "build": "tsc --build",
     "buildwin": "electron-packager . ServerTool --overwrite --asar=true --platform=win32 --arch=ia32 --icon=build/img/terminal.ico --prune=true --out=release-builds --version-string.CompanyName=XyZerKunG --version-string.FileDescription=XyZerKunG --version-string.ProductName=\"ServerTool\"",
     "buildmac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=build/img/terminal.icns --prune=true --out=release-builds",
-    "buildlinux": "electron-packager . ServerTool --overwrite --asar=true --platform=linux --arch=x64 --icon=build/img/terminal-x1024.png --prune=true --out=release-builds"
+    "buildlinux": "electron-packager . ServerTool --overwrite --asar=true --platform=linux --arch=x64 --icon=build/img/terminal-x1024.png --prune=true --out=release-builds",
+    "buildinstaller": "electron-builder"
+  },
+  "build": {
+    "appId": "servertool",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/img/terminal.ico",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "installerIcon": "build/img/terminal.ico",
+      "uninstallerIcon": "build/img/terminal.ico",
+      "uninstallDisplayName": "ServerTool",
+      "license": "LICENSE",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "repository": {
     "type": "git",
