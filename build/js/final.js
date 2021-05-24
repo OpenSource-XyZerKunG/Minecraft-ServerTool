@@ -82,10 +82,14 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (data[4] == "true") {
                     nogui = " nogui"
                 }
-                file.writeFile(path.join(data[8], data[1], "start.xyzerscript"), "title," + data[0] + "\nexecute,java -jar \"" + data[7].replaceAll(" ", "").toLowerCase() + "-" + data[3] + '.jar"' + nogui + "\n//execute,watchdog", (err) => {
+                file.writeFile(path.join(data[8], data[1], "start.xyzerconfig"), {
+                    "title": data[0],
+                    "execute": `java -jar "${data[7].replaceAll(" ", "").toLowerCase()}-${data[3]}.jar" ${nogui}`,
+                    "watchdog": true
+                }, (err) => {
                     if (err) {
                         clearInterval(loop2)
-                        document.getElementById("label" + labelint).innerText = "Error to Create XyZerScript File"
+                        document.getElementById("label" + labelint).innerText = "Error to Create XyZerConfig File"
                         sweet2.fire({
                             icon: "error",
                             text: String(err),
