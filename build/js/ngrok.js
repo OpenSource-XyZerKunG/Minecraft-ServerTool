@@ -1,5 +1,4 @@
-
-const https = require("https")
+const request = require("request")
 const file = require("fs")
 const path = require("path")
 const localpath = document.getElementById("localpath")
@@ -12,7 +11,7 @@ if (___dirname.endsWith("\\app.asar\\build")) {
     ___dirname = __dirname.replace("\\app.asar\\build", "")
 }
 
-localpath.value = path.join(___dirname, "ngrok")
+localpath.value = ___dirname
 
 ipcRenderer.on("post:choosebox", (event, message) => {
     console.log(message)
@@ -83,7 +82,34 @@ ngrok.addEventListener("click", () => {
 })
 
 ngrokfolder.addEventListener("click", () => {
-
+    try {
+        const statfile = file.statSync(path.join(___dirname, "ngrok"))
+        if (statfile.isDirectory()) {
+            
+        } else {
+            sweet2.fire({
+                icon: "error",
+                text: path.join(___dirname, "ngrok") + "isn't Directory!",
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
+        }
+    } catch (err) {
+        sweet2.fire({
+            icon: "error",
+            text: String(err),
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        })
+    }
 })
 
 function download(type, arch) {
@@ -134,13 +160,84 @@ function download(type, arch) {
 
 function DownloadFile(zipurl) {
     const urlname = String(zipurl).split("/")
-    const filestream = file.createWriteStream(path.join(___dirname, "ngrok", urlname[urlname.length - 1]))
-    https.get(zipurl, (res) => {
-        res.pipe(filestream)
-    }).on("error", (err) => {
+    const fileurl = path.join(___dirname, "ngrok", urlname[urlname.length - 1])
+    const filestream = file.createWriteStream(fileurl)
+    let totalBytes = 0
+    let receivedBytes = 0
+    try {
+        request.get(zipurl).on("response", (res) => {
+            if (res.statusCode != 200) {
+                filestream.close()
+                sweet2.fire({
+                    icon: "error",
+                    text: "Response status: " + res.statusCode,
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                })
+                return
+            }
+            totalBytes = res.headers["content-length"]
+        }).on("data", (chunk) => {
+            receivedBytes += chunk.length
+            download = Math.floor((receivedBytes / totalBytes) * 100)
+            console.log(download)
+        }).pipe(filestream).on("error", (err) => {
+            filestream.close()
+            sweet2.fire({
+                icon: "error",
+                text: String(err),
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
+        })
+
+        filestream.on("finish", () => {
+            filestream.close()
+            sweet2.fire({
+                icon: "success",
+                text: "Download ngrok!",
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
+            document.getElementById("ngrok").style.opacity = 0
+        })
+
+        filestream.on("error", (err) => {
+            filestream.close()
+            sweet2.fire({
+                icon: "error",
+                text: String(err),
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
+        })
+    }catch (err) {
         filestream.close()
-    })
-    filestream.on("finish", () => {
-        filestream.close()
-    })
+        sweet2.fire({
+            icon: "error",
+            text: String(err),
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        })
+    }
 }
