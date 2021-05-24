@@ -448,4 +448,8 @@ function done() {
     loop.animation = "none"
     loop.borderColor = "#5cb85c"
     loop.transition = "border 0.5s ease-out"
+    homepage.classList.remove("link-dark")
+    homepage.classList.add("link-secondary")
+    document.getElementById("setuppage").classList.remove("link-dark")
+    document.getElementById("setuppage").classList.add("link-secondary")
 }
