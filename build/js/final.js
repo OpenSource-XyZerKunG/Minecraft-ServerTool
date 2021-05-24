@@ -82,11 +82,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (data[4] == "true") {
                     nogui = " nogui"
                 }
-                file.writeFile(path.join(data[8], data[1], "start.xyzerconfig"), {
+                file.writeFile(path.join(data[8], data[1], "start.xyzerconfig"), JSON.stringify({
                     "title": data[0],
                     "execute": `java -jar "${data[7].replaceAll(" ", "").toLowerCase()}-${data[3]}.jar" ${nogui}`,
                     "watchdog": true
-                }, (err) => {
+                }), (err) => {
                     if (err) {
                         clearInterval(loop2)
                         document.getElementById("label" + labelint).innerText = "Error to Create XyZerConfig File"
