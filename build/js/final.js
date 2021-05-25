@@ -223,7 +223,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         })
                         build.stdout.on("data", (data) => {
                             if (!String(data).includes("@users.noreply.github.com")) {
-                                console.log(data.toString())   
+                                console.log(data.toString())
                             }
                         })
                         build.on("exit", (exitCode) => {
@@ -246,7 +246,6 @@ window.addEventListener('DOMContentLoaded', () => {
                                             })
                                             return
                                         }    
-                                    
                                         for (datafile = 0; datafile < files.length; datafile++) {
                                             const filename = files[datafile]
                                             if (filename != filespigot) {
