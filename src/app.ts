@@ -3,8 +3,17 @@ import Axios from "axios"
 import path from "path"
 import url from "url"
 import file from "fs"
+const pty = require("node-pty")
 const vars = require("./var")
 let ui:any = null
+const shell = process.platform == "win32" ? "cmd.exe" : "bash"
+const ptyProcess = pty.spawn(shell, [], {
+    "name": "xterm-color",
+    "cols": 80,
+    "rows": 30,
+    "cwd": app.getPath("desktop"),
+    "env": process.env
+})
 
 // Create Socket
 function createsocket() {
@@ -82,6 +91,14 @@ function createsocket() {
         console.log("Eula: " + vars.eula)
         console.log("AutoRun: " + vars.autorun)
         console.log("Dir: " + vars.path)
+    })
+
+    ptyProcess.on("data", (data:any) => {
+        ui.webContents.send("terminal.incomingData", data);
+    })
+
+    ipcMain.on("terminal.keystroke", (event, key) => {
+        ptyProcess.write(key)
     })
 }
 

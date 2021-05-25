@@ -44,8 +44,17 @@ var axios_1 = __importDefault(require("axios"));
 var path_1 = __importDefault(require("path"));
 var url_1 = __importDefault(require("url"));
 var fs_1 = __importDefault(require("fs"));
+var pty = require("node-pty");
 var vars = require("./var");
 var ui = null;
+var shell = process.platform == "win32" ? "cmd.exe" : "bash";
+var ptyProcess = pty.spawn(shell, [], {
+    "name": "xterm-color",
+    "cols": 80,
+    "rows": 30,
+    "cwd": electron_1.app.getPath("desktop"),
+    "env": process.env
+});
 function createsocket() {
     var _this = this;
     electron_1.ipcMain.on("post:app", function (event, message) {
@@ -131,6 +140,12 @@ function createsocket() {
         console.log("Eula: " + vars.eula);
         console.log("AutoRun: " + vars.autorun);
         console.log("Dir: " + vars.path);
+    });
+    ptyProcess.on("data", function (data) {
+        ui.webContents.send("terminal.incomingData", data);
+    });
+    electron_1.ipcMain.on("terminal.keystroke", function (event, key) {
+        ptyProcess.write(key);
     });
 }
 function createWindow() {
