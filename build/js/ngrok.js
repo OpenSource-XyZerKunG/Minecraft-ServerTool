@@ -1,6 +1,7 @@
 const request = require("request")
 const file = require("fs")
 const path = require("path")
+const yauzl = require("yauzl")
 const localpath = document.getElementById("localpath")
 const pathbutton = document.getElementById("pathbutton")
 const ngrok = document.getElementById("ngrok")
@@ -248,10 +249,7 @@ function DownloadFile(zipurl) {
                     popup: 'animate__animated animate__fadeOutUp'
                 }
             })
-            img0.src = checkimg
-            label0.innerText = "Download ngrok!"
-            document.getElementById("ngrok").style.opacity = 0
-            buttonlock = false
+            unzipngrok(fileurl)
         })
 
         filestream.on("error", (err) => {
@@ -284,6 +282,73 @@ function DownloadFile(zipurl) {
         })
         img0.style.opacity = 0
         label0.innerText = ""
+        buttonlock = false
+    }
+}
+
+function unzipngrok(urlfile) {
+    label0.innerText = "Unzip ngrok"
+    yauzl.open(urlfile, {
+        lazyEntries: true
+    }, (err, zipfile) => {
+        if (err) {
+            sweet2.fire({
+                icon: "error",
+                text: String(err),
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
+            buttonlock = false
+            return
+        }
+        zipfile.readEntry()
+        zipfile.on("entry", (entry) => {
+            if (!(/\/$/.test(entry.fileName))) {
+                const filestream = file.createWriteStream(path.join(___dirname, "ngrok", entry.fileName))
+                zipfile.openReadStream(entry, (err, readStream) => {
+                    if (err) {
+                        sweet2.fire({
+                            icon: "error",
+                            text: String(err),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        buttonlock = false
+                        return
+                    }
+                    readStream.on("end", () => {
+                        zipfile.readEntry()
+                    })
+                    readStream.pipe(filestream)
+                })
+            }
+        })
+    })
+    try {
+        label0.innerText = "Clean up"
+        file.unlinkSync(urlfile)
+        img0.src = checkimg
+        label0.innerText = "Download ngrok!"
+        ngrok.style.opacity = 0
+    } catch (err) {
+        sweet2.fire({
+            icon: "error",
+            text: String(err),
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        })
         buttonlock = false
     }
 }

@@ -1,12 +1,3 @@
-body {
-    padding: 0;
-    margin: 0;
-}
-
-.main {
-    min-height: 100vh;
-}
-
 .statusbox {
     width: 100%;
     height: 128px;
