@@ -6,7 +6,7 @@ import file from "fs"
 const pty = require("node-pty")
 const vars = require("./var")
 let ui:any = null
-const shell = process.platform == "win32" ? "cmd.exe" : "bash"
+const shell = process.platform == "win32" ? "powershell.exe" : "bash"
 const ptyProcess = pty.spawn(shell, [], {
     "name": "xterm-color",
     "cols": 80,
