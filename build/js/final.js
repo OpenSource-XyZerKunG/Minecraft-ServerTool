@@ -3,6 +3,7 @@ const file = require("fs")
 const path = require("path")
 const types = require("./var")
 const request = require("request")
+const stringify = require("json-stringify-pretty-compact")
 const loop = document.getElementById("loop").style
 const check_icon = document.getElementById("check-icon").style
 const homepage = document.getElementById("homepage")
@@ -82,9 +83,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (data[4] == "true") {
                     nogui = " nogui"
                 }
-                file.writeFile(path.join(data[8], data[1], "start.xyzerconfig"), JSON.stringify({
+                file.writeFile(path.join(data[8], data[1], "start.xyzerconfig"), stringify({
                     "title": data[0],
-                    "execute": `java -jar "${data[7].replaceAll(" ", "").toLowerCase()}-${data[3]}.jar" ${nogui}`,
+                    "execute": `java -jar "${data[7].replaceAll(" ", "").toLowerCase()}-${data[3]}.jar"${nogui}`,
                     "watchdog": true
                 }), (err) => {
                     if (err) {
