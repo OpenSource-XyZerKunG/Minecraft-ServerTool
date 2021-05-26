@@ -47,7 +47,7 @@ var fs_1 = __importDefault(require("fs"));
 var pty = require("node-pty");
 var vars = require("./var");
 var ui = null;
-var shell = process.platform == "win32" ? "cmd.exe" : "bash";
+var shell = process.platform == "win32" ? "powershell.exe" : "bash";
 var ptyProcess = pty.spawn(shell, [], {
     "name": "xterm-color",
     "cols": 80,

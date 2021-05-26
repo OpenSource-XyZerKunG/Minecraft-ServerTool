@@ -94,7 +94,7 @@ function createsocket() {
     })
 
     ptyProcess.on("data", (data:any) => {
-        ui.webContents.send("terminal.incomingData", data);
+        ui.webContents.send("terminal.incomingData", data)
     })
 
     ipcMain.on("terminal.keystroke", (event, key) => {
