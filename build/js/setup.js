@@ -97,10 +97,16 @@ window.addEventListener("DOMContentLoaded", () => {
         link.href = "css/terminal-windows.css"
         document.getElementById("folderimage").src = "img/win-file.png"
         document.body.appendChild(link)
-    }else if (process.platform == "darwin") {
+    } else if (process.platform == "darwin") {
         const link = document.createElement("link")
         link.rel = "stylesheet"
         link.href = "css/terminal-mac.css"
+        document.body.appendChild(link)
+        document.getElementById("folderimage").src = "img/mac-file.png"
+    } else if (process.platform == "linux") {
+        const link = document.createElement("link")
+        link.rel = "stylesheet"
+        link.href = "css/terminal-linux.css"
         document.body.appendChild(link)
         document.getElementById("folderimage").src = "img/mac-file.png"
     }

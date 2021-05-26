@@ -1,0 +1,55 @@
+.terminal {
+    position: relative;
+    width: auto;
+    height: 256px;
+    background-color: black;
+    border-radius: 12px;
+    box-shadow: 1px 2px 26px rgba(0, 0, 0, 0.3);
+}
+
+.nav-terminal {
+    height: 25px;
+    width: 100%;
+    background-color: whitesmoke;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.win {
+    opacity: 0;
+}
+
+.nav-terminal span {
+    position: absolute;
+    height: .8rem;
+    width: .8rem;
+    border-radius: 50%;
+    box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-terminal .s0 {
+    background-color: red;
+    top: 5px;
+    right: 7px;
+}
+
+.nav-terminal .s1 {
+    background-color: gold;
+    top: 5px;
+    right: 23px;
+}
+
+.nav-terminal .s2 {
+    background-color: lime;
+    top: 5px;
+    right: 40px;
+}
+
+.terminal-text {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
