@@ -51,7 +51,9 @@ function createsocket() {
                     "defaultPath": app.getPath("desktop"),
                     "properties": ["openDirectory", "createDirectory"]
                 }).then((data) => {
-                    event.reply("post:choosebox",  data.canceled + ":" + data.filePaths)
+                    if (!data.canceled) {
+                        event.reply("post:choosebox", data.filePaths)
+                    }
                 })
                 break
             case "*e^Q$xV?z>6[$X@9":
