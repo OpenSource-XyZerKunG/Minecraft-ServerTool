@@ -3,6 +3,7 @@ const file = require("fs")
 const path = require("path")
 const yauzl = require("yauzl")
 const {  } = require("child_process")
+const stringify = require("json-stringify-pretty-compact")
 const localpath = document.getElementById("localpath")
 const pathbutton = document.getElementById("pathbutton")
 const ngrok = document.getElementById("ngrok")
@@ -108,12 +109,123 @@ ngrokfolder.addEventListener("click", () => {
             label0.innerText = "Check File"
             const statfile = file.statSync(path.join(___dirname, "ngrok"))
             if (statfile.isDirectory()) {
-                
+                label0.innerText = "Check Ngrok File"
+                const statfile = file.statSync(path.join(___dirname, "ngrok", process.platform == "win32" ? "ngrok.exe" : "ngrok"))
+                if (statfile.isFile()) {
+                    label0.innerText = "Check Config File"
+                    const readConfig = () => {
+                        const configfile = file.statSync(path.join(___dirname, "ngrok", "ngrok.xyzerconfig"))
+                        if (configfile.isFile()) {
+                            label0.innerText = "Read Config File"
+                            file.readFile(path.join(___dirname, "ngrok", "ngrok.xyzerconfig"), (err, buffer) => {
+                                let configjson = JSON.parse(buffer.toString())
+                                if (configjson.count != undefined && configfile.count != "undefined") {
+                                    if (typeof configfile.count == "number") {
+                                        const numbercount = Number(configfile.count)
+                                        if (numbercount == 0) {
+                                            img0.src = checkimg
+                                            label0.innerText = "Set Folder Ngrok!"
+                                            buttonlock = true
+                                            document.getElementById("ngrokbox").style.opacity = 0
+                                            document.getElementById("ngrokbox").style.display = "none"
+                                        }
+                                    } else {
+                                        ngrok.style.opacity = 1
+                                        sweet2.fire({
+                                            icon: "error",
+                                            text: path.join(___dirname, "ngrok", "ngrok.xyzerconfig") + " variable count isn't number",
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                        img0.style.opacity = 0
+                                        label0.innerText = ""
+                                        buttonlock = false
+                                    }
+                                } else {
+                                    ngrok.style.opacity = 1
+                                    sweet2.fire({
+                                        icon: "error",
+                                        text: path.join(___dirname, "ngrok", "ngrok.xyzerconfig") + " doesn't have count variable",
+                                        showClass: {
+                                            popup: 'animate__animated animate__fadeInDown'
+                                        },
+                                        hideClass: {
+                                            popup: 'animate__animated animate__fadeOutUp'
+                                        }
+                                    })
+                                    img0.style.opacity = 0
+                                    label0.innerText = ""
+                                    buttonlock = false
+                                }
+                            })
+                        } else if (configfile.isDirectory()) {
+                            ngrok.style.opacity = 1
+                            sweet2.fire({
+                                icon: "error",
+                                text: path.join(___dirname, "ngrok", "ngrok.xyzerconfig") + " isn't File!",
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                            })
+                            img0.style.opacity = 0
+                            label0.innerText = ""
+                            buttonlock = false
+                        }
+                    }
+                    try {
+                        file.statSync(path.join(___dirname, "ngrok", "ngrok.xyzerconfig"))
+                        setTimeout(readConfig, 10000)
+                    } catch (err) {
+                        file.writeFile(path.join(___dirname, "ngrok", "ngrok.xyzerconfig"), stringify({
+                            "count": 0
+                        }), (err) => {
+                            if (err) {
+                                ngrok.style.opacity = 1
+                                sweet2.fire({
+                                    icon: "error",
+                                    text: String(err),
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                                img0.style.opacity = 0
+                                label0.innerText = ""
+                                buttonlock = false
+                            }
+                        })
+                        setTimeout(readConfig, 10000)
+                    }
+                } else {
+                    ngrok.style.opacity = 1
+                    sweet2.fire({
+                        icon: "error",
+                        text: path.join(___dirname, "ngrok", process.platform == "win32" ? "ngrok.exe" : "ngrok") + " isn't File!",
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    })
+                    img0.style.opacity = 0
+                    label0.innerText = ""
+                    buttonlock = false
+                }
             } else {
                 ngrok.style.opacity = 1
                 sweet2.fire({
                     icon: "error",
-                    text: path.join(___dirname, "ngrok") + "isn't Directory!",
+                    text: path.join(___dirname, "ngrok") + " isn't Directory!",
                     showClass: {
                         popup: 'animate__animated animate__fadeInDown'
                     },
@@ -138,7 +250,7 @@ ngrokfolder.addEventListener("click", () => {
                 }
             })
             img0.style.opacity = 0
-            slabel0.innerText = ""
+            label0.innerText = ""
             buttonlock = false
         }
     }
