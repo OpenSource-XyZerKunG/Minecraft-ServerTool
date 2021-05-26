@@ -2,6 +2,7 @@ const request = require("request")
 const file = require("fs")
 const path = require("path")
 const yauzl = require("yauzl")
+const {  } = require("child_process")
 const localpath = document.getElementById("localpath")
 const pathbutton = document.getElementById("pathbutton")
 const ngrok = document.getElementById("ngrok")
@@ -109,6 +110,7 @@ ngrokfolder.addEventListener("click", () => {
             if (statfile.isDirectory()) {
                 
             } else {
+                ngrok.style.opacity = 1
                 sweet2.fire({
                     icon: "error",
                     text: path.join(___dirname, "ngrok") + "isn't Directory!",
@@ -124,6 +126,7 @@ ngrokfolder.addEventListener("click", () => {
                 buttonlock = false
             }
         } catch (err) {
+            ngrok.style.opacity = 1
             sweet2.fire({
                 icon: "error",
                 text: String(err),
@@ -338,6 +341,7 @@ function unzipngrok(urlfile) {
         img0.src = checkimg
         label0.innerText = "Download ngrok!"
         ngrok.style.opacity = 0
+        buttonlock = false
     } catch (err) {
         sweet2.fire({
             icon: "error",
