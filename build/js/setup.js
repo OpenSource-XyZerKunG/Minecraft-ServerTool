@@ -14,11 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
         localpath.value = message
     })
     ipcRenderer.on("post:choosebox", (event, message) => {
-        console.log(message)
-        let array = String(message).split(":")
-        if (array[0] == "false") {
-            localpath.value = array[1]
-        }
+        localpath.value = message
     })
     pathbutton.addEventListener("click", () => {
         ipcRenderer.send("post:app", "get:choosebox")
