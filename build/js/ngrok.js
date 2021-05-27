@@ -2,12 +2,12 @@ const request = require("request")
 const file = require("fs")
 const path = require("path")
 const yauzl = require("yauzl")
-const {  } = require("child_process")
 const stringify = require("json-stringify-pretty-compact")
 const localpath = document.getElementById("localpath")
 const pathbutton = document.getElementById("pathbutton")
 const ngrok = document.getElementById("ngrok")
 const ngrokfolder = document.getElementById("ngrokfolder")
+const spinimg = "img/svg/spin.svg"
 const checkimg = "img/svg/check.svg"
 const pending = "Pending"
 const img0 = document.getElementById("img0")
@@ -35,6 +35,7 @@ pathbutton.addEventListener("click", () => {
 
 ngrok.addEventListener("click", () => {
     if (!buttonlock) {
+        img0.src = spinimg
         img0.style.opacity = 1
         label0.innerText = pending
         file.mkdir(path.join(___dirname, "ngrok"), (err) => {
@@ -102,6 +103,7 @@ ngrok.addEventListener("click", () => {
 
 ngrokfolder.addEventListener("click", () => {
     if (!buttonlock) {
+        img0.src = spinimg
         buttonlock = true
         img0.style.opacity = 1
         label0.innerText = pending
@@ -118,22 +120,39 @@ ngrokfolder.addEventListener("click", () => {
                         if (configfile.isFile()) {
                             label0.innerText = "Read Config File"
                             file.readFile(path.join(___dirname, "ngrok", "ngrok.xyzerconfig"), (err, buffer) => {
-                                let configjson = JSON.parse(buffer.toString())
-                                if (configjson.count != undefined && configfile.count != "undefined") {
-                                    if (typeof configfile.count == "number") {
-                                        const numbercount = Number(configfile.count)
-                                        if (numbercount == 0) {
-                                            img0.src = checkimg
-                                            label0.innerText = "Set Folder Ngrok!"
-                                            buttonlock = true
-                                            document.getElementById("ngrokbox").style.opacity = 0
-                                            document.getElementById("ngrokbox").style.display = "none"
+                                if (err) {
+                                    ngrok.style.opacity = 1
+                                    sweet2.fire({
+                                        icon: "error",
+                                        text: String(err),
+                                        showClass: {
+                                            popup: 'animate__animated animate__fadeInDown'
+                                        },
+                                        hideClass: {
+                                            popup: 'animate__animated animate__fadeOutUp'
                                         }
-                                    } else {
-                                        ngrok.style.opacity = 1
+                                    })
+                                    img0.style.opacity = 0
+                                    label0.innerText = ""
+                                    buttonlock = false
+                                    return
+                                }
+                                let configjson = JSON.parse(buffer.toString())
+                                if (configjson.length != undefined && configfile.length != "undefined") {
+                                    let numbercount = Number(configjson.length)
+                                    const ngrokdisplay = document.getElementById("ngrokdisplay")
+                                    const labelngrok = document.createElement("label")
+                                    const labelngrok0 = document.createElement("label")
+                                    const versioncmd = process.platform == "win32" ? ".\\ngrok.exe version" : ".\\ngrok version"
+                                    let ngrokversion = exec("cd " + path.join(___dirname, "ngrok") + " && " + versioncmd)
+                                    ngrokversion.stdout.on("data", (data) => {
+                                        labelngrok0.innerText = data
+                                        document.getElementById("centerdiv").appendChild(labelngrok0)
+                                    })
+                                    ngrokversion.on("error", (err) => {
                                         sweet2.fire({
                                             icon: "error",
-                                            text: path.join(___dirname, "ngrok", "ngrok.xyzerconfig") + " variable count isn't number",
+                                            text: String(err),
                                             showClass: {
                                                 popup: 'animate__animated animate__fadeInDown'
                                             },
@@ -141,10 +160,43 @@ ngrokfolder.addEventListener("click", () => {
                                                 popup: 'animate__animated animate__fadeOutUp'
                                             }
                                         })
-                                        img0.style.opacity = 0
-                                        label0.innerText = ""
-                                        buttonlock = false
-                                    }
+                                    })
+                                    labelngrok.innerText = "NGROK Already!"
+                                    document.getElementById("centerdiv").appendChild(labelngrok)
+                                    img0.src = checkimg
+                                    label0.innerText = "Set Folder Ngrok!"
+                                    buttonlock = true
+                                    document.getElementById("ngrokbox").style.opacity = 0
+                                    document.getElementById("ngrokbox").style.display = "none"
+                                    
+                                    // Finish Load
+                                    const inputdiv = document.createElement("div")
+                                    inputdiv.classList.add("choosebox")
+                                    const ngrokport = document.createElement("input")
+                                    ngrokport.classList.add("border")
+                                    ngrokport.classList.add("inputchoose")
+                                    ngrokport.type = "number"
+                                    ngrokport.id = "ngrokport"
+                                    ngrokport.placeholder = "0"
+                                    ngrokport.value = "0"
+                                    ngrokport.max = "65534"
+                                    ngrokport.min = "1"
+                                    const ngrokaddbtn = document.createElement("button")
+                                    ngrokaddbtn.classList.add("btn")
+                                    ngrokaddbtn.classList.add("btn-primary")
+                                    ngrokaddbtn.classList.add("border")
+                                    ngrokaddbtn.classList.add("theborder")
+                                    ngrokaddbtn.id = "ngrokaddbtn"
+                                    ngrokaddbtn.innerHTML = "Add"
+                                    ngrokaddbtn.addEventListener("click", () => {
+                                        if (String(document.getElementById("ngrokport").value).replaceAll(" ", "") != "") {
+                                            console.log(document.getElementById("ngrokport").value)
+                                        }
+                                    })
+                                    inputdiv.appendChild(ngrokport)
+                                    inputdiv.appendChild(ngrokaddbtn)
+                                    ngrokdisplay.appendChild(inputdiv)
+                                    ngrokdisplay.style.opacity = 1
                                 } else {
                                     ngrok.style.opacity = 1
                                     sweet2.fire({
@@ -184,7 +236,8 @@ ngrokfolder.addEventListener("click", () => {
                         setTimeout(readConfig, 10000)
                     } catch (err) {
                         file.writeFile(path.join(___dirname, "ngrok", "ngrok.xyzerconfig"), stringify({
-                            "count": 0
+                            "authtoken": "",
+                            "length": 0
                         }), (err) => {
                             if (err) {
                                 ngrok.style.opacity = 1
