@@ -52,7 +52,7 @@ input {
 }
   
 input::placeholder {
-color: #5F6368;
+    color: #5F6368;
 }
 
 .checkbox {
