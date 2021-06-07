@@ -161,11 +161,22 @@ window.addEventListener('DOMContentLoaded', () => {
                         }
                     })
                 }
+                if (data[6] == "true") {
+                    ipcRenderer.send("post:terminalname", {
+                        "name": data[0],
+                        "execute": `cd ${path.join(data[8], data[1])}; java -jar "${data[7].replaceAll(" ", "").toLowerCase()}-${data[3]}.jar"${nogui}`
+                    })
+                }
                 clearInterval(loop2)
                 document.getElementById("img" + labelint).src = "img/svg/check.svg"
                 document.getElementById("label" + labelint).innerText = "Create Basic File!"
                 done()
                 isFinishSetup = true
+                if (data[6] == "true") {
+                    setTimeout(() => {
+                        window.location = "terminal.html"
+                    }, 5000)
+                }
             }
             if (data[7] == types.SPIGOTMC) {
                 document.getElementById("specialbox").style.display = "inline-block"
