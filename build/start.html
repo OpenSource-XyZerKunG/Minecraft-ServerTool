@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ServerTool</title>
+</head>
+<body style="margin: 0;padding: 0;">
+    <div id="tool_img" style="min-height: 100vh;background-repeat: no-repeat;background-size: cover;border-radius: 5px 5px 5px 5px;"></div>
+    <div id="under_size" style="position: absolute;bottom: 0px;left: 0px;width: 100%;height: 128px;border-radius: 0px 0px 5px 5px;display: flex;justify-content: space-between;align-items: center;">
+        <img src="img/start/terminal_icon.png" width="256" height="128" style="margin-left: 1rem;">
+        <img src="img/icon.png" width="96" height="96" style="border-radius: 3px;margin-right: 1rem;">
+    </div>
+    <script>
+        const tool_img = document.getElementById("tool_img")
+        const under_size = document.getElementById("under_size")
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            tool_img.style.background = "url(img/start/dark.png)"
+            under_size.style.backgroundColor = "#222222"
+        } else {
+            tool_img.style.background = "url(img/start/light.png)"
+            under_size.style.backgroundColor = "white"
+        }
+        tool_img.style.backgroundRepeat = "no-repeat"
+        tool_img.style.backgroundSize = "cover"
+        setTimeout(() => {
+            window.location.href = "select.html"
+        }, ((Math.floor(Math.random() * 4) + 5) * 1000))
+    </script>
+</body>
+</html>
