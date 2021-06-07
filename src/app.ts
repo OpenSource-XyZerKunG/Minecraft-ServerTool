@@ -6,9 +6,13 @@ import file from "fs"
 const pty = require("node-pty")
 const vars = require("./var")
 let ui:any = null
+let terminalvar = {
+    "name": "",
+    "execute": ""
+}
 const shell = process.platform == "win32" ? "powershell.exe" : "bash"
 const ptyProcess = pty.spawn(shell, [], {
-    "name": "xterm-color",
+    "name": "servertool-terminal",
     "cols": 80,
     "rows": 30,
     "cwd": app.getPath("desktop"),
@@ -42,6 +46,15 @@ function createsocket() {
                 break
             case "get:type":
                 event.reply("post:type", String(vars.type))
+                break
+            case "get:terminalname":
+                event.reply("post:terminalname", terminalvar)
+                let newjson = {
+                    "name": "",
+                    "execute": ""
+                }
+                newjson.name = terminalvar.name
+                terminalvar = newjson
                 break
             case "get:desktop":
                 event.reply("post:desktop", app.getPath("desktop"))
@@ -102,6 +115,11 @@ function createsocket() {
     ipcMain.on("terminal.keystroke", (event, key) => {
         ptyProcess.write(key)
     })
+
+    ipcMain.on("post:terminalname", (event, data) => {
+        terminalvar.name = data.name
+        terminalvar.execute = data.execute
+    })
 }
 
 // Create Window
@@ -115,8 +133,11 @@ function createWindow():any {
             "nodeIntegration": true,
             "contextIsolation": false
         },
-        "minWidth": 800,
-        "minHeight": 480,
+        "center": true,
+        "minWidth": 1024,
+        "minHeight": 624,
+        "fullscreenable": false,
+        "transparent": true,
         "show": false
     })
     ui.once("ready-to-show", ():any => {
@@ -124,7 +145,7 @@ function createWindow():any {
         ui.webContents.openDevTools()
     })
     ui.loadURL(url.format({
-        "pathname": path.join(__dirname, "select.html"),
+        "pathname": path.join(__dirname, "start.html"),
         "protocol": "file:",
         "slashes": true
     }))

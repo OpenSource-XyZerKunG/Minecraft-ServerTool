@@ -47,9 +47,13 @@ var fs_1 = __importDefault(require("fs"));
 var pty = require("node-pty");
 var vars = require("./var");
 var ui = null;
+var terminalvar = {
+    "name": "",
+    "execute": ""
+};
 var shell = process.platform == "win32" ? "powershell.exe" : "bash";
 var ptyProcess = pty.spawn(shell, [], {
-    "name": "xterm-color",
+    "name": "servertool-terminal",
     "cols": 80,
     "rows": 30,
     "cwd": electron_1.app.getPath("desktop"),
@@ -90,6 +94,15 @@ function createsocket() {
                 break;
             case "get:type":
                 event.reply("post:type", String(vars.type));
+                break;
+            case "get:terminalname":
+                event.reply("post:terminalname", terminalvar);
+                var newjson = {
+                    "name": "",
+                    "execute": ""
+                };
+                newjson.name = terminalvar.name;
+                terminalvar = newjson;
                 break;
             case "get:desktop":
                 event.reply("post:desktop", electron_1.app.getPath("desktop"));
@@ -149,6 +162,10 @@ function createsocket() {
     electron_1.ipcMain.on("terminal.keystroke", function (event, key) {
         ptyProcess.write(key);
     });
+    electron_1.ipcMain.on("post:terminalname", function (event, data) {
+        terminalvar.name = data.name;
+        terminalvar.execute = data.execute;
+    });
 }
 function createWindow() {
     createsocket();
@@ -160,8 +177,11 @@ function createWindow() {
             "nodeIntegration": true,
             "contextIsolation": false
         },
-        "minWidth": 800,
-        "minHeight": 480,
+        "center": true,
+        "minWidth": 1024,
+        "minHeight": 624,
+        "fullscreenable": false,
+        "transparent": true,
         "show": false
     });
     ui.once("ready-to-show", function () {
@@ -169,7 +189,7 @@ function createWindow() {
         ui.webContents.openDevTools();
     });
     ui.loadURL(url_1.default.format({
-        "pathname": path_1.default.join(__dirname, "select.html"),
+        "pathname": path_1.default.join(__dirname, "start.html"),
         "protocol": "file:",
         "slashes": true
     }));
