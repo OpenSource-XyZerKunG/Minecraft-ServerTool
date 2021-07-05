@@ -3,21 +3,12 @@ import Axios from "axios"
 import path from "path"
 import url from "url"
 import file from "fs"
-const pty = require("node-pty")
 const vars = require("./var")
 let ui:any = null
 let terminalvar = {
     "name": "",
     "execute": ""
 }
-const shell = process.platform == "win32" ? "powershell.exe" : "bash"
-const ptyProcess = pty.spawn(shell, [], {
-    "name": "servertool-terminal",
-    "cols": 80,
-    "rows": 30,
-    "cwd": app.getPath("desktop"),
-    "env": process.env
-})
 
 // Create Socket
 function createsocket() {
@@ -108,14 +99,6 @@ function createsocket() {
         console.log("Dir: " + vars.path)
     })
 
-    ptyProcess.on("data", (data:any) => {
-        ui.webContents.send("terminal.incomingData", data)
-    })
-
-    ipcMain.on("terminal.keystroke", (event, key) => {
-        ptyProcess.write(key)
-    })
-
     ipcMain.on("post:terminalname", (event, data) => {
         terminalvar.name = data.name
         terminalvar.execute = data.execute
@@ -124,6 +107,7 @@ function createsocket() {
 
 // Create Window
 function createWindow():any {
+    app.allowRendererProcessReuse = false
     createsocket()
     ui = new BrowserWindow({
         "title": "ServerTool",

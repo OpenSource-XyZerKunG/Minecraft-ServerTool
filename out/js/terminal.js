@@ -1,3 +1,4 @@
+const os = require("os")
 const { Terminal } = require("xterm")
 const { WebLinksAddon } = require("xterm-addon-web-links")
 const { FitAddon } = require("xterm-addon-fit")
@@ -8,6 +9,22 @@ const term = new Terminal()
 const terminal = document.getElementById("terminal")
 const terminalname = document.getElementById("terminalname")
 
+let pty
+try {
+    pty = require("node-pty");
+} catch (outerError) {
+    console.error("outerError", outerError);
+}
+
+const shell = os.platform == "win32" ? "powershell.exe" : "bash"
+const ptyProcess = pty.spawn(shell, [], {
+  name: "xterm-color",
+  cols: 80,
+  rows: 30,
+  cwd: process.cwd(),
+  env: process.env
+})
+
 term.loadAddon(unicodeAddon)
 term.loadAddon(new WebLinksAddon())
 term.loadAddon(fitAddon)
@@ -15,12 +32,10 @@ fitAddon.fit()
 term.unicode.activeVersion = "11"
 term.open(terminal)
 
-ipcRenderer.on("terminal.incomingData", (event, data) => {
-    term.write(data)
-})
+term.onData(data => ptyProcess.write(data))
 
-term.onData(e => {
-    ipcRenderer.send("terminal.keystroke", e)
+ptyProcess.on("data", (data) => {
+    term.write(data)
 })
 
 ipcRenderer.on("post:terminalname", (event, data) => {
