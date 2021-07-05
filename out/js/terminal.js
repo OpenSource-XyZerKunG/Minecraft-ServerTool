@@ -49,12 +49,13 @@ ipcRenderer.on("post:terminalname", (event, data) => {
     let dataexecute = String(data.execute)
     if (dataexecute.replaceAll(" ", "") != "") {
         for (intexecute in dataexecute) {
-            ipcRenderer.send("terminal.keystroke", dataexecute[intexecute])
+            ptyProcess.write(dataexecute[intexecute])
         }
-        ipcRenderer.send("terminal.keystroke", "\r")
+        ptyProcess.write("\r")
     } else {
-        ipcRenderer.send("terminal.keystroke", "\r")
+        ptyProcess.write("\r")
     }
+    
 })
 
 window.addEventListener("DOMContentLoaded", () => {
