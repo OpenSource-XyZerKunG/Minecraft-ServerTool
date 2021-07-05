@@ -126,7 +126,7 @@ function createWindow():any {
     })
     ui.once("ready-to-show", ():any => {
         ui.show()
-        ui.webContents.openDevTools()
+        //ui.webContents.openDevTools()
     })
     ui.loadURL(url.format({
         "pathname": path.join(__dirname, "start.html"),
