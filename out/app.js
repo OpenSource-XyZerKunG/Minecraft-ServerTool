@@ -60,10 +60,10 @@ function createsocket() {
                     var res, totalBytes, receivedBytes;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4, axios_1.default({
+                            case 0: return [4, (0, axios_1.default)({
                                     url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
-                                    method: 'GET',
-                                    responseType: 'stream'
+                                    method: "GET",
+                                    responseType: "stream"
                                 })];
                             case 1:
                                 res = _a.sent();
@@ -161,7 +161,7 @@ function createWindow() {
         "frame": false,
         "webPreferences": {
             "nodeIntegration": true,
-            "contextIsolation": false
+            "contextIsolation": false,
         },
         "center": true,
         "minWidth": 1024,
@@ -172,7 +172,9 @@ function createWindow() {
     });
     ui.once("ready-to-show", function () {
         ui.show();
-        ui.webContents.openDevTools();
+        if (process.argv[2] === "--debug") {
+            ui.webContents.openDevTools();
+        }
     });
     ui.loadURL(url_1.default.format({
         "pathname": path_1.default.join(__dirname, "start.html"),

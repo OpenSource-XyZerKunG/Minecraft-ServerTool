@@ -18,7 +18,7 @@ exec("java -version", (error) => {
         sweet2.fire({
             icon: "error",
             title: "Something Wrong",
-            text: "You need to install java to build this!",
+            text: "You need to install java to using this!",
             showClass: {
                 popup: 'animate__animated animate__fadeInDown'
             },

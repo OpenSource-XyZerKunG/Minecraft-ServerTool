@@ -15,5 +15,17 @@ var nogui = false;
 var eula = false;
 var autorun = false;
 module.exports = {
-    RELEASE: RELEASE, SNAPSHOT: SNAPSHOT, SPIGOTMC: SPIGOTMC, PAPERMC: PAPERMC, PURPURMC: PURPURMC, YATOPIA: YATOPIA, title: title, folder: folder, version: version, type: type, nogui: nogui, eula: eula, path: path
+    RELEASE: RELEASE,
+    SNAPSHOT: SNAPSHOT,
+    SPIGOTMC: SPIGOTMC,
+    PAPERMC: PAPERMC,
+    PURPURMC: PURPURMC,
+    YATOPIA: YATOPIA,
+    title: title,
+    folder: folder,
+    version: version,
+    type: type,
+    nogui: nogui,
+    eula: eula,
+    path: path
 };

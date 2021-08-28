@@ -21,8 +21,8 @@ const ptyProcess = pty.spawn(shell, [], {
   name: "xterm-color",
   cols: 80,
   rows: 30,
-  cwd: process.cwd(),
-  env: process.env
+  cwd: os.homedir(),
+  env: process.env,
 })
 
 term.loadAddon(unicodeAddon)

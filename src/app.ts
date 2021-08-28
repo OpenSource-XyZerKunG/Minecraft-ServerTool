@@ -19,8 +19,8 @@ function createsocket() {
                 const functionaxios = async () => {
                     const res = await Axios({
                         url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
-                        method: 'GET',
-                        responseType: 'stream'
+                        method: "GET",
+                        responseType: "stream"
                     })
                     const totalBytes = res.headers["content-length"]
                     let receivedBytes = 0
@@ -115,7 +115,7 @@ function createWindow():any {
         "frame": false,
         "webPreferences": {
             "nodeIntegration": true,
-            "contextIsolation": false
+            "contextIsolation": false,
         },
         "center": true,
         "minWidth": 1024,
@@ -126,7 +126,9 @@ function createWindow():any {
     })
     ui.once("ready-to-show", ():any => {
         ui.show()
-        //ui.webContents.openDevTools()
+        if (process.argv[2] === "--debug") {
+            ui.webContents.openDevTools()
+        }
     })
     ui.loadURL(url.format({
         "pathname": path.join(__dirname, "start.html"),

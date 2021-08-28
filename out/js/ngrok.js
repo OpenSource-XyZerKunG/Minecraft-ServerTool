@@ -18,8 +18,8 @@ let ngrokregion = ""
 let buttonlock = false
 let issetup = false
 
-if (___dirname.endsWith("\\app.asar\\build")) {
-    ___dirname = __dirname.replace("\\app.asar\\build", "")
+if (___dirname.endsWith("\\app.asar\\out")) {
+    ___dirname = __dirname.replace("\\app.asar\\out", "")
 }
 
 localpath.value = ___dirname

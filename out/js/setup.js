@@ -61,9 +61,10 @@ window.addEventListener("DOMContentLoaded", () => {
                 const list = xml.getElementsByTagName("metadata")[0].getElementsByTagName("versioning")[0].getElementsByTagName("versions")[0].getElementsByTagName("version")
                 let array = ""
                 for (value = list.length - 1; value > - 1; value--) {
-                    let vars = list[value].childNodes[0].nodeValue.split("-")[0]
-                    if (!array.includes(vars)) {
-                        array += vars
+                    let nodes = list[value].childNodes[0].nodeValue
+                    let vars = nodes.split("-")[0]
+                    if (!array.includes(nodes)) {
+                        array += nodes
                         const option = document.createElement("option")
                         option.innerText = vars
                         versionlist.appendChild(option)
