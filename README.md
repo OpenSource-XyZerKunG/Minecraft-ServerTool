@@ -19,7 +19,7 @@ Tool for making your MCServer easier
 	```sh-session
 	npm run buildtypescript
 	```
-5.  andthen run this command to run the app
+5.  and then run this command to run the app
 	```sh-session
 	npm start
 	```
