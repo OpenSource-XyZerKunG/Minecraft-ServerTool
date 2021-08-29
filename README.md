@@ -4,7 +4,7 @@
 	</a>
 </div>
 
-## ServerTool Contents
+## ServerTool
 
 - [Preview](#preview)
 - [Setup from Source Code](#setup-from-source-code)
