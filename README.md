@@ -4,8 +4,12 @@
 	</a>
 </div>
 
-## Preview
+## ServerTool Contents
 
+- [Preview](##preview)
+- [Setup from Source Code](##setup-from-source-code)
+
+## Preview
 <div align="center">
 	<img src="https://i.imgur.com/w8sQXjB.png" alt="ServerToolImage">
 	<br>
