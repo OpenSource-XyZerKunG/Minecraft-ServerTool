@@ -4,10 +4,6 @@
 	</a>
 </div>
 
-# ServerTool
-
-Tool for making Minecraft server easier
-
 ## Preview
 
 <div align="center">
