@@ -6,17 +6,8 @@
 
 ## ServerTool
 
-- [Preview](#preview)
 - [Setup from Source Code](#setup-from-source-code)
-
-## Preview
-<div align="center">
-	<img src="https://i.imgur.com/w8sQXjB.png" alt="ServerToolImage">
-	<br>
-	<img src="https://i.imgur.com/EuNCvJf.png" alt="ServerToolImage">
-	<br>
-	<img src="https://i.imgur.com/az2lPyH.png" alt="ServerToolImage">
-</div>
+- [Preview](#preview)
 
 ## SETUP FROM Source Code
 1. clone the project
@@ -39,3 +30,11 @@
 	```sh-session
 	npm start
 	```
+## Preview
+<div align="center">
+	<img src="https://i.imgur.com/w8sQXjB.png" alt="ServerToolImage">
+	<br>
+	<img src="https://i.imgur.com/EuNCvJf.png" alt="ServerToolImage">
+	<br>
+	<img src="https://i.imgur.com/az2lPyH.png" alt="ServerToolImage">
+</div>
