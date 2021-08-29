@@ -1,6 +1,12 @@
+<div align="center">
+	<a href="https://www.youtube.com/c/XyZerKunG" aria-label="XyZerKunG">
+		<img src="https://raw.githubusercontent.com/XyZerKunG/XyZerFile/main/terminal.png" width="400" alt="ServerTool">
+	</a>
+</div>
+
 # ServerTool
 
-Tool for making your MCServer easier
+Tool for making Minecraft server easier
 
 ## SETUP FROM Source Code
 1. clone the project
