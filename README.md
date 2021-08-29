@@ -1,10 +1,14 @@
-# ServerTool
-
 <div align="center">
 	<a href="https://www.youtube.com/c/XyZerKunG" aria-label="XyZerKunG">
 		<img src="https://raw.githubusercontent.com/XyZerKunG/XyZerFile/main/terminal.png" width="400" alt="ServerTool">
 	</a>
 </div>
+
+# ServerTool
+
+Tool for making Minecraft server easier
+
+## Preview
 
 <div align="center">
 	<img src="https://i.imgur.com/w8sQXjB.png" alt="ServerToolImage">
