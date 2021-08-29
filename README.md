@@ -6,8 +6,8 @@
 
 ## ServerTool Contents
 
-- [Preview](##preview)
-- [Setup from Source Code](##setup-from-source-code)
+- [Preview](#preview)
+- [Setup from Source Code](#setup-from-source-code)
 
 ## Preview
 <div align="center">
