@@ -1,5 +1,6 @@
 import {app, BrowserWindow, Menu, ipcMain, dialog} from "electron"
 import Axios from "axios"
+import Ngrok from "ngrok"
 import path from "path"
 import url from "url"
 import file from "fs"
@@ -102,6 +103,21 @@ function createsocket() {
     ipcMain.on("post:terminalname", (event, data) => {
         terminalvar.name = data.name
         terminalvar.execute = data.execute
+    })
+
+    ipcMain.on("post:ngrok", async (event, data) => {
+        const url = await Ngrok.connect({
+            "authtoken": data.token,
+            "proto": "tcp",
+            "addr": Number(data.port),
+            "region": data.region
+        })
+        event.reply(`post:ngrokurl${Number(data.id)}`, url)
+    })
+
+    ipcMain.on("post:ngrokkill", async (event, data) => {
+        await Ngrok.disconnect(String(data.url))
+        event.reply(`post:ngrokkill${Number(data.id)}`, "")
     })
 }
 

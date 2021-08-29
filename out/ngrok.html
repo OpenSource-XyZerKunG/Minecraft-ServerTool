@@ -72,18 +72,13 @@
               })
               ngrokstart0.addEventListener("click", () => {
                 if (issetup && !isruning0) {
-                  const asyncngrok = async () => {
-                    url0 = await ngrok.connect({
-                      "authtoken": ngroktoken,
-                      "proto": "tcp",
-                      "addr": 25565,
-                      "region": ngrokregion
-                    })
-                    ipngrok0.innerText = String(url0).replace("tcp://", "")
+                  ipcRenderer.send("post:ngrok", {"id": 0, "token": ngroktoken, "port": 25565, "region": ngrokregion})
+                  ipcRenderer.on("post:ngrokurl0", (event, message) => {
+                    url0 = String(message)
+                    ipngrok0.innerText = url0.replace("tcp://", "")
                     statusngrok0.innerText = "Status: Start"
                     isruning0 = true
-                  }
-                  asyncngrok()
+                  })
                 }
               })
               ngrokstop0.addEventListener("mouseenter", () => {
@@ -94,14 +89,12 @@
               })
               ngrokstop0.addEventListener("click", () => {
                 if (isruning0 && issetup) {
-                  const asyncngrok = async () => {
-                    await ngrok.disconnect(url0)
-                    await ngrok.kill()
+                  ipcRenderer.send("post:ngrokkill", {"id": 0, "url": url0})
+                  ipcRenderer.on("post:ngrokkill0", (event, message) => {
                     ipngrok0.innerText = ""
                     statusngrok0.innerText = "Status: Stop"
                     isruning0 = false
-                  }
-                  asyncngrok()
+                  })
                 }
               })
               ipngrok0.addEventListener("click", () => {

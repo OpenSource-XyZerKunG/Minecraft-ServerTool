@@ -6,9 +6,9 @@
   "scripts": {
     "start": "electron . --debug",
     "buildtypescript": "tsc --build",
-    "buildwin": "electron-packager . ServerTool --asar --overwrite --platform=win32 --arch=x64 --icon=out/img/terminal.ico --prune=true --out=releasebuilds --version-string.CompanyName=XyZerKunG --version-string.FileDescription=XyZerKunG --version-string.ProductName=\"ServerTool\"",
-    "buildmac": "electron-packager . --asar --overwrite --platform=darwin --arch=x64 --icon=out/img/terminal.icns --prune=true --out=releasebuilds",
-    "buildlinux": "electron-packager . ServerTool --asar --overwrite --platform=linux --arch=x64 --icon=out/img/terminal-x1024.png --prune=true --out=releasebuilds"
+    "buildwin": "electron-packager . ServerTool --overwrite --platform=win32 --arch=x64 --icon=out/img/terminal.ico --prune=true --out=build --version-string.CompanyName=XyZerKunG --version-string.FileDescription=XyZerKunG --version-string.ProductName=\"ServerTool\"",
+    "buildmac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=out/img/terminal.icns --prune=true --out=build",
+    "buildlinux": "electron-packager . ServerTool --overwrite --platform=linux --arch=x64 --icon=out/img/terminal-x1024.png --prune=true --out=build"
   },
   "repository": {
     "type": "git",
