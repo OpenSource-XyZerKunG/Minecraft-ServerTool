@@ -9,13 +9,17 @@ Tool for making your MCServer easier
 	```
 2. installs modules defined in the dependencies section of the __package.json__ file 
 	```sh-session
-	npm install or yarn install
+	npm install
 	```
-3. then run this command to build node-pty
+3. run this command to build node-pty
 	```sh-session
 	./node_modules/.bin/electron-rebuild
 	```
-4. and then run this command to run the app
+4. build typescript
+	```sh-session
+	npm run buildtypescript
+	```
+5.  andthen run this command to run the app
 	```sh-session
 	npm start
 	```
