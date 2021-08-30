@@ -1,6 +1,8 @@
 const path = require("path")
 const file = require("fs")
 const stringify = require("json-stringify-pretty-compact")
+const bcrypt = require("bcrypt")
+const aes = require("aes256")
 
 const ngrokbox = document.getElementById("ngrokbox")
 const ngrokdisplay = document.getElementById("ngrokdisplay")
@@ -106,14 +108,43 @@ ngrokfolder.addEventListener("click", () => {
                             return
                         }
                         const jsondata = JSON.parse(data)
-                        if (Number(jsondata.version) == 1000) {
-                            ngroktoken = jsondata.authtoken
+                        if (Number(jsondata.version) == 1010) {
                             ngrokregion = jsondata.region
-                            finishtokenfunction()
+                            if (jsondata.encrypt) {
+                                const passwordFunction = () => {
+                                    sweet2.fire({
+                                        icon: "question",
+                                        text: "This token is encrypted. Please enter your password to decrypt!",
+                                        input: "password",
+                                        inputAttributes: {
+                                            autocapitalize: "off"
+                                        },
+                                        showCancelButton: false,
+                                        confirmButtonText: "Apply",
+                                        showLoaderOnConfirm: true,
+                                        allowOutsideClick: () => !sweet2.isLoading()
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            if (!String(result.value).replaceAll(" ", "") == "" && result.value != undefined) {
+                                                ngroktoken = aes.decrypt(result.value, aes.decrypt(result.value, Buffer.from(jsondata.authtoken, "base64").toString("utf8")).split("::::::")[0])
+                                                finishtokenfunction()
+                                            } else {
+                                                passwordFunction()
+                                            }
+                                        } else {
+                                            passwordFunction()
+                                        }
+                                    })
+                                }
+                                passwordFunction()
+                            } else {
+                                ngroktoken = jsondata.authtoken
+                                finishtokenfunction()
+                            }
                         } else {
                             sweet2.fire({
                                 icon: "error",
-                                text: "The version configuration is not equal to 1000",
+                                text: "This config file is old version. Please delete this file and try to create a new one.",
                                 showClass: {
                                     popup: 'animate__animated animate__fadeInDown'
                                 },
@@ -136,19 +167,97 @@ ngrokfolder.addEventListener("click", () => {
                             inputAttributes: {
                                 autocapitalize: 'off'
                             },
-                            showCancelButton: false,
-                            confirmButtonText: "Apply",
+                            showCancelButton: true,
+                            confirmButtonText: "Encrypt Token",
+                            cancelButtonText: "Not now!",
                             showLoaderOnConfirm: true,
                             allowOutsideClick: () => !sweet2.isLoading()
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                if (!String(result.value).replaceAll(" ", "") == "") {
+                                if (!String(result.value).replaceAll(" ", "") == "" && result.value != undefined) {
+                                    const passwordFunction = async () => {
+                                        sweet2.fire({
+                                            icon: "question",
+                                            text: "Enter your password",
+                                            input: "password",
+                                            inputAttributes: {
+                                                autocapitalize: "off"
+                                            },
+                                            showCancelButton: true,
+                                            confirmButtonText: "Done",
+                                            cancelButtonText: "Back",
+                                            showLoaderOnConfirm: true,
+                                            reverseButtons: true,
+                                            allowOutsideClick: () => !sweet2.isLoading()
+                                        }).then(async (passresult) => {
+                                            if (passresult.isConfirmed) {
+                                                if (!String(passresult.value).replaceAll(" ", "") == "" && passresult.value != undefined) {
+                                                    try {
+                                                        const salt = await bcrypt.genSalt()
+                                                        const encryptToken = Buffer.from(aes.encrypt(passresult.value, aes.encrypt(passresult.value, result.value) + "::::::" + salt), "utf8").toString("base64")
+                                                        ngroktoken = String(result.value)
+                                                        ngrokregion = "ap"
+                                                        file.writeFile(path.join(___dirname, "ngrok.xyzerconfig"), stringify({
+                                                            "authtoken": encryptToken,
+                                                            "region": "ap",
+                                                            "encrypt": true,
+                                                            "version": "1010"
+                                                        }), (err) => {
+                                                            if (err) {
+                                                                sweet2.fire({
+                                                                    icon: "error",
+                                                                    text: String(err),
+                                                                    showClass: {
+                                                                        popup: 'animate__animated animate__fadeInDown'
+                                                                    },
+                                                                    hideClass: {
+                                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                                    }
+                                                                })
+                                                                img0.style.opacity = 0
+                                                                clearInterval(loop0)
+                                                                label0.innerText = ""
+                                                                buttonlock = false
+                                                            }
+                                                        })
+                                                        finishtokenfunction()
+                                                    } catch (err) {
+                                                        sweet2.fire({
+                                                            icon: "error",
+                                                            text: String(err),
+                                                            showClass: {
+                                                                popup: 'animate__animated animate__fadeInDown'
+                                                            },
+                                                            hideClass: {
+                                                                popup: 'animate__animated animate__fadeOutUp'
+                                                            }
+                                                        })
+                                                        img0.style.opacity = 0
+                                                        clearInterval(loop0)
+                                                        label0.innerText = ""
+                                                        buttonlock = false
+                                                    }
+                                                } else {
+                                                    passwordFunction()
+                                                }
+                                            } else {
+                                                tokenfunction()
+                                            }
+                                        })
+                                    }
+                                    passwordFunction()
+                                } else {
+                                    tokenfunction()
+                                }
+                            } else {
+                                if (!String(result.value).replaceAll(" ", "") == "" && result.value != undefined && result.value != undefined) {
                                     ngroktoken = String(result.value)
                                     ngrokregion = "ap"
                                     file.writeFile(path.join(___dirname, "ngrok.xyzerconfig"), stringify({
                                         "authtoken": ngroktoken,
                                         "region": "ap",
-                                        "version": "1000"
+                                        "encrypt": false,
+                                        "version": "1010"
                                     }), (err) => {
                                         if (err) {
                                             sweet2.fire({
@@ -171,8 +280,6 @@ ngrokfolder.addEventListener("click", () => {
                                 } else {
                                     tokenfunction()
                                 }
-                            } else {
-                                tokenfunction()
                             }
                         })
                     }

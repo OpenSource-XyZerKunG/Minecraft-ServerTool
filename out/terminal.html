@@ -65,67 +65,60 @@
                         <label id="statusngrok0">Status: Stop</label>
                         <img src="img/svg/eject.svg" alt="Remove" id="ngrokremove0" style="margin-right: 5px; opacity: 0;">
                         <script>
-                        let url0 = null
-                        let isruning0 = false
-                        const ipngrok0 = document.getElementById("ipngrok0")
-                        const statusngrok0 = document.getElementById("statusngrok0")
-                        const ngrokstart0 = document.getElementById("ngrokstart0")
-                        const ngrokstop0 = document.getElementById("ngrokstop0")
-                        ngrokstart0.addEventListener("mouseenter", () => {
-                            ngrokstart0.src = "img/svg/start-fill.svg"
-                        })
-                        ngrokstart0.addEventListener("mouseout", () => {
-                            ngrokstart0.src = "img/svg/start.svg"
-                        })
-                        ngrokstart0.addEventListener("click", () => {
-                            if (issetup && !isruning0) {
-                            const asyncngrok = async () => {
-                                url0 = await ngrok.connect({
-                                "authtoken": ngroktoken,
-                                "proto": "tcp",
-                                "addr": 25565,
-                                "region": ngrokregion
-                                })
-                                ipngrok0.innerText = String(url0).replace("tcp://", "")
-                                statusngrok0.innerText = "Status: Start"
-                                isruning0 = true
-                            }
-                            asyncngrok()
-                            }
-                        })
-                        ngrokstop0.addEventListener("mouseenter", () => {
-                            ngrokstop0.src = "img/svg/stop-fill.svg"
-                        })
-                        ngrokstop0.addEventListener("mouseout", () => {
-                            ngrokstop0.src = "img/svg/stop.svg"
-                        })
-                        ngrokstop0.addEventListener("click", () => {
-                            if (isruning0 && issetup) {
-                            const asyncngrok = async () => {
-                                await ngrok.disconnect(url0)
-                                await ngrok.kill()
-                                ipngrok0.innerText = ""
-                                statusngrok0.innerText = "Status: Stop"
-                                isruning0 = false
-                            }
-                            asyncngrok()
-                            }
-                        })
-                        ipngrok0.addEventListener("click", () => {
-                            if (issetup && isruning0) {
-                            navigator.clipboard.writeText(String(url0).replace("tcp://", ""))
-                            sweet2.fire({
-                                icon: "success",
-                                text: "Copy to clipboard!",
-                                showClass: {
-                                popup: 'animate__animated animate__fadeInDown'
-                                },
-                                hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                                }
+                            let url0 = null
+                            let isruning0 = false
+                            const ipngrok0 = document.getElementById("ipngrok0")
+                            const statusngrok0 = document.getElementById("statusngrok0")
+                            const ngrokstart0 = document.getElementById("ngrokstart0")
+                            const ngrokstop0 = document.getElementById("ngrokstop0")
+                            ngrokstart0.addEventListener("mouseenter", () => {
+                              ngrokstart0.src = "img/svg/start-fill.svg"
                             })
-                            }
-                        })
+                            ngrokstart0.addEventListener("mouseout", () => {
+                              ngrokstart0.src = "img/svg/start.svg"
+                            })
+                            ngrokstart0.addEventListener("click", () => {
+                              if (issetup && !isruning0) {
+                                ipcRenderer.send("post:ngrok", {"id": 0, "token": ngroktoken, "port": 25565, "region": ngrokregion})
+                                ipcRenderer.on("post:ngrokurl0", (event, message) => {
+                                  url0 = String(message)
+                                  ipngrok0.innerText = url0.replace("tcp://", "")
+                                  statusngrok0.innerText = "Status: Start"
+                                  isruning0 = true
+                                })
+                              }
+                            })
+                            ngrokstop0.addEventListener("mouseenter", () => {
+                              ngrokstop0.src = "img/svg/stop-fill.svg"
+                            })
+                            ngrokstop0.addEventListener("mouseout", () => {
+                              ngrokstop0.src = "img/svg/stop.svg"
+                            })
+                            ngrokstop0.addEventListener("click", () => {
+                              if (isruning0 && issetup) {
+                                ipcRenderer.send("post:ngrokkill", {"id": 0, "url": url0})
+                                ipcRenderer.on("post:ngrokkill0", (event, message) => {
+                                  ipngrok0.innerText = ""
+                                  statusngrok0.innerText = "Status: Stop"
+                                  isruning0 = false
+                                })
+                              }
+                            })
+                            ipngrok0.addEventListener("click", () => {
+                              if (issetup && isruning0) {
+                                navigator.clipboard.writeText(String(url0).replace("tcp://", ""))
+                                sweet2.fire({
+                                  icon: "success",
+                                  text: "Copy to clipboard!",
+                                  showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                  },
+                                  hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                  }
+                                })
+                              }
+                            })
                         </script>
                     </div>
                 </div>
