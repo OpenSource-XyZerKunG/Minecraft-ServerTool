@@ -5,7 +5,7 @@
   "main": "out/app.js",
   "scripts": {
     "start": "electron . --debug",
-    "buildtypescript": "tsc --build",
+    "build": "tsc --build",
     "buildwin": "electron-packager . ServerTool --overwrite --platform=win32 --arch=x64 --icon=out/img/terminal.ico --prune=true --out=build --version-string.CompanyName=XyZerKunG --version-string.FileDescription=XyZerKunG --version-string.ProductName=\"ServerTool\" && node build.js build",
     "buildmac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=out/img/terminal.icns --prune=true --out=build && node build.js build",
     "buildlinux": "electron-packager . ServerTool --overwrite --platform=linux --arch=x64 --icon=out/img/terminal-x1024.png --prune=true --out=build && node build.js build"

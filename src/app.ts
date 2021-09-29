@@ -1,4 +1,4 @@
-import {app, BrowserWindow, Menu, ipcMain, dialog} from "electron"
+import { app, BrowserWindow, Menu, ipcMain, dialog } from "electron"
 import Axios from "axios"
 import Ngrok from "ngrok"
 import path from "path"

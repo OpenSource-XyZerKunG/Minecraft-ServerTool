@@ -18,7 +18,7 @@ try {
 
 const shell = os.platform == "win32" ? "powershell.exe" : "bash"
 const ptyProcess = pty.spawn(shell, [], {
-  name: "xterm-color",
+  name: "servertool-terminal",
   cols: 80,
   rows: 30,
   cwd: os.homedir(),

@@ -3,7 +3,6 @@ let SNAPSHOT:string = "Mojang Snapshot"
 let SPIGOTMC:string = "Spigot"
 let PAPERMC:string = "Paper"
 let PURPURMC:string = "Purpur"
-let YATOPIA:string = "Yatopia"
 
 let title:string = ""
 let folder:string = ""
@@ -16,5 +15,5 @@ let eula:boolean = false
 let autorun:boolean = false
 
 module.exports = {
-    RELEASE, SNAPSHOT, SPIGOTMC, PAPERMC, PURPURMC, YATOPIA, title, folder, version, type, nogui, eula, path
+    RELEASE, SNAPSHOT, SPIGOTMC, PAPERMC, PURPURMC, title, folder, version, type, nogui, eula, path
 }

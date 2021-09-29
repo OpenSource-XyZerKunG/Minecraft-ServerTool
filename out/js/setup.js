@@ -72,7 +72,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 }
             })
         }else if (message == types.PURPURMC) {
-            fetch("https://purpur.pl3x.net/api/v1/purpur").then((res) => {return res.json()}).then((data) => {
+            fetch("https://api.pl3x.net/v2/purpur/").then((res) => {return res.json()}).then((data) => {
                 let versions = data.versions
                 for (value in versions) {
                     const option = document.createElement("option")

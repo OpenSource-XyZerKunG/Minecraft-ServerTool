@@ -176,6 +176,21 @@ window.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         window.location = "terminal.html"
                     }, 5000)
+                } else {
+                    setTimeout(() => {
+                        sweet2.fire({
+                            icon: "question",
+                            text: "Do you want to go to the homepage?",
+                            showCancelButton: true,
+                            confirmButtonText: "Confirm",
+                            showLoaderOnConfirm: true,
+                            allowOutsideClick: () => !sweet2.isLoading()
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "select.html"
+                            }
+                        })
+                    }, 20000)
                 }
             }
             if (data[7] == types.SPIGOTMC) {
@@ -234,9 +249,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             console.log(data.toString())
                         })
                         build.stdout.on("data", (data) => {
-                            if (!String(data).includes("@users.noreply.github.com")) {
-                                console.log(data.toString())
-                            }
+                            console.log(data.toString())
                         })
                         build.on("exit", (exitCode) => {
                             if (exitCode == 0) {
@@ -435,16 +448,14 @@ window.addEventListener('DOMContentLoaded', () => {
                             }
                         }
                     })
-                }else if (data[7] == types.PAPERMC) {
+                } else if (data[7] == types.PAPERMC) {
                     function_download("https://papermc.io/api/v1/paper/" + data[3] + "/latest/download")
-                }else if (data[7] == types.PURPURMC) {
-                    function_download("https://purpur.pl3x.net/api/v1/purpur/" + data[3] + "/latest/download")
-                }else if (data[7] == types.YATOPIA) {
-                    function_download("https://api.yatopiamc.org/v2/latestBuild/download?branch=ver/" + data[3])
-                }else {
+                } else if (data[7] == types.PURPURMC) {
+                    function_download("https://api.pl3x.net/v2/purpur/" + data[3] + "/latest/download")
+                } else {
                     sweet2.fire({
                         icon: "error",
-                        text: "Unknown Type",
+                        text: "Unknown Server Type",
                         showClass: {
                             popup: 'animate__animated animate__fadeInDown'
                         },
