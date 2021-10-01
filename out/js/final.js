@@ -359,7 +359,11 @@ window.addEventListener('DOMContentLoaded', () => {
                     let totalBytes = 0
                     let receivedBytes = 0
                     try {
-                        request.get(url).on("response", (res) => {
+                        request({
+                            "method": "GET",
+                            "url": url,
+                            "strictSSL": false,
+                        }).on("response", (res) => {
                             if (res.statusCode != 200) {
                                 filestream.close()
                                 clearInterval(loop1)
