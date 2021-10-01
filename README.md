@@ -24,7 +24,7 @@
 	```
 4. build typescript
 	```sh-session
-	npm run buildtypescript
+	npm run build
 	```
 5.  and then run this command to run the app
 	```sh-session
