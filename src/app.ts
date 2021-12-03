@@ -1,131 +1,149 @@
-import { app, BrowserWindow, Menu, ipcMain, dialog } from "electron"
+const {
+    app,
+    BrowserWindow,
+    Menu,
+    ipcMain,
+    dialog
+} = require("electron")
 import Axios from "axios"
 import Ngrok from "ngrok"
 import path from "path"
 import url from "url"
 import file from "fs"
-const vars = require("./var")
-let ui:any = null
-let terminalvar = {
-    "name": "",
-    "execute": ""
+import controllerPIPE from "./pipe/controller"
+import * as constDBPIPE from "./pipe/constantDB"
+import * as ipcChannelPIPE from "./pipe/ipcChannel"
+import { GET, GETCOLLECTION, STORE } from "./pipe/tempDB"
+//import { terminalChannel, newInstanceParameter } from "./pipe/terminal"
+import { ngrokChannel, startParameters, killParameters } from "./pipe/ngrok"
+
+const constantDatabase = {}
+const temporaryDatabase = {}
+const indexTemp = {}
+
+type buildtoolMessage = {
+    "path": string,
+    "folder": string
 }
 
-// Create Socket
-function createsocket() {
-    ipcMain.on("post:app", (event:any, message:any):any => {
-        switch (message) {
-            case "spigottool":
-                const toolfile = file.createWriteStream(path.join(vars.path, vars.folder, "spigottool.jar")) 
-                const functionaxios = async () => {
-                    const res = await Axios({
-                        url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
-                        method: "GET",
-                        responseType: "stream"
-                    })
-                    const totalBytes = res.headers["content-length"]
-                    let receivedBytes = 0
-                    res.data.on("data", (chunk:any):any => {
-                        receivedBytes += chunk.length
-                        event.reply("statustool", Math.floor((receivedBytes / totalBytes) * 100))
-                    })
-                    res.data.pipe(toolfile)
-                }
-                functionaxios()
-                break
-            case "get:all":
-                event.reply("post:all", vars.title + ":don'ttypethis:(:" + vars.folder + ":don'ttypethis:(:" + vars.envvar + ":don'ttypethis:(:" + vars.version + ":don'ttypethis:(:" + vars.nogui + ":don'ttypethis:(:" + vars.eula + ":don'ttypethis:(:" + vars.autorun + ":don'ttypethis:(:" + vars.type + ":don'ttypethis:(:" + vars.path)
-                break
-            case "get:type":
-                event.reply("post:type", String(vars.type))
-                break
-            case "get:terminalname":
-                event.reply("post:terminalname", terminalvar)
-                let newjson = {
-                    "name": "",
-                    "execute": ""
-                }
-                newjson.name = terminalvar.name
-                terminalvar = newjson
-                break
-            case "get:desktop":
-                event.reply("post:desktop", app.getPath("desktop"))
-                break
-            case "get:choosebox":
-                dialog.showOpenDialog(ui, {
-                    "defaultPath": app.getPath("desktop"),
-                    "properties": ["openDirectory", "createDirectory"]
-                }).then((data) => {
-                    if (!data.canceled) {
-                        event.reply("post:choosebox", data.filePaths)
-                    }
-                })
-                break
-            case "*e^Q$xV?z>6[$X@9":
-                ui.minimize()
-                break
-            case "A%Q3,BUNbw6Sxjtw":
+function createIPC(ui) {
+    ipcMain.on(ipcChannelPIPE.MAIN.TEMPDB_GET, (event, get: GET) => {
+        event.reply(get.returnChannel, temporaryDatabase[get.path])
+    })
+
+    ipcMain.on(ipcChannelPIPE.MAIN.TEMPDB_COLLECTION, (event, collection: GETCOLLECTION) => {
+        const indexArray = indexTemp[collection.path] as Array<string>
+        const returnTemp = {}
+
+        if (!indexArray) return event.reply(collection.returnChannel, returnTemp)
+
+        indexArray.forEach((findMatch) => {
+            const linkName = `${collection.path}.${findMatch}`
+            const fromTEMP = temporaryDatabase[linkName]
+
+            if (fromTEMP) {
+                returnTemp[linkName] = fromTEMP
+            } else {
+                returnTemp[linkName] = ""
+            }
+        })
+
+        event.reply(collection.returnChannel, returnTemp)
+    })
+
+    ipcMain.on(ipcChannelPIPE.MAIN.TEMPDB_STORE, (event, store: STORE) => {
+        const indexPath = store.path.split(".")
+        const indexName = indexPath.slice(0, indexPath.length - 1).join(".")
+        const indexValue: Array<string> | undefined = indexTemp[indexName]
+        const storeData = indexPath[indexPath.length - 1]
+        
+        if (Array.isArray(indexValue)) {
+            if (!indexValue.includes(storeData)) indexValue.push(storeData)
+        } else {
+            indexTemp[indexName] = [ storeData ]
+        }
+
+        temporaryDatabase[store.path] = store.data
+    })
+
+    ipcMain.on(constDBPIPE.CONSTDB.CHANNEL, (event, data: constDBPIPE.GETCONST) => {
+        event.reply(data.returnChannel, constantDatabase[data.path])
+    })
+
+    ipcMain.on(ipcChannelPIPE.MAIN.DOWNLOAD_BUILDTOOL, async (event, buildtool: buildtoolMessage) => {
+        const res = await Axios({
+            url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar",
+            method: "GET",
+            responseType: "stream"
+        })
+
+        const toolfile = file.createWriteStream(path.join(buildtool.path, "spigottool.jar"))
+
+        const totalBytes = res.headers["content-length"]
+        let receivedBytes = 0
+        res.data.on("data", (chunk) => {
+            receivedBytes += chunk.length
+            event.reply(ipcChannelPIPE.RENDERER.RETURN_BUILDTOOL, Math.floor((receivedBytes / totalBytes) * 100))
+        })
+
+        res.data.pipe(toolfile)
+    })
+
+    ipcMain.on(ipcChannelPIPE.MAIN.CONTROLLER_APP, (event, controller: controllerPIPE) => {
+        switch (controller) {
+            case controllerPIPE.MINIMIZE:
                 if (!ui.isMaximized()) {
                     ui.maximize()
-                }else {
+                } else {
                     ui.unmaximize()
                 }
                 break
-            case "X=E[8}N&L;j6nN}9":
+            case controllerPIPE.FULLSCREEN:
+                ui.minimize()
+                break
+            case controllerPIPE.CLOSE:
                 ui.close()
                 break
         }
     })
-    ipcMain.on("post:type", (event:any, message:any):any => {
-        vars.type = String(message)
-        console.log("TYPE: " + vars.type)
-    })
-    ipcMain.on("post:data", (event:any, message:any):any => {
-        let data = String(message).split(":don'ttypethis:(:")
-        vars.title = data[0]
-        vars.folder = data[1]
-        vars.envvar = data[2]
-        vars.version = data[3]
-        vars.nogui = data[4]
-        vars.eula = data[5]
-        vars.autorun = data[6]
-        vars.path = data[7]
-        console.log("Console Title: " + vars.title)
-        console.log("Folder Name: " + vars.folder)
-        console.log("Environment Variable: " + vars.envvar)
-        console.log("Version: " + vars.version)
-        console.log("NoGUI: " + vars.nogui)
-        console.log("Eula: " + vars.eula)
-        console.log("AutoRun: " + vars.autorun)
-        console.log("Dir: " + vars.path)
-    })
 
-    ipcMain.on("post:terminalname", (event, data) => {
-        terminalvar.name = data.name
-        terminalvar.execute = data.execute
-    })
-
-    ipcMain.on("post:ngrok", async (event, data) => {
-        const url = await Ngrok.connect({
-            "authtoken": data.token,
-            "proto": "tcp",
-            "addr": Number(data.port),
-            "region": data.region
+    ipcMain.on(ipcChannelPIPE.MAIN.NEW_CHOOSEBOX, (event, ignore) => {
+        dialog.showOpenDialog(ui, {
+            "defaultPath": app.getPath("desktop"),
+            "properties": ["openDirectory", "createDirectory"]
+        }).then((data) => {
+            if (!data.canceled) {
+                event.reply(ipcChannelPIPE.RENDERER.RETURN_CHOOSEBOX, data.filePaths)
+            }
         })
-        event.reply(`post:ngrokurl${Number(data.id)}`, url)
     })
 
-    ipcMain.on("post:ngrokkill", async (event, data) => {
-        await Ngrok.disconnect(String(data.url))
-        event.reply(`post:ngrokkill${Number(data.id)}`, "")
+    ipcMain.on(ngrokChannel.START, async (event, parameters: startParameters) => {
+        const url = await Ngrok.connect({
+            "authtoken": parameters.authtoken,
+            "proto": parameters.proto,
+            "addr": parameters.addr,
+            "region": parameters.region
+        })
+        constantDatabase[constDBPIPE.CONSTDB.NGROKLIST].push(url)
+    })
+
+    ipcMain.on(ngrokChannel.KILL, async (event, parameters: killParameters) => {
+        await Ngrok.disconnect(String(parameters.url))
+        constantDatabase[constDBPIPE.CONSTDB.NGROKLIST] = constantDatabase[constDBPIPE.CONSTDB.NGROKLIST].filter(tunnel => tunnel !== parameters.url)
     })
 }
 
+function declareConstDB() {
+    constantDatabase[constDBPIPE.CONSTDB.DESKTOPPATH] = app.getPath("desktop")
+    constantDatabase[constDBPIPE.CONSTDB.TERMINALLIST] = []
+    constantDatabase[constDBPIPE.CONSTDB.NGROKLIST] = []
+}
+
 // Create Window
-function createWindow():any {
+function createWindow() {
     app.allowRendererProcessReuse = false
-    createsocket()
-    ui = new BrowserWindow({
+    let ui = new BrowserWindow({
         "title": "ServerTool",
         "icon": path.join(__dirname, "img/terminal.png"),
         "frame": false,
@@ -138,19 +156,26 @@ function createWindow():any {
         "minHeight": 624,
         "fullscreenable": false,
         "transparent": true,
+        "backgroundColor": "#222222",
         "show": false
     })
-    ui.once("ready-to-show", ():any => {
+
+    declareConstDB()
+    createIPC(ui)
+
+    ui.once("ready-to-show", () => {
         ui.show()
         if (process.argv[2] === "--debug") {
             ui.webContents.openDevTools()
         }
     })
+
     ui.loadURL(url.format({
         "pathname": path.join(__dirname, "start.html"),
         "protocol": "file:",
         "slashes": true
     }))
+
     Menu.setApplicationMenu(new Menu())
 }
 
@@ -158,7 +183,7 @@ function createWindow():any {
 app.on("ready", createWindow)
 
 // When Window Close
-app.on("window-all-closed", ():any => {
+app.on("window-all-closed", () => {
     if (process.platform != "darwin") {
         app.quit()
     }
