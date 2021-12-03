@@ -1,0 +1,7 @@
+enum CONTROLLERAPP {
+    MINIMIZE,
+    FULLSCREEN,
+    CLOSE
+}
+
+export default CONTROLLERAPP
