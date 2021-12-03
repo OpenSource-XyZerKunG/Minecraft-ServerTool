@@ -1,7 +1,8 @@
 release-builds
 node_modules
 package-lock.json
-out/app.js
-out/var.js
-out/ngrok.xyzerconfig
 build
+out/*.js
+*.xyzerconfig
+*.token
+yarn.lock
