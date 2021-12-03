@@ -1,109 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ServerTool</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="api/css/bootstrap.min.css">
-  <script src="api/js/bootstrap.bundle.js"></script>
-</head>
-<body>
-  <div class="container">
-    <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between p-3 mb-3 border-bottom">
-      <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-        <img src="img/icon.png" width="48" height="48">
-      </div>
-  
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a class="nav-link px-2 link-dark webundrag" href="select.html">Home</a></li>
-        <li><a class="nav-link px-2 link-secondary webundrag" href="ngrok.html">Ngrok</a></li>
-        <li><a class="nav-link px-2 link-secondary webundrag" href="terminal.html">Terminal</a></li>
-      </ul>
-
-      <div class="col-md-3 text-end webundrag">
-        <img src="img/svg/dash-square.svg" id="min">
-        <img src="img/svg/square.svg" id="full">
-        <img src="img/svg/x-circle.svg" id="close">
-      </div>
-    </nav>
-  </div>
-
-  <div class="webundrag">
-    <div class="main">
-      <div class="container-fluid padding">
-        <div class="row padding text-center justify-content-center">
-          <div class="col-md-3">
-            <div class="card">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServerTool</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between p-3 mb-3 border-bottom">
+        <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+          <img src="img/icon.png" width="48" height="48">
+        </div>
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li>
+            <a class="nav-link px-2 link-dark webundrag" href="select.html">Home</a>
+          </li>
+          <li>
+            <a class="nav-link px-2 link-secondary webundrag" href="ngrok.html">Ngrok</a>
+          </li>
+          <li>
+            <a class="nav-link px-2 link-secondary webundrag" href="terminal.html">Terminal</a>
+          </li>
+        </ul>
+        <div class="col-md-3 text-end webundrag">
+          <img src="img/svg/dash-square.svg" id="min">
+          <img src="img/svg/square.svg" id="full">
+          <img src="img/svg/x-circle.svg" id="close">
+        </div>
+      </nav>
+    </div>
+    <div class="webundrag">
+      <div class="main">
+        <div class="container-fluid padding">
+          <div class="row padding text-center justify-content-center">
+            <div class="col-md-3">
+              <div class="card">
                 <img class="card-img-top" src="img/mojang.png">
                 <div class="card-body">
-                    <h4>Release</h4>
+                  <h4>Release</h4>
                 </div>
                 <button class="btn btn-outline-secondary webundrag" id="origin">Select</button>
-            </div>
-          </div>
-    
-          <div class="col-md-3">
-            <div class="card">
-              <img class="card-img-top" src="img/mojang.png">
-              <div class="card-body">
-                  <h4>Snapshot</h4>
               </div>
-              <button class="btn btn-outline-secondary webundrag" id="snapshot">Select</button>
             </div>
-          </div>
-        </div>
-        <div class="top"></div>
-        <div class="row padding text-center justify-content-center">
-          <div class="col-md-3">
+            <div class="col-md-3">
               <div class="card">
-                  <img class="card-img-top" src="img/bukkit.png">
-                  <div class="card-body">
-                      <h4>Spigot</h4>
-                  </div>
-                  <button class="btn btn-outline-secondary webundrag" id="bukkit">Select</button>
+                <img class="card-img-top" src="img/mojang.png">
+                <div class="card-body">
+                  <h4>Snapshot</h4>
+                </div>
+                <button class="btn btn-outline-secondary webundrag" id="snapshot">Select</button>
               </div>
+            </div>
           </div>
-    
-          <div class="col-md-3">
-            <div class="card">
+          <div class="top"></div>
+          <div class="row padding text-center justify-content-center">
+            <div class="col-md-3">
+              <div class="card">
+                <img class="card-img-top" src="img/bukkit.png">
+                <div class="card-body">
+                  <h4>Spigot</h4>
+                </div>
+                <button class="btn btn-outline-secondary webundrag" id="bukkit">Select</button>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
                 <img class="card-img-top" src="img/paper.png">
                 <div class="card-body">
-                    <h4>Paper</h4>
+                  <h4>Paper</h4>
                 </div>
                 <button class="btn btn-outline-secondary webundrag" id="paper">Select</button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="top"></div>
-        <div class="top"></div>
-        <div class="row padding text-center justify-content-center">
-          <div class="col-md-3">
+          <div class="top"></div>
+          <div class="row padding text-center justify-content-center">
+            <div class="col-md-3">
               <div class="card">
-                  <img class="card-img-top" src="img/purpur.png">
-                  <div class="card-body">
-                      <h4>Purpur</h4>
-                  </div>
-                  <button class="btn btn-outline-secondary webundrag" id="purpur">Select</button>
+                <img class="card-img-top" src="img/purpur.png">
+                <div class="card-body">
+                  <h4>Purpur</h4>
+                </div>
+                <button class="btn btn-outline-secondary webundrag" id="purpur">Select</button>
               </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius: 5px;">
+                  <rect width="512" height="512" fill="#6A7EDA"/>
+                  <path d="M249.16 218.693L197.732 140.123L230.589 139.409L305.588 187.98L249.16 218.693Z" fill="white"/>
+                  <path d="M285.761 277.042L328.568 366.598L346.068 347.386L339.258 248.09" fill="white"/>
+                  <path d="M339.184 248.927L339.257 248.09C364.947 230.75 391.178 214.174 416.954 196.945C422.138 193.472 453.443 171.477 438.062 163.694C436.924 163.195 435.706 162.907 434.466 162.844C423.247 161.613 413.912 158.423 403.099 155.542C392.243 152.846 380.871 153.028 370.107 156.071C348.124 161.822 328.839 175.64 309.467 186.403L244.394 222.61C223.459 234.284 202.794 247.634 179.297 253.595C156.317 259.383 137.339 251.698 115.775 244.469C108.743 242.117 100.997 239.752 94.0883 242.388C86.1204 245.405 79.0639 253.287 72.5492 258.631L116.884 293.2L128.189 296.143L156.132 301.55L183.644 306.476C195.799 308.298 207.781 310.798 220.072 308.532C232.362 306.266 244.493 300.614 254.887 294.678L285.674 277.055L286.376 278.286" fill="white"/>
+                  <path d="M221.254 143.14L262.239 208.706L249.948 216.28L202.979 144.717L211.168 140.936L221.254 143.14Z" fill="#C06728"/>
+                  <path d="M249.505 219.235L198.077 140.677L230.934 139.963L305.933 188.534L249.505 219.235Z" stroke="#5C3E34" stroke-width="8" stroke-miterlimit="10"/>
+                  <path d="M286.216 237.351L341.819 355.822L332.484 363.741L322.004 347.276L275.896 242.88L286.216 237.351Z" fill="#C06728"/>
+                  <path d="M274.862 252.966L328.913 367.14L346.425 347.928L339.602 248.632" stroke="#5C3E34" stroke-width="8" stroke-miterlimit="10"/>
+                  <path d="M87.512 245.343L146.23 296.131L122.561 296.353L102.327 283.446L75.8127 260.762L78.2511 250.996L87.512 245.343Z" fill="#C06728"/>
+                  <path d="M339.528 249.531L339.602 248.693C365.304 231.353 391.523 214.79 417.298 197.548C422.483 194.076 453.788 172.081 438.406 164.298C437.269 163.799 436.051 163.511 434.81 163.448C423.591 162.216 414.257 159.027 403.444 156.145C392.587 153.448 381.214 153.634 370.452 156.687C348.469 162.475 329.196 176.28 309.812 187.068L244.801 223.152C223.803 234.826 203.2 248.176 179.691 254.136C156.661 259.974 137.659 252.252 116.12 245.011C109.088 242.659 101.342 240.307 94.4331 242.93C86.4652 245.947 79.4087 253.841 72.894 259.173L117.228 293.742L128.521 296.685L156.526 302.091L184.038 307.017C196.193 308.84 208.188 311.34 220.466 309.074C232.744 306.808 244.887 301.155 255.281 295.22L286.069 277.597L286.771 278.828" stroke="#5C3E34" stroke-width="8" stroke-miterlimit="10"/>
+                  <path d="M365.095 160.923L387.828 184.901L425.402 162.906L398.961 154.753L383.136 154.507L365.095 160.923Z" fill="#5C3E34"/>
+                  <path d="M203.188 279.013C205.22 284.271 214.715 284.801 219.518 283.939C225.54 282.929 231.032 279.961 236.389 277.043L410.685 182.167C413.85 180.443 417.114 178.632 419.306 175.788C421.498 172.943 422.409 168.731 420.451 165.702L214.973 272.695C210.926 274.571 206.991 276.68 203.188 279.013V279.013Z" fill="#C06728"/>
+                  <path d="M91.2312 248.742L156.514 302.091" stroke="#5C3E34" stroke-width="8" stroke-miterlimit="10"/>
+                </svg>                                       
+                <div class="card-body">
+                  <h4>Airplane</h4>
+                </div>
+                <button class="btn btn-outline-secondary webundrag" id="airplane">Select</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <div class="top"></div>
-  <div class="footer-color mt-auto py-3">
-    <div class="col-md-12 text-center"></div>
-  </div>
-  <footer class="footer mt-auto py-3">
-    <div class="center">
-      <p>Open Source</p>
-      Designed by XyZerKunG
+    <div class="top"></div>
+    <div class="footer-color mt-auto py-3">
+      <div class="col-md-12 text-center"></div>
     </div>
-  </footer>
-  <script src="js/handler.js"></script>
-  <script src="js/select.js"></script>
-</body>
+    <footer class="footer mt-auto py-3">
+      <div class="center">
+        <p>Open Source</p> Designed by XyZerKunG
+      </div>
+    </footer>
+    <script>
+      require("./js/handler.js")
+      require("./js/select.js")
+    </script>
+  </body>
 </html>

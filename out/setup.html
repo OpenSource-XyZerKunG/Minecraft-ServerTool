@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ServerTool</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="api/css/bootstrap.min.css">
-  <script src="api/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </head>
 <body>
   <div class="container">
@@ -93,7 +93,7 @@
 
         <div class="terminal">
           <div class="nav-terminal">
-            <label class="terminal-text" id="terminal-text"></label>
+            <label class="terminal-text" id="terminaltext"></label>
             <span class="s0"><img src="img/win32/min.png" class="win" width="20" height="20"></span>
             <span class="s1"><img src="img/win32/square.png" class="win" width="20" height="20"></span>
             <span class="s2"><img src="img/win32/close.png" class="win" width="20" height="20"></span>
@@ -123,7 +123,9 @@
       Designed by XyZerKunG
     </div>
   </footer>
-  <script src="js/handler.js"></script>
-  <script src="js/setup.js"></script>
+  <script>
+    require("./js/handler.js")
+    require("./js/setup.js")
+  </script>
 </body>
 </html>
