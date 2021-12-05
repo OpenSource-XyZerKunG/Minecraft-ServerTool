@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ServerTool</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="api/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/xterm.css">
-  <script src="api/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </head>
 <body>
     <div class="container">
@@ -34,94 +34,13 @@
     <div class="webundrag">
         <div class="main">
             <div class="container">
-                <div class="top"></div>
-                <div style="width: 100%;height: 2rem;border-radius: 5px 5px 0px 0px;display: flex;justify-content: center;align-items: center;" class="border theborder">
-                    <label id="terminalname"></label>
-                </div>
-                <div id="terminal"></div>
-                <div class="top"></div>
-                <div id="ngrokhidebox" style="opacity: 0;">
-                    <div class="border theborder" id="ngrokbox">
-                        <div class="choosebox">
-                          <input type="text" placeholder="Local Path" class="inputchoose border" id="localpath">
-                          <button class="buttonchoose border theborder" id="pathbutton">Choose</button>
-                        </div>
-                        <div class="choosebox">
-                          <div style="display: inline-block;margin: 10px;">
-                            <img src="img/svg/spin.svg" id="img0" width="16" height="16" style="opacity: 0;">
-                            <label id="label0"></label>
-                          </div>
-                          <button type="button" class="btn btn-primary" id="ngrokfolder">Setup</button>
-                        </div>
-                    </div>
+              <div class="top"></div>
               
-                    <div class="border theborder" id="ngrokdisplay" style="opacity: 0;">
-                    <div id="mainboxngrok0" style="display: flex; place-content: center space-between; padding: 1rem;">
-                        <div style="display: inline-block;">
-                        <img src="img/svg/start.svg" alt="Start" id="ngrokstart0" style="margin-right: 5px;">
-                        <img src="img/svg/stop.svg" alt="Stop" id="ngrokstop0"></div>
-                        <label id="labelngrok0">Port: 25565</label>
-                        <label id="ipngrok0"></label>
-                        <label id="statusngrok0">Status: Stop</label>
-                        <img src="img/svg/eject.svg" alt="Remove" id="ngrokremove0" style="margin-right: 5px; opacity: 0;">
-                        <script>
-                            let url0 = null
-                            let isruning0 = false
-                            const ipngrok0 = document.getElementById("ipngrok0")
-                            const statusngrok0 = document.getElementById("statusngrok0")
-                            const ngrokstart0 = document.getElementById("ngrokstart0")
-                            const ngrokstop0 = document.getElementById("ngrokstop0")
-                            ngrokstart0.addEventListener("mouseenter", () => {
-                              ngrokstart0.src = "img/svg/start-fill.svg"
-                            })
-                            ngrokstart0.addEventListener("mouseout", () => {
-                              ngrokstart0.src = "img/svg/start.svg"
-                            })
-                            ngrokstart0.addEventListener("click", () => {
-                              if (issetup && !isruning0) {
-                                ipcRenderer.send("post:ngrok", {"id": 0, "token": ngroktoken, "port": 25565, "region": ngrokregion})
-                                ipcRenderer.on("post:ngrokurl0", (event, message) => {
-                                  url0 = String(message)
-                                  ipngrok0.innerText = url0.replace("tcp://", "")
-                                  statusngrok0.innerText = "Status: Start"
-                                  isruning0 = true
-                                })
-                              }
-                            })
-                            ngrokstop0.addEventListener("mouseenter", () => {
-                              ngrokstop0.src = "img/svg/stop-fill.svg"
-                            })
-                            ngrokstop0.addEventListener("mouseout", () => {
-                              ngrokstop0.src = "img/svg/stop.svg"
-                            })
-                            ngrokstop0.addEventListener("click", () => {
-                              if (isruning0 && issetup) {
-                                ipcRenderer.send("post:ngrokkill", {"id": 0, "url": url0})
-                                ipcRenderer.on("post:ngrokkill0", (event, message) => {
-                                  ipngrok0.innerText = ""
-                                  statusngrok0.innerText = "Status: Stop"
-                                  isruning0 = false
-                                })
-                              }
-                            })
-                            ipngrok0.addEventListener("click", () => {
-                              if (issetup && isruning0) {
-                                navigator.clipboard.writeText(String(url0).replace("tcp://", ""))
-                                sweet2.fire({
-                                  icon: "success",
-                                  text: "Copy to clipboard!",
-                                  showClass: {
-                                    popup: 'animate__animated animate__fadeInDown'
-                                  },
-                                  hideClass: {
-                                    popup: 'animate__animated animate__fadeOutUp'
-                                  }
-                                })
-                              }
-                            })
-                        </script>
-                    </div>
-                </div>
+              <div style="width: 100%;height: 2rem;border-radius: 5px 5px 0px 0px;display: flex;justify-content: center;align-items: center;" class="border theborder">
+                <label id="terminalname"></label>
+              </div>
+
+              <div id="terminal"></div>
             </div>
         </div>
     </div>
@@ -137,8 +56,8 @@
         Designed by XyZerKunG
         </div>
     </footer>
-    <script src="js/handler.js"></script>
     <script>
+      require("./js/handler.js")
       require("./js/terminal.js")
     </script>
 </body>
