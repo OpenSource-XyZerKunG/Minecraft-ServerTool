@@ -1,6 +1,6 @@
 {
   "name": "servertool",
-  "version": "1.0.1",
+  "version": "1.0.9",
   "description": "Tools for Build Your Server",
   "main": "out/app.js",
   "scripts": {
@@ -53,6 +53,7 @@
     "node-fetch": "^2.6.1",
     "node-pty": "^0.10.1",
     "open": "^8.0.6",
+    "regedit": "^5.0.0",
     "request": "^2.88.2",
     "sweetalert2": "^10.16.3",
     "xterm": "^4.12.0",
