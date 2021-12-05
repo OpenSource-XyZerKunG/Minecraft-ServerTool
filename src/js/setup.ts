@@ -39,7 +39,7 @@ async function displayJava(type: serverPIPE, jlist: string[]) {
     if (!findJList) return global.sweet2.fire({
         icon: "error",
         title: "Something Wrong",
-        text: `You need to install java ${findJList} to use this version!`,
+        text: `You need to install java ${version} to use this version!`,
         showClass: {
             popup: 'animate__animated animate__fadeInDown'
         },
