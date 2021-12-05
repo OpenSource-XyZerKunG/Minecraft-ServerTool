@@ -7,8 +7,8 @@
   <title>ServerTool</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/ngrok.css">
-  <link rel="stylesheet" href="api/css/bootstrap.min.css">
-  <script src="api/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </head>
 <body>
   <div class="container">
@@ -34,7 +34,7 @@
   <div class="webundrag">
     <div class="main">
       <div class="container">
-        <div class="border theborder" id="ngrokbox">
+        <div class="border theborder" id="ngrokbox" style="opacity: 0;">
           <div class="choosebox">
             <input type="text" placeholder="Local Path" class="inputchoose border" id="localpath">
             <button class="buttonchoose border theborder" id="pathbutton">Choose</button>
@@ -49,15 +49,15 @@
         </div>
 
         <div class="border theborder" id="ngrokdisplay" style="opacity: 0;">
-          <div id="mainboxngrok0" style="display: flex; place-content: center space-between; padding: 1rem;">
-            <div style="display: inline-block;">
-              <img src="img/svg/start.svg" alt="Start" id="ngrokstart0" style="margin-right: 5px;">
+          <!-- <div id="mainboxngrok0" style="display: flex; place-content: center space-between; padding: 1rem;">
+            <img src="img/svg/start.svg" alt="Start" id="ngrokstart0" style="margin-right: 5px;">
             <img src="img/svg/stop.svg" alt="Stop" id="ngrokstop0"></div>
             <label id="labelngrok0">Port: 25565</label>
             <label id="ipngrok0"></label>
             <label id="statusngrok0">Status: Stop</label>
             <img src="img/svg/eject.svg" alt="Remove" id="ngrokremove0" style="margin-right: 5px; opacity: 0;">
             <script>
+              const { ngrokChannel } = require("./pipe/ngrok")
               let url0 = null
               let isruning0 = false
               const ipngrok0 = document.getElementById("ipngrok0")
@@ -71,12 +71,18 @@
                 ngrokstart0.src = "img/svg/start.svg"
               })
               ngrokstart0.addEventListener("click", () => {
-                if (issetup && !isruning0) {
-                  ipcRenderer.send("post:ngrok", {"id": 0, "token": ngroktoken, "port": 25565, "region": ngrokregion})
+                if (global.ngrokReady && !isruning0) {
+                  const ngrokconfig0 = {
+                    "authtoken": global.ngrokToken,
+                    "proto": "tcp",
+                    "addr": "25565",
+                  }
+                  if (global.ngrokRegion !== "default") ngrokconfig0.region = global.ngrokRegion
+                  ipcRenderer.send(ngrokChannel.START, ngrokconfig0)
                   ipcRenderer.on("post:ngrokurl0", (event, message) => {
                     url0 = String(message)
                     ipngrok0.innerText = url0.replace("tcp://", "")
-                    statusngrok0.innerText = "Status: Start"
+                    statusngrok0.innerText = "Status: Running"
                     isruning0 = true
                   })
                 }
@@ -88,7 +94,7 @@
                 ngrokstop0.src = "img/svg/stop.svg"
               })
               ngrokstop0.addEventListener("click", () => {
-                if (isruning0 && issetup) {
+                if (isruning0 && global.ngrokReady) {
                   ipcRenderer.send("post:ngrokkill", {"id": 0, "url": url0})
                   ipcRenderer.on("post:ngrokkill0", (event, message) => {
                     ipngrok0.innerText = ""
@@ -98,9 +104,9 @@
                 }
               })
               ipngrok0.addEventListener("click", () => {
-                if (issetup && isruning0) {
+                if (global.ngrokReady && isruning0) {
                   navigator.clipboard.writeText(String(url0).replace("tcp://", ""))
-                  sweet2.fire({
+                  global.sweet2.fire({
                     icon: "success",
                     text: "Copy to clipboard!",
                     showClass: {
@@ -113,7 +119,7 @@
                 }
               })
             </script>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -130,7 +136,9 @@
       Designed by XyZerKunG
     </div>
   </footer>
-  <script src="js/handler.js"></script>
-  <script src="js/ngrok.js"></script>
+  <script>
+    require("./js/handler.js")
+    require("./js/ngrok.js")
+  </script>
 </body>
 </html>
