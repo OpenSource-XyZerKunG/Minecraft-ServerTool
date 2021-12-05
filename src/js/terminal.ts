@@ -30,7 +30,7 @@ async function loadTerminal() {
 
     const shell = os.platform() === "win32" ? "powershell.exe" : "bash"
     const ptyProcess = pty.spawn(shell, [], {
-        name: "servertool-terminal",
+        name: "xterm-256color",
         cols: 160,
         rows: 60,
         cwd: terminalConfig?.cd ? terminalConfig.cd : os.homedir(),
