@@ -2,7 +2,10 @@ release-builds
 node_modules
 package-lock.json
 build
-out/*.js
+/out/js
+/out/pipe
+/out/utils
+/out/app.js
 *.xyzerconfig
 *.token
 yarn.lock
