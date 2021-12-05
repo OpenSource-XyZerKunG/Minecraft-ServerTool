@@ -1,6 +1,7 @@
 import axios from "axios";
 import regedit from "regedit";
 import os from "os";
+import { execSync } from "child_process";
 
 export type JavaResponse = {
     apiversion: string;
@@ -118,7 +119,28 @@ export default class Java {
     }
 
     private async linux() {
-            
+        const javaList = await execSync("update-alternatives --list java")
+
+        await new Promise((resolve, reject) => {
+            try {
+                for (const line of javaList.toString().split("\n")) {
+                    const findMatch = line.match(/java-\d+-\w+/gm)
+        
+                    if (findMatch && findMatch.length === 1) {
+                        const javaLine = findMatch[0].split("-")
+                        
+                        this.listJDKs.push(javaLine[1])
+                        this.mapTypes.set(javaLine[1], javaLine[2].toUpperCase())
+                        this.mapJDKs.set(javaLine[1], line)
+                    }
+                }
+            } catch (err) {
+                reject(err)
+            } finally {
+                console.log(this.listJDKs, this.mapTypes, this.mapJDKs)
+                resolve(undefined)
+            }
+        })
     }
 
     private async darwin() {

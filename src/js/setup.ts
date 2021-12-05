@@ -34,7 +34,18 @@ async function displayJava(type: serverPIPE, jlist: string[]) {
 
     if (!version) version = 8
 
-    const findJList = version <= 8 ? jlist.find((element) => element.split("_")[0].includes(String(version))) : jlist.find((element) => element.startsWith(String(version)))
+    let findJList: string | undefined = undefined
+
+    switch (process.platform) {
+        case "win32":
+            findJList = version <= 8 ? jlist.find((element) => element.split("_")[0].includes(String(version))) : jlist.find((element) => element.startsWith(String(version)))
+            break
+        case "linux":
+            findJList = jlist.find((element) => element.startsWith(String(version)))
+            break
+        case "darwin":
+            break
+    }
 
     if (!findJList) return global.sweet2.fire({
         icon: "error",
