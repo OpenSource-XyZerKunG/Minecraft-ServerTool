@@ -14,6 +14,13 @@ type mojangManifest = {
     }[]
 }
 
+type mojangJava = { 
+    "javaVersion": { 
+        "component": string,
+        "majorVersion": number 
+    } 
+} 
+
 type paperManifest = {
     "versions": string[]
 }
@@ -176,6 +183,28 @@ async function fetchFile(path, url, callback: Function) {
     })
 }
 
+async function detectJavaWithVersion(id: string) {
+    const manifest = await axios.get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
+    const jsonManifest: mojangManifest = await manifest.data
+
+    const match = id.match(/\d+\.\d+/)
+
+    const findVersion = jsonManifest.versions.find(version => version.id.startsWith(match ? match[0] : id.toString()))
+
+    if (!findVersion) return null
+
+    return await detectJavaWithURL(findVersion.url)
+}
+
+async function detectJavaWithURL(url: string | null) {
+    if (!url) return 8
+
+    const gamemanifest  = await axios.get(url)
+    const gsonManifest: mojangJava = await gamemanifest.data
+
+    return gsonManifest.javaVersion ? gsonManifest.javaVersion.majorVersion : 8
+}
+
 export default {
     fetchMojangGame,
     fetchMojangManifest,
@@ -183,5 +212,8 @@ export default {
     fetchPaperManifest,
     fetchPurpurManifest,
     fetchAirplane,
-    fetchFile
+    fetchFile,
+    
+    detectJavaWithVersion,
+    detectJavaWithURL,
 }
