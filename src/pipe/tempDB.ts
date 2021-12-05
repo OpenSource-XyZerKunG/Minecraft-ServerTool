@@ -1,12 +1,6 @@
-export type GET = {
-    "path": string,
-    "returnChannel": string
-}
+export type GET = { "path": GLOBAL }
 
-export type GETCOLLECTION = {
-    "path": COLLECTION,
-    "returnChannel": string
-}
+export type GETCOLLECTION = { "path": COLLECTION }
 
 export type STORE = {
     "path": string,
@@ -24,9 +18,12 @@ export enum GLOBAL {
     NOGUI = "servertool.collection.nogui",
     AUTORUN = "servertool.collection.autorun",
     LOCATION = "servertool.collection.location",
+    JAVAPATH = "servertool.collection.javapath",
 
     NGROKTOKEN = "servertool.ngrok.token",
     NGROKREGION = "servertool.ngrok.region",
+
+    TERMINALCONFIG = "servertool.terminal.config",
 }
 
 export enum COLLECTION {

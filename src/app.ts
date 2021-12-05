@@ -27,15 +27,15 @@ type buildtoolMessage = {
 }
 
 function createIPC(ui) {
-    ipcMain.on(ipcChannelPIPE.MAIN.TEMPDB_GET, (event, get: GET) => {
-        event.reply(get.returnChannel, temporaryDatabase[get.path])
+    ipcMain.handle(ipcChannelPIPE.MAIN.TEMPDB_GET, (event, get: GET) => {
+        return temporaryDatabase[get.path]
     })
 
-    ipcMain.on(ipcChannelPIPE.MAIN.TEMPDB_COLLECTION, (event, collection: GETCOLLECTION) => {
+    ipcMain.handle(ipcChannelPIPE.MAIN.TEMPDB_COLLECTION, (event, collection: GETCOLLECTION) => {
         const indexArray = indexTemp[collection.path] as Array<string>
         const returnTemp = {}
 
-        if (!indexArray) return event.reply(collection.returnChannel, returnTemp)
+        if (!indexArray) return returnTemp
 
         indexArray.forEach((findMatch) => {
             const linkName = `${collection.path}.${findMatch}`
@@ -48,7 +48,7 @@ function createIPC(ui) {
             }
         })
 
-        event.reply(collection.returnChannel, returnTemp)
+        return returnTemp
     })
 
     ipcMain.on(ipcChannelPIPE.MAIN.TEMPDB_STORE, (event, store: STORE) => {
@@ -66,8 +66,8 @@ function createIPC(ui) {
         temporaryDatabase[store.path] = store.data
     })
 
-    ipcMain.on(constDBPIPE.CONSTDB.CHANNEL, (event, data: constDBPIPE.GETCONST) => {
-        event.reply(data.returnChannel, constantDatabase[data.path])
+    ipcMain.handle(constDBPIPE.CONSTDB.CHANNEL, (event, data: constDBPIPE.GETCONST) => {
+        return constantDatabase[data.path]
     })
 
     ipcMain.on(ipcChannelPIPE.MAIN.DOWNLOAD_BUILDTOOL, async (event, buildtool: buildtoolMessage) => {
@@ -118,14 +118,16 @@ function createIPC(ui) {
         })
     })
 
-    ipcMain.on(ngrokChannel.START, async (event, parameters: startParameters) => {
+    ipcMain.handle(ngrokChannel.START, async (event, parameters: startParameters) => {
         const url = await Ngrok.connect({
             "authtoken": parameters.authtoken,
             "proto": parameters.proto,
             "addr": parameters.addr,
             "region": parameters.region
         })
+
         constantDatabase[constDBPIPE.CONSTDB.NGROKLIST].push(url)
+        return url
     })
 
     ipcMain.on(ngrokChannel.KILL, async (event, parameters: killParameters) => {
