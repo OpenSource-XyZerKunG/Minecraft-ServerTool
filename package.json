@@ -1,5 +1,5 @@
 {
-  "name": "servertool",
+  "name": "minecraft-servertool",
   "version": "1.0.9",
   "description": "Tools for Build Your Server",
   "main": "out/app.js",
