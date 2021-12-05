@@ -11,7 +11,4 @@ export enum GLOBALRETURN {
     NGROKLIST = "servertool.ngroklist"
 }
 
-export type GETCONST = {
-    "path": CONSTDB,
-    "returnChannel": string
-}
+export type GETCONST = { "path": CONSTDB }

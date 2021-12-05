@@ -9,7 +9,7 @@ export type startParameters = {
     "authtoken": string,
     "proto": Ngrok.Protocol,
     "addr": string | number,
-    "region": Ngrok.Region
+    "region" ?: Ngrok.Region
 }
 
 export type killParameters = {
