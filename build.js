@@ -18,8 +18,7 @@ async function deletes(pathurl) {
 }
 
 fs.readdir(path.join(__dirname, process.argv[2]), {}, (ignore, files) => {
-    files.forEach(async (value, index) => {
-        await deletes(path.join(__dirname, process.argv[2], value, "resources", "app", "README.md"))
+    files.forEach(async (value) => {
         await deletes(path.join(__dirname, process.argv[2], value, "resources", "app", ".gitignore"))
         await deletes(path.join(__dirname, process.argv[2], value, "resources", "app", "src"))
         await deletes(path.join(__dirname, process.argv[2], value, "resources", "app", "build.js"))
