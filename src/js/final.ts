@@ -164,11 +164,11 @@ window.addEventListener("DOMContentLoaded",  async () => {
 
         switch (process.platform) {
             case "win32":
-                await file.writeFileSync(path.join(defaultPath, "start.bat"), `@echo off\nTitle ${consoleTitle}\nset JAVA_HOME=${javaPath}\nset Path=%JAVA_HOME%\\bin;%Path%\njava ${javaENV ? `${javaENV} ` : ""}-jar "${jarFile}"${implementNOGUI}\npause`)
+                await file.writeFileSync(path.join(defaultPath, "start.bat"), `@echo off\nTitle ${consoleTitle}\n${javaPath ? `set JAVA_HOME=${javaPath}\nset Path=%JAVA_HOME%\\bin;%Path%\n` : ""}java ${javaENV ? `${javaENV} ` : ""}-jar "${jarFile}"${implementNOGUI}\npause`)
                 break
             case "linux":
             case "darwin":
-                await file.writeFileSync(path.join(defaultPath, "start.sh"), `#!/bin/bash\nPROMPT_COMMAND='echo -ne "\\033]0;${consoleTitle}\\007"'\njava ${javaENV ? `${javaENV} ` : ""}-jar "${jarFile}"${implementNOGUI}`)
+                await file.writeFileSync(path.join(defaultPath, "start.sh"), `#!/bin/bash\nPROMPT_COMMAND='echo -ne "\\033]0;${consoleTitle}\\007"'\n${javaPath ? javaPath : "java"} ${javaENV ? `${javaENV} ` : ""}-jar "${jarFile}"${implementNOGUI}`)
                 break
         }
     } catch (err) {
