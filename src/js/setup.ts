@@ -15,6 +15,7 @@ const edit = document.getElementById("edit") as HTMLButtonElement
 const URLMap: Map<string, string> = new Map()
 
 const java = new Java()
+let selectJDK: string | undefined = undefined
 
 async function displayJava(type: serverPIPE, jlist: string[]) {
     let version: number | undefined = undefined
@@ -47,20 +48,24 @@ async function displayJava(type: serverPIPE, jlist: string[]) {
             break
     }
 
-    if (!findJList) return global.sweet2.fire({
-        icon: "error",
-        title: "Something Wrong",
-        text: `You need to install java ${version} to use this version!`,
-        showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-        }
-    })
+    if (!findJList) {
+        if (javalabel) javalabel.innerText = `Java: Can't Detect`    
+        return global.sweet2.fire({
+            icon: "error",
+            title: "Something Wrong",
+            text: `You need to install java ${version} to use this version!`,
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        })
+    }
     
     if (javalabel) javalabel.innerText = `Java: ${findJList} (Detect)`
     if (javalist) javalist.value = findJList
+    selectJDK = findJList
 }
 
 edit && edit.addEventListener("click", () => {
@@ -87,6 +92,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     const jlist = await java.getList()
     const jtype = await java.getTypeMap()
 
+    const autodetect = document.createElement("option")
+    autodetect.text = "Auto Detect"
+    javalist.appendChild(autodetect)
+
     jlist.forEach((element) => {
         const option = document.createElement("option")
         option.value = element
@@ -95,7 +104,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     })
 
     javalist.addEventListener("change", async () => {
-        if (javalabel) javalabel.innerText = `Java: ${javalist.value}`
+        if (javalist.value !== "Auto Detect") {
+            if (javalabel) javalabel.innerText = `Java: ${javalist.value}`
+            selectJDK = javalist.value
+        }
     })
 
     versionlist.addEventListener("change", async () => {
@@ -270,7 +282,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     
         global.ipcRenderer.send(ipcChannelPIPE.MAIN.TEMPDB_STORE, {
             "path": GLOBAL.JAVAPATH,
-            "data": jpath.get(javalist.value)
+            "data": selectJDK ? jpath.get(selectJDK) : undefined
         })
     
         window.location.href = "final.html"
