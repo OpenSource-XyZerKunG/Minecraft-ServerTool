@@ -1,10 +1,10 @@
 import path from "path"
 import file from "fs"
+
 import aes from "aes256"
+import bcrypt from "bcrypt"
 
 import yaml from "yaml"
-
-import { generate } from "generate-password"
 
 import * as ipcChannelPIPE from "../pipe/ipcChannel"
 import * as constDBPIPE from "../pipe/constantDB"
@@ -32,7 +32,24 @@ type spinnerType = {
 type tokenType = {
     "authtoken": string,
     "region": string,
-    "enceypt": boolean,
+    "encrypt": boolean,
+}
+
+async function popupPasswordSync() {
+    return await global.sweet2.fire({
+        icon: "question",
+        text: "Enter your password",
+        input: "password",
+        inputAttributes: {
+            autocapitalize: "off"
+        },
+        showCancelButton: true,
+        confirmButtonText: "Done",
+        cancelButtonText: "Back",
+        showLoaderOnConfirm: true,
+        reverseButtons: true,
+        allowOutsideClick: () => !global.sweet2.isLoading()
+    })
 }
 
 function loadingSpinner(number: number, message: string): spinnerType {
@@ -268,8 +285,32 @@ async function configNGROK() {
                 const tokenData = await file.readFileSync(path.join(localpath.value, "ngrok.token"), "utf8")
                 const ngrokParser: tokenType = yaml.parse(tokenData)
                 
-                if (ngrokParser.enceypt) {
-                    global.ngrokToken = aes.decrypt(ngrokParser.authtoken, "ngrok")
+                if (ngrokParser.encrypt) {
+                    try {
+                        const resultPassword = await popupPasswordSync()
+
+                        if (!resultPassword.isConfirmed) {
+                            throw undefined
+                        }
+
+                        const firstState = aes.decrypt(resultPassword.value, Buffer.from(ngrokParser.authtoken, "base64").toString("utf8")).split(".")
+                        const token = aes.decrypt(resultPassword.value, Buffer.from(firstState[0], "base64").toString("utf8"))
+                        const hash = Buffer.from(firstState[1], "base64").toString("utf8")
+
+                        const compareBoolean = await bcrypt.compareSync(`${token}${resultPassword.value}`, hash)
+                        
+                        if (compareBoolean) {
+                            global.ngrokToken = token
+                        } else {
+                            throw Error("Password not match!")
+                        }
+                    } catch (ignore) {
+                        clearInterval(spinnerBox.interval)
+                        spinnerBox.image.style.opacity = "0"
+                        spinnerBox.document.innerText = ""
+                        global.configlock = false
+                        return
+                    }
                 } else {
                     global.ngrokToken = ngrokParser.authtoken
                 }
@@ -314,9 +355,10 @@ async function configNGROK() {
                         autocapitalize: 'off'
                     },
                     showCancelButton: true,
-                    confirmButtonText: "Encrypt Token",
-                    cancelButtonText: "Not now!",
+                    confirmButtonText: "Next",
+                    cancelButtonText: "Back",
                     showLoaderOnConfirm: true,
+                    reverseButtons: true,
                     allowOutsideClick: () => !global.sweet2.isLoading()
                 })
     
@@ -333,45 +375,36 @@ async function configNGROK() {
     
                 if (String(resultToken.value).replaceAll(" ", "") !== "" && resultToken.value !== undefined) {
                     const passwordFunction = async () => {
-                        const resultPassword = await global.sweet2.fire({
-                            icon: "question",
-                            text: "Enter your password",
-                            input: "password",
-                            inputAttributes: {
-                                autocapitalize: "off"
-                            },
-                            showCancelButton: true,
-                            confirmButtonText: "Done",
-                            cancelButtonText: "Back",
-                            showLoaderOnConfirm: true,
-                            reverseButtons: true,
-                            allowOutsideClick: () => !global.sweet2.isLoading()
-                        })
+                        const resultPassword = await popupPasswordSync()
     
                         if (resultPassword.isConfirmed) {
-                            if (String(resultPassword.value).replaceAll(" ", "") !== "" && resultPassword.value !== undefined) {
-                                try {
-                                    await file.writeFileSync(path.join(localpath.value, "ngrok.token"), `"authtoken": "${Buffer.from(`${aes.encrypt(resultPassword.value, aes.encrypt(resultPassword.value, resultToken.value))}:::splithere:::${generate({ "length": 12, "lowercase": true, "uppercase": true, "numbers": true })}`, "utf8").toString("base64")}"\n"region": "default"\n"encrypt": true`)
-                                    finishtoken(spinnerBox)
-                                } catch (err) {
-                                    global.sweet2.fire({
-                                        icon: "error",
-                                        text: String(err),
-                                        showClass: {
-                                            popup: 'animate__animated animate__fadeInDown'
-                                        },
-                                        hideClass: {
-                                            popup: 'animate__animated animate__fadeOutUp'
-                                        }
-                                    })
-                                    clearInterval(spinnerBox.interval)
-                                    spinnerBox.image.style.opacity = "0"
-                                    spinnerBox.document.innerText = ""
-                                    global.configlock = false
+                            try {
+                                if (String(resultPassword.value).replaceAll(" ", "") !== "" && resultPassword.value !== undefined) {
+                                    const salt = await bcrypt.genSaltSync(12)
+                                    const hashIT = await bcrypt.hashSync(`${resultToken.value}${resultPassword.value}`, salt)
+                                    const token = Buffer.from(`${aes.encrypt(resultPassword.value, `${Buffer.from(aes.encrypt(resultPassword.value, resultToken.value), "utf8").toString("base64")}.${Buffer.from(hashIT, "utf8").toString("base64")}`)}`, "utf8").toString("base64")
+
+                                    await file.writeFileSync(path.join(localpath.value, "ngrok.token"), `"authtoken": "${token}"\n"region": "default"\n"encrypt": true`)
+                                } else {
+                                    await file.writeFileSync(path.join(localpath.value, "ngrok.token"), `"authtoken": "${resultToken.value}"\n"region": "default"\n"encrypt": false`)
                                 }
-                            } else {
-                                passwordFunction()
+                            } catch (err) {
+                                global.sweet2.fire({
+                                    icon: "error",
+                                    text: String(err),
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                                clearInterval(spinnerBox.interval)
+                                spinnerBox.image.style.opacity = "0"
+                                spinnerBox.document.innerText = ""
+                                global.configlock = false
                             }
+                            finishtoken(spinnerBox)
                         } else {
                             tokenfunction()
                         }
