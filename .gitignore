@@ -9,3 +9,4 @@ build
 *.xyzerconfig
 *.token
 yarn.lock
+yarn-error.log
