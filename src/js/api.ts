@@ -25,6 +25,10 @@ type paperManifest = {
     "versions": string[]
 }
 
+type paperBuild = {
+    "builds": number[]
+}
+
 type jenkisJob = {
     "jobs": {
         "_class": string,
@@ -73,7 +77,7 @@ async function fetchSpigotManifest() {
 }
 
 async function fetchPaperManifest() {
-    const manifest = await axios.get("https://papermc.io/api/v1/paper")
+    const manifest = await axios.get("https://papermc.io/api/v2/projects/paper")
     const jsonManifest: paperManifest = await manifest.data
     return jsonManifest.versions
 }
@@ -88,6 +92,14 @@ async function fetchAirplane() {
     const manifest = await axios.get("https://ci.tivy.ca/api/json")
     const jsonManifest: jenkisJob = await manifest.data
     return jsonManifest.jobs
+}
+
+async function findPaperURL(version: string) {
+    const buildmanifest = await axios.get(`https://papermc.io/api/v2/projects/paper/versions/${version}`)
+    const buildJson: paperBuild = await buildmanifest.data
+    const findLatest = Math.max(...buildJson.builds)
+
+    return `https://papermc.io/api/v2/paper/${version}/builds/${findLatest}/downloads/paper-${version}-${findLatest}.jar`
 }
 
 async function fetchFile(path, url, callback: Function) {
@@ -213,6 +225,8 @@ export default {
     fetchPurpurManifest,
     fetchAirplane,
     fetchFile,
+
+    findPaperURL,
     
     detectJavaWithVersion,
     detectJavaWithURL,
