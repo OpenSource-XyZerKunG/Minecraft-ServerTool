@@ -99,18 +99,10 @@ async function findPaperURL(version: string) {
     const buildJson: paperBuild = await buildmanifest.data
     const findLatest = Math.max(...buildJson.builds)
 
-    return `https://papermc.io/api/v2/paper/${version}/builds/${findLatest}/downloads/paper-${version}-${findLatest}.jar`
+    return `https://papermc.io/api/v2/projects/paper/versions/${version}/builds/${findLatest}/downloads/paper-${version}-${findLatest}.jar`
 }
 
 async function fetchFile(path, url, callback: Function) {
-    // const { data } = await axios.get(url, {
-    //     "onDownloadProgress": (progressEvent) => {
-    //       callback(Math.round( (progressEvent.loaded * 100) / progressEvent.total ))
-    //     }
-    // })
-
-    // await fs.writeFileSync(path, data)
-
     return new Promise((resolve, reject) => {
         const filestream = fs.createWriteStream(path)
         let totalBytes = 0
@@ -124,16 +116,6 @@ async function fetchFile(path, url, callback: Function) {
             }).on("response", (res) => {
                 if (res.statusCode != 200) {
                     filestream.close()
-                    // global.sweet2.fire({
-                    //     icon: "error",
-                    //     text: "Response status: " + res.statusCode,
-                    //     showClass: {
-                    //         popup: 'animate__animated animate__fadeInDown'
-                    //     },
-                    //     hideClass: {
-                    //         popup: 'animate__animated animate__fadeOutUp'
-                    //     }
-                    // })
                     return reject("Error to Download File ID: 0x04")
                 }
                 totalBytes = Number(res.headers["content-length"])
@@ -143,54 +125,20 @@ async function fetchFile(path, url, callback: Function) {
             }).pipe(filestream).on("error", (err) => {
                 filestream.close()
                 reject("Error to Download File ID: 0x03")
-                // global.sweet2.fire({
-                //     icon: "error",
-                //     text: String(err),
-                //     showClass: {
-                //         popup: 'animate__animated animate__fadeInDown'
-                //     },
-                //     hideClass: {
-                //         popup: 'animate__animated animate__fadeOutUp'
-                //     }
-                // })
             })
 
             filestream.on("finish", () => {
                 filestream.close()
-                // clearInterval(loop1)
-                // const image = document.getElementById("img1") as HTMLImageElement
-                // image.src = "img/svg/check.svg"
-                // if (label1) label1.innerText = ""
                 resolve(100)
             })
 
             filestream.on("error", (err) => {
                 filestream.close()
                 reject("Error to Download File ID: 0x02")
-                // global.sweet2.fire({
-                //     icon: "error",
-                //     text: String(err),
-                //     showClass: {
-                //         popup: 'animate__animated animate__fadeInDown'
-                //     },
-                //     hideClass: {
-                //         popup: 'animate__animated animate__fadeOutUp'
-                //     }
-                // })
             })
         } catch (err) {
             filestream.close()
             reject("Error to Download File ID: 0x01")
-            // global.sweet2.fire({
-            //     icon: "error",
-            //     text: String(err),
-            //     showClass: {
-            //         popup: 'animate__animated animate__fadeInDown'
-            //     },
-            //     hideClass: {
-            //         popup: 'animate__animated animate__fadeOutUp'
-            //     }
-            // })
         }
     })
 }

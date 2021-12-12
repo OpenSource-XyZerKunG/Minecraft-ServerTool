@@ -151,7 +151,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         let manifest = await api.fetchPaperManifest()
 
         manifest.forEach((value) => {
-            URLMap.set(value, `https://papermc.io/api/v1/paper/${value}/latest/download`)
             const option = document.createElement("option")
             option.innerText = value
             versionlist && versionlist.appendChild(option)
@@ -254,10 +253,10 @@ window.addEventListener("DOMContentLoaded", async () => {
             "path": GLOBAL.SERVERVERSION,
             "data": versionlist.value
         })
-    
+
         global.ipcRenderer.send(ipcChannelPIPE.MAIN.TEMPDB_STORE, {
             "path": GLOBAL.SERVERURL,
-            "data": URLMap.get(versionlist.value)
+            "data": message === serverPIPE.PAPERMC ? (await api.findPaperURL(versionlist.value)) : URLMap.get(versionlist.value)
         })
     
         global.ipcRenderer.send(ipcChannelPIPE.MAIN.TEMPDB_STORE, {
