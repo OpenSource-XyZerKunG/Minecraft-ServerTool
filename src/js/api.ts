@@ -79,7 +79,7 @@ async function fetchSpigotManifest() {
 async function fetchPaperManifest() {
     const manifest = await axios.get("https://papermc.io/api/v2/projects/paper")
     const jsonManifest: paperManifest = await manifest.data
-    return jsonManifest.versions
+    return jsonManifest.versions.reverse()
 }
 
 async function fetchPurpurManifest() {
